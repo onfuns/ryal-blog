@@ -1,0 +1,36 @@
+{
+  "name": "@nest-blog/client",
+  "version": "2.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "dev": "yarn uno:dev & cross-env NODE_ENV=development next dev -p 4001",
+    "build": "yarn uno:build && next build",
+    "start:prod": "NODE_ENV=production next start -p 4001",
+    "start:pm2": "pm2 start pm2.json",
+    "uno:build": "unocss \"./**/*.tsx\" -o ./style/uno.css",
+    "uno:dev": "yarn uno:build - -w"
+  },
+  "dependencies": {
+    "next": "^14.2.3"
+  },
+  "devDependencies": {
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "antd": "^5.5.0",
+    "aos": "^2.3.4",
+    "axios": "^1.4.0",
+    "classnames": "^2.3.2",
+    "dayjs": "^1.11.7",
+    "highlight.js": "^11.8.0",
+    "lodash": "^4.17.21",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^8.6.7",
+    "mobx": "^6.12.3",
+    "mobx-react": "^9.1.1",
+    "cross-env": "^7.0.3",
+    "rimraf": "^5.0.1",
+    "sass": "^1.62.1",
+    "typescript": "^5.0.4"
+  }
+}
