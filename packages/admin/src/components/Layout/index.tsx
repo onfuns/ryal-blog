@@ -4,7 +4,7 @@ import '@/style/global.less'
 import '@/style/uno.css'
 import { observer } from 'mobx-react'
 import { PropsWithChildren, useEffect } from 'react'
-import { AliveScope, KeepAlive } from 'react-activation'
+import { AliveScope } from 'react-activation'
 import PageHeader from './PageHeader'
 import PageMenu from './PageMenu'
 import PageProvider from './PageProvider'
@@ -29,12 +29,11 @@ const Container = observer((props: PropsWithChildren) => {
       <div className="w-100%">
         <PageHeader store={store} />
         <PageTabs store={store} />
-
-        <div className="flex-1">
-          <div className="overflow-auto h-[calc(100vh-90px)] border-10 border-solid border-#f0f2f5">
+        <AliveScope>
+          <div className="overflow-auto h-[calc(100vh-90px)] p-12 bg-#f6f6f6">
             <AliveScope>{props.children}</AliveScope>
           </div>
-        </div>
+        </AliveScope>
       </div>
     </div>
   )
@@ -55,9 +54,7 @@ export default function Layout(props: PropsWithChildren) {
         props.children
       ) : (
         <ValidateLogin>
-          <KeepAlive>
-            <Container {...props} />
-          </KeepAlive>
+          <Container {...props} />
         </ValidateLogin>
       )}
     </PageProvider>
