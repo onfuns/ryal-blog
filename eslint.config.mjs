@@ -15,11 +15,6 @@ export default [
     rules: {
       '@next/next/no-html-link-for-pages': 'off',
     },
-    rules: {
-      '@typescript-eslint/no-explicit-any': ['off'],
-      'react/display-name': ['off'],
-      '@typescript-eslint/no-extra-semi': ['off'],
-    },
     settings: {
       react: {
         version: 'detect',
