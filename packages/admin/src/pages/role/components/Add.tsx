@@ -20,7 +20,7 @@ export const RoleAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
   const [selectedKeys, setSelectedKeys] = useState<number[]>([])
 
   useEffect(() => {
-    if (detail.id) {
+    if (detail?.id) {
       form.setFieldsValue({ ...detail })
     }
   }, [])
@@ -33,7 +33,7 @@ export const RoleAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
     const resources: any = new Set()
 
     const findAllParent = (id, result = []) => {
-      const current = authList?.find((auth) => auth.id === id)
+      const current = authList?.find(auth => auth.id === id)
       result.push(id)
       if (current && current.pid !== 0) {
         return findAllParent(current.pid, result)
@@ -41,15 +41,15 @@ export const RoleAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
       return result
     }
 
-    selectedKeys.map((id) => {
+    selectedKeys.map(id => {
       //递归找到其所有父级
-      findAllParent(id).map((id) => resources.add(id))
+      findAllParent(id).map(id => resources.add(id))
     })
     const params = {
       ...values,
-      auths: [...resources].map((id) => ({ id })),
+      auths: [...resources].map(id => ({ id })),
     }
-    if (detail.id) {
+    if (detail?.id) {
       await updateRole(detail.id, params)
     } else {
       await addRole(params)

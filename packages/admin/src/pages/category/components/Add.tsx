@@ -14,14 +14,14 @@ export const CategoryAdd = ({ element, onSuccess, onClose, detail }: IDetailModa
   const categoryType = ProForm.useWatch('type', form)
 
   useEffect(() => {
-    if (detail.id) {
+    if (detail?.id) {
       form.setFieldsValue({ ...detail, pid: [detail.pid] })
     }
   }, [])
 
   const onFinish = async () => {
     const values = await form.validateFields()
-    if (detail.id) {
+    if (detail?.id) {
       await updateCategory(detail.id, values)
     } else {
       await addCategory(values)
@@ -51,7 +51,7 @@ export const CategoryAdd = ({ element, onSuccess, onClose, detail }: IDetailModa
           const { data } = await getCategoryList()
           return [{ id: 0, name: '一级分类' }].concat(data)
         }}
-        disabled={!!detail.id}
+        disabled={!!detail?.id}
         fieldProps={{
           fieldNames: { label: 'name', value: 'id', children: 'children' },
           changeOnSelect: true,

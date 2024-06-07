@@ -11,9 +11,7 @@ type IDashboardInfoProps = {
 }
 
 export default function DashboardPage() {
-  const {
-    data: { data: dashboardData },
-  } = useRequest(getDashboardData)
+  const { data: { data: dashboardData = {} } = {} } = useRequest(getDashboardData)
   const { article, comment, user } = dashboardData as IDashboardInfoProps
 
   const countData = [
@@ -30,7 +28,7 @@ export default function DashboardPage() {
                 <Col key={title} span={8}>
                   <div className="py-15 pl-20 border-1 border-solid border-#e6ebf5 border-rd-2 shadow-[0_2px_12px_0_rgba(0,0,0,0.1)]">
                     <div className="color-#a3aed0">{title}</div>
-                    <div className="text-size-26">{value}</div>
+                    <div className="text-26">{value}</div>
                   </div>
                 </Col>
               ))}

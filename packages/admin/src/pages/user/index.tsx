@@ -9,7 +9,7 @@ import { UserAdd } from './components/Add'
 export default function UserPage() {
   const actionRef = useRef<ActionType>()
 
-  const onDelete = async (id) => {
+  const onDelete = async id => {
     await deleteUser(id)
     message.success('操作成功')
     onReload()
@@ -55,7 +55,7 @@ export default function UserPage() {
       dataIndex: 'enable',
       hideInSearch: true,
       width: 80,
-      render: (value) => {
+      render: value => {
         const isSuccess = value === 1
         return <Tag color={isSuccess ? 'success' : 'error'}>{isSuccess ? '正常' : '停用'}</Tag>
       },
@@ -67,9 +67,9 @@ export default function UserPage() {
       render: (_, record) => {
         return record.super !== 1 ? (
           <Space>
-            <UserAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />,
+            <UserAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
-              <a className="color-red">删除</a>
+              <a className="a-danger">删除</a>
             </Popconfirm>
           </Space>
         ) : null

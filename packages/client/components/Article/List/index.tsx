@@ -21,7 +21,7 @@ export default function List(props: IListProps) {
           </div>
           <a
             href={`/article/${article.id}`}
-            className="inline-block color-#303030 text-size-18 fw-700 pt-8 pb-4 lh-24 "
+            className="inline-block color-#303030 text-18 fw-700 pt-8 pb-4 lh-24 "
           >
             {article.title}
           </a>
@@ -47,7 +47,7 @@ export default function List(props: IListProps) {
             size="small"
             pageSize={20}
             hideOnSinglePage
-            itemRender={(page) => <a href={`${router.pathname}?page=${page}`}>{page}</a>}
+            itemRender={page => <a href={`${router.pathname}?page=${page}`}>{page}</a>}
           />
         </div>
       )}

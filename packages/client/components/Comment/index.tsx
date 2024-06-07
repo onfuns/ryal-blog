@@ -34,7 +34,7 @@ export default observer(({ articeId }: { articeId: string }) => {
 
   return (
     <div className={classnames(styles.commentPage, ' w-720 bg-#fff p-20 mt-20 rd-4')}>
-      <div className="text-size-18 lh-30 fw-600 color-#252933 mb-10">评论</div>
+      <div className="text-18 lh-30 fw-600 color-#252933 mb-10">评论</div>
       <div className="flex items-start">
         <Avatar />
         <Form className="flex-[1-1-auto] relative" form={form}>
@@ -71,7 +71,7 @@ export default observer(({ articeId }: { articeId: string }) => {
 
       {data?.length > 0 && (
         <div className="mt-20">
-          <div className="text-size-18 lh-30 fw-600 color-#252933 mb-10">全部评论</div>
+          <div className="text-18 lh-30 fw-600 color-#252933 mb-10">全部评论</div>
           <div>
             {data?.map((item, index) => (
               <div className="flex color-#515767 py-10" key={index}>
@@ -82,7 +82,7 @@ export default observer(({ articeId }: { articeId: string }) => {
                       href={item.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="fw-500 text-size-15 color-#252933 max-w-130 lh-26 overflow-hidden text-ellipsis mb-0"
+                      className="fw-500 text-15 color-#252933 max-w-130 lh-26 overflow-hidden text-ellipsis mb-0"
                     >
                       {item.name}
                     </a>

@@ -17,6 +17,7 @@ export default defineConfig({
     ['text-ellipsis', 'truncate'],
     ['absolute-center', 'absolute left-0 right-0 top-0 bottom-0'],
     ['w-1000-center', 'w-1000 mx-auto'],
+    ['a-danger', 'color-#FA2929 hover:color-#FF4D4D'],
   ],
   rules: [
     [/^border-(.*)-(.*)-(.*)-(.*)$/, ([, c, d, e, f]) => ({ [`border-${c}`]: `${d}px ${e} ${f}` })],

@@ -10,7 +10,7 @@ export default function AuthPage() {
   const actionRef = useRef<ActionType>()
   const [expandKeys, setExpandKeys] = useState([])
 
-  const onDelete = async (record) => {
+  const onDelete = async record => {
     if (record?.children?.length > 0) {
       message.warning('请先删除子节点')
       return Promise.resolve()
@@ -41,7 +41,7 @@ export default function AuthPage() {
           <Space>
             <AuthAdd detail={record} onSuccess={onRoload} element={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record)}>
-              <a className="color-red">删除</a>
+              <a className="a-danger">删除</a>
             </Popconfirm>
           </Space>
         )
@@ -62,13 +62,13 @@ export default function AuthPage() {
           if (expand) {
             newKeys.push(id)
           } else {
-            newKeys = newKeys.filter((key) => key !== id)
+            newKeys = newKeys.filter(key => key !== id)
           }
           setExpandKeys([...newKeys])
         },
       }}
       rowKey="id"
-      onDataSourceChange={(data) => {
+      onDataSourceChange={data => {
         const keys = data.map(({ id }) => id)
         setExpandKeys(keys)
       }}

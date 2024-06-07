@@ -67,7 +67,7 @@ export default function CategoryPage() {
             <CategoryAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
             {record.pid === 0 && record?.children?.length ? null : (
               <Popconfirm title="确定删除？" onConfirm={() => onAction('delete', record)}>
-                <a className="color-red">删除</a>
+                <a className="a-danger">删除</a>
               </Popconfirm>
             )}
           </Space>
@@ -89,13 +89,13 @@ export default function CategoryPage() {
           if (expand) {
             newKeys.push(id)
           } else {
-            newKeys = newKeys.filter((key) => key !== id)
+            newKeys = newKeys.filter(key => key !== id)
           }
           setExpandKeys([...newKeys])
         },
       }}
       rowKey="id"
-      onDataSourceChange={(data) => setExpandKeys(data.map(({ id }) => id))}
+      onDataSourceChange={data => setExpandKeys(data.map(({ id }) => id))}
       request={getCategoryList}
       pagination={false}
       toolBarRender={() => [

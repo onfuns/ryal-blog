@@ -7,7 +7,7 @@ export const TagAdd = ({ element, onSuccess, onClose, detail = {} }: IDetailModa
 
   const onFinish = async () => {
     const values = await form.validateFields()
-    if (detail.id) {
+    if (detail?.id) {
       await updateTag(detail.id, values)
     } else {
       await addTag(values)

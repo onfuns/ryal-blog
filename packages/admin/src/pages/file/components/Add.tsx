@@ -24,7 +24,7 @@ export const FileAdd = ({ element, onSuccess, onClose }: IDetailModalProps) => {
 
     const values = await form.validateFields()
     const formData = new FormData()
-    fileList.forEach((file) => {
+    fileList.forEach(file => {
       formData.append('files', file)
     })
     formData.append('fileTypeId', values.fileTypeId)
@@ -34,7 +34,7 @@ export const FileAdd = ({ element, onSuccess, onClose }: IDetailModalProps) => {
   }
 
   const uploadFile = async (file): Promise<any> =>
-    new Promise((resolve) => {
+    new Promise(resolve => {
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = () => {
@@ -43,7 +43,7 @@ export const FileAdd = ({ element, onSuccess, onClose }: IDetailModalProps) => {
       }
     })
 
-  const checkFile = (file) => {
+  const checkFile = file => {
     const error = () => {
       message.error('只能上传图片，不超过10M')
       return false
@@ -60,7 +60,7 @@ export const FileAdd = ({ element, onSuccess, onClose }: IDetailModalProps) => {
   const uploadProps: UploadProps = {
     name: 'file',
     multiple: true,
-    beforeUpload: async (file) => {
+    beforeUpload: async file => {
       if (!checkFile(file)) return false
       const newFile = await uploadFile(file)
       fileList.push(newFile)
@@ -89,7 +89,7 @@ export const FileAdd = ({ element, onSuccess, onClose }: IDetailModalProps) => {
         placeholder="未分组"
         options={fileTypeList}
         fieldProps={{
-          dropdownRender: (menu) => (
+          dropdownRender: menu => (
             <>
               {menu}
               <Divider className="my-8" />
@@ -97,7 +97,7 @@ export const FileAdd = ({ element, onSuccess, onClose }: IDetailModalProps) => {
                 <Input
                   placeholder="请输入分组名称"
                   value={typeName}
-                  onChange={(e) => setTypeName(e.target.value)}
+                  onChange={e => setTypeName(e.target.value)}
                 />
                 <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
                   新增分组
@@ -121,7 +121,7 @@ export const FileAdd = ({ element, onSuccess, onClose }: IDetailModalProps) => {
         <ProForm.Item label=" " colon={false}>
           <div className="flex flex-wrap">
             {fileList
-              .filter((file) => file.url)
+              .filter(file => file.url)
               .map((file, index) => (
                 <div
                   key={file.uid}
@@ -129,7 +129,7 @@ export const FileAdd = ({ element, onSuccess, onClose }: IDetailModalProps) => {
                 >
                   <img src={file.url} style={{ width: '100%' }} />
                   <CloseCircleFilled
-                    className="absolute z-5 right-[-5] top-[-5] text-size-16 "
+                    className="absolute z-5 right-[-5] top-[-5] text-16 "
                     onClick={() => {
                       fileList.splice(index, 1)
                       setFileList([...fileList])

@@ -28,15 +28,23 @@ export default function WebsitePage() {
 
   return (
     <div className="p-10">
-      <Tabs defaultActiveKey="site" hideAdd animated={false}>
-        <Tabs.TabPane tab="网站信息" key="site">
-          <Site onSubmit={onSubmit} detail={detail} />
-        </Tabs.TabPane>
-
-        <Tabs.TabPane tab="SEO设置" key="seo">
-          <Seo onSubmit={onSubmit} detail={detail} />
-        </Tabs.TabPane>
-      </Tabs>
+      <Tabs
+        defaultActiveKey="site"
+        hideAdd
+        animated={false}
+        items={[
+          {
+            key: 'site',
+            label: '网站信息',
+            children: <Site onSubmit={onSubmit} detail={detail} />,
+          },
+          {
+            key: 'seo',
+            label: 'SEO设置',
+            children: <Seo onSubmit={onSubmit} detail={detail} />,
+          },
+        ]}
+      />
     </div>
   )
 }

@@ -92,7 +92,7 @@ export default function ArticlePage() {
           <Space>
             <ArticleAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onAction('delete', record)}>
-              <a className="color-red">删除</a>
+              <a className="a-danger">删除</a>
             </Popconfirm>
           </Space>
         )

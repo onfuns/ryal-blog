@@ -32,7 +32,7 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
   }
 
   useEffect(() => {
-    if (detail.id) loadData()
+    if (detail?.id) loadData()
   }, [])
 
   const onFinish = async () => {
@@ -41,11 +41,11 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
       ...values,
       publish_time: dayjs(values.publish_time).format(TIME_STRING),
       category_id: values.category_id.pop(),
-      tags: values.tags.map((id) => ({ id })),
+      tags: values.tags.map(id => ({ id })),
       content,
     }
 
-    if (detail.id) {
+    if (detail?.id) {
       await updateArticle(detail.id, params)
     } else {
       await addArticle(params)
@@ -103,7 +103,7 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
         mode="multiple"
         request={async () => {
           const { data } = await getTagList()
-          return data?.map((item) => ({ label: item.name, value: item.id }))
+          return data?.map(item => ({ label: item.name, value: item.id }))
         }}
       />
 
@@ -142,7 +142,7 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
       />
 
       <ProForm.Item label="内容">
-        <MDEditor value={content} onChange={(value) => setContent(value)} />
+        <MDEditor value={content} onChange={value => setContent(value)} />
       </ProForm.Item>
     </DrawerForm>
   )

@@ -16,14 +16,14 @@ export const AuthAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
   const { data: { data: authList = [] } = {} } = useRequest(getAuthList)
 
   useEffect(() => {
-    if (detail.id) {
+    if (detail?.id) {
       const pid = detail.pid ? findAllPid(detail.id) : undefined
       form.setFieldsValue({ ...detail, pid })
     }
   }, [])
 
   const findAllPid = (id: number, result: any[] = []) => {
-    const current = authList?.find((auth) => auth.id === id)
+    const current = authList?.find(auth => auth.id === id)
     result.push(id)
     if (current && current.pid !== 0) {
       return findAllPid(current.pid, result)
@@ -40,7 +40,7 @@ export const AuthAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
       ...values,
       pid: values.pid.pop(),
     }
-    if (detail.id) {
+    if (detail?.id) {
       await updateAuth(detail.id, params)
     } else {
       await addAuth(params)
@@ -75,7 +75,7 @@ export const AuthAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
         allowClear={false}
         fieldProps={{
           options: [{ id: 0, name: '一级菜单' }].concat(
-            toTree(authList.filter((auth) => auth.type === 1)), //只过滤菜单
+            toTree(authList.filter(auth => auth.type === 1)), //只过滤菜单
           ),
           changeOnSelect: true,
           fieldNames: { label: 'name', value: 'id', children: 'children' },

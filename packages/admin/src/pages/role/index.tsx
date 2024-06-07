@@ -7,7 +7,7 @@ import { RoleAdd } from './components/Add'
 export default function RolePage() {
   const actionRef = useRef<ActionType>()
 
-  const onDelete = async (id) => {
+  const onDelete = async id => {
     await deleteRole(id)
     message.success('操作成功')
     onReload()
@@ -34,7 +34,7 @@ export default function RolePage() {
           <Space>
             <RoleAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
-              <a className="color-red">删除</a>
+              <a className="a-danger">删除</a>
             </Popconfirm>
           </Space>
         )

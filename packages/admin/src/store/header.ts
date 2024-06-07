@@ -23,7 +23,7 @@ export class HeaderStore {
   updateTab(router: any = {}) {
     if (router.tag === false) return
     //如果有则更新，否则新增
-    const index = this.tabs.findIndex((t) => t.path === router.path)
+    const index = this.tabs.findIndex(t => t.path === router.path)
     if (index > -1) {
       this.tabs[index] = { ...this.tabs[index], ...router }
     } else {
@@ -31,11 +31,11 @@ export class HeaderStore {
     }
   }
 
-  removeTab(path) {
-    this.tabs = [...this.tabs.filter((item) => item.path !== path)]
+  removeTab(path?: string) {
+    this.tabs = [...this.tabs.filter(item => item.path !== path)]
   }
 
-  setCurrentTabPath(path) {
+  setCurrentTabPath(path?: string) {
     this.currentTabPath = path
   }
 

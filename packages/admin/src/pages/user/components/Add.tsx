@@ -12,11 +12,11 @@ import { useEffect } from 'react'
 
 export const UserAdd = ({ element, onSuccess, onClose, detail }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
-  const isEdit = !!detail.id
+  const isEdit = !!detail?.id
 
   useEffect(() => {
     if (isEdit) {
-      form.setFieldsValue({ roles: detail?.roles?.map((role) => role.id) })
+      form.setFieldsValue({ roles: detail?.roles?.map(role => role.id) })
     }
   }, [])
 
@@ -24,7 +24,7 @@ export const UserAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
     const values = await form.validateFields()
     const params = {
       ...values,
-      roles: values.roles?.map((id) => ({ id })),
+      roles: values.roles?.map(id => ({ id })),
     }
     if (isEdit) {
       await updateUser(detail.id, params)
@@ -66,7 +66,7 @@ export const UserAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
         mode="multiple"
         request={async () => {
           const { data } = await getRoleList()
-          return data?.map((item) => ({ label: item.name, value: item.id }))
+          return data?.map(item => ({ label: item.name, value: item.id }))
         }}
       />
 

@@ -14,7 +14,7 @@ export default function Header() {
       </Head>
       <Script src="/plugins/analysis.js" defer />
       <div className="w-1000-center flex items-center justify-between">
-        <a href="/" className="text-size-18 font-comic">
+        <a href="/" className="text-18 font-comic">
           Nest-Blog
         </a>
         <div>

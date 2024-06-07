@@ -34,7 +34,7 @@ export default function LoginPage() {
           <img src={LoginImage} className="w-100%" />
         </div>
         <ProForm form={form} submitter={false} className="w-350 ml-100">
-          <h1 className="mb-40 text-size-30">Nest-Blog</h1>
+          <h1 className="mb-40 text-30">Nest-Blog</h1>
           <ProFormText
             name="name"
             rules={[{ required: true, message: '请输入用户名' }]}

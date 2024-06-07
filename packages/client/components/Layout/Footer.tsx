@@ -13,7 +13,7 @@ export default function Footer() {
             href={href}
             target="_blank"
             rel="noreferrer"
-            className="color-#a2a09e mr-10 text-size-12"
+            className="color-#a2a09e mr-10 text-12"
           >
             {text}
           </a>

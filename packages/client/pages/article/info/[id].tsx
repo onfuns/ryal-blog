@@ -20,13 +20,13 @@ export interface IArticleInfoProps {
 
 export default function ArticleInfo({ article }: { article: IArticleInfoProps }) {
   const spanClass = 'inline-flex items-center mr-12'
-  const dividerClass = 'mr-5 text-size-16 font-not-italic'
+  const dividerClass = 'mr-5 text-16 font-not-italic'
 
   return (
     <div className="w-1000-center py-10">
       <div className="flex w-100%">
         <div className="p-24 bg-#fff rd-4 flex-1">
-          <div className="mb-6 lh-1.4 text-size-30 fw-700 color-#303030 ml-0 indent-0 break-all">
+          <div className="mb-6 lh-1.4 text-30 fw-700 color-#303030 ml-0 indent-0 break-all">
             {article.title}
           </div>
           <div className="color-#666 mt-8">

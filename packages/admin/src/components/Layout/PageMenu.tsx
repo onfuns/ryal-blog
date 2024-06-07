@@ -23,7 +23,7 @@ export default function LayoutMenu({ menuCollapsed }: { menuCollapsed: boolean }
   }
 
   const menuItems = adminRoutes.map(({ name, path, children }) => {
-    const subRoute = children?.map((child) => ({
+    const subRoute = children?.map(child => ({
       label: child.name,
       key: child.path,
     }))
@@ -36,9 +36,9 @@ export default function LayoutMenu({ menuCollapsed }: { menuCollapsed: boolean }
         'w-auto collapsed-menu': menuCollapsed,
       })}
     >
-      <div className="flex text-size-16 py-16 pl-20 color-#001529 border-right-1-solid-#f0f0f0">
+      <div className="flex items-center text-16 py-16 pl-20 color-#001529 border-right-1-solid-#f0f0f0">
         <img src={LogoImage} className="w-24 h-24" />
-        {!menuCollapsed && <h1 className="ml-10 text-size-18 fw-600">管理后台</h1>}
+        {!menuCollapsed && <h1 className="ml-10 text-18 fw-600">管理后台</h1>}
       </div>
       <div className="h-[calc(100vh-80px)] overflow-y-auto">
         <Menu
@@ -47,9 +47,9 @@ export default function LayoutMenu({ menuCollapsed }: { menuCollapsed: boolean }
           inlineCollapsed={menuCollapsed}
           openKeys={openKeys}
           selectedKeys={[history.location.pathname]}
-          onOpenChange={(keys) => setOpenKeys([...keys])}
+          onOpenChange={keys => setOpenKeys([...keys])}
           items={menuItems}
-          onClick={(e) => history.push(e.key)}
+          onClick={e => history.push(e.key)}
         />
       </div>
     </div>
