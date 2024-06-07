@@ -14,4 +14,5 @@ export const DevConfig: IConfig = {
     logging: ['query', 'error'],
   },
   jwtToken: 'ONFUNS',
+  permissionVerification: false,
 }

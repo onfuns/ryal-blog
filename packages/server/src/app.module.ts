@@ -1,9 +1,5 @@
 import config from '@/config'
-import { Module } from '@nestjs/common'
-import { APP_GUARD } from '@nestjs/core'
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
-import { TypeOrmModule } from '@nestjs/typeorm'
-
+import { UserGuard } from '@/guard/auth.guard'
 import { ArticleModule } from '@/modules/article/article.module'
 import { AuthModule } from '@/modules/auth/auth.module'
 import { CategoryeModule } from '@/modules/category/category.module'
@@ -14,6 +10,10 @@ import { RoleModule } from '@/modules/role/role.module'
 import { TagModule } from '@/modules/tag/tag.module'
 import { UserModule } from '@/modules/user/user.module'
 import { WebsiteModule } from '@/modules/website/website.module'
+import { Module } from '@nestjs/common'
+import { APP_GUARD } from '@nestjs/core'
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
+import { TypeOrmModule } from '@nestjs/typeorm'
 
 @Module({
   imports: [
@@ -40,7 +40,7 @@ import { WebsiteModule } from '@/modules/website/website.module'
   controllers: [],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },
-    // { provide: APP_GUARD, useClass: UserGuard },
+    { provide: APP_GUARD, useClass: UserGuard },
   ],
 })
 export class AppModule {}

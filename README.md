@@ -61,7 +61,7 @@ yarn build
 
 新建数据库`nest_blog`，本地可以导入 `server` 中的初始化数据 `init.sql`，生产环境可以使用 `Navicat`数据迁移。
 
-生产环境基于 nginx 代理，参考 `nginx.conf` 设置。同时需要设置生产环境相关配置，新建配置文件：
+生产环境使用 `nginx` 代理，参考 `nginx.conf` 设置。同时需要设置生产环境相关配置，新建配置文件：
 
 ```bash
 cd /etc && touch .blog.server.production

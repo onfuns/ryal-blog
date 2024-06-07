@@ -12,7 +12,8 @@
     "build:admin": "lerna run build --scope @nest-blog/admin",
     "build:client": "lerna run build --scope @nest-blog/client",
     "build:server": "lerna run build --scope @nest-blog/server",
-    "prepare": "npx husky install"
+    "prepare": "npx husky install",
+    "bootstrap": "lerna bootstrap"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,8 @@
   "author": "onfuns",
   "license": "MIT",
   "devDependencies": {
-    "@types/react": "^18.3.1",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
     "@unocss/preset-rem-to-px": "^0.59.4",
@@ -40,6 +42,7 @@
     "prettier-plugin-organize-imports": "^3.2.4",
     "rimraf": "^3.0.2",
     "shelljs": "^0.8.4",
+    "stylelint": "^16.6.1",
     "unocss": "^0.59.4"
   },
   "workspaces": [
@@ -52,5 +55,22 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.0"
+  },
+  "lint-staged": {
+    "*.{md,json}": [
+      "prettier --write --no-error-on-unmatched-pattern"
+    ],
+    "*.{css,less}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --parser=typescript --write"
+    ]
   }
 }

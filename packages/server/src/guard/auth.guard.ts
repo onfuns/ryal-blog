@@ -25,7 +25,8 @@ export class UserGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<any> {
     const request = context.switchToHttp().getRequest<Request>()
     const NO_PERMISSION = this.reflector.get<string[]>('NO_PERMISSION', context.getHandler())
-    if (NO_PERMISSION) return true
+    /** 不需要校验权限 */
+    if (NO_PERMISSION || config.permissionVerification === false) return true
     /** token 鉴权 begin */
     const token = request.headers['X-AUTH-ID-TOKEN'.toLowerCase()]
     console.log('X-AUTH-ID-TOKEN received:', token)
