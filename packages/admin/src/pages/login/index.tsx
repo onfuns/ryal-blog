@@ -7,7 +7,7 @@ import { ProForm, ProFormText } from '@ant-design/pro-components'
 import { Button, message } from 'antd'
 import * as md5 from 'md5'
 import { useState } from 'react'
-import './style.less'
+import './index.less'
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false)
@@ -52,7 +52,7 @@ export default function LoginPage() {
               type="primary"
               size="large"
               onClick={onSubmit}
-              className="w-100% h-50 border-rd-6"
+              className="w-100% h-50 b-rd-6"
               loading={loading}
             >
               登录

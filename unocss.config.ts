@@ -13,7 +13,6 @@ export default defineConfig({
   shortcuts: [
     ['wh-full', 'w-full h-full'],
     ['flex-center', 'flex justify-center items-center'],
-    ['flex-col', 'flex flex-col'],
     ['text-ellipsis', 'truncate'],
     ['absolute-center', 'absolute left-0 right-0 top-0 bottom-0'],
     ['w-1000-center', 'w-1000 mx-auto'],

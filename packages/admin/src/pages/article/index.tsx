@@ -6,17 +6,26 @@ import dayjs from 'dayjs'
 import { useRef } from 'react'
 import { ArticleAdd } from './components/Add'
 
+enum DataActionType {
+  /** 置顶 */
+  Sort = 'sort',
+  /**  审核 */
+  Pass = 'pass',
+  /** 删除 */
+  Delete = 'delete',
+}
+
 export default function ArticlePage() {
   const actionRef = useRef<ActionType>()
 
-  const onAction = async (type: 'sort' | 'pass_flag' | 'delete' | 'pass', record: any = {}) => {
+  const onAction = async (type: DataActionType, record: any = {}) => {
     const { id, sort = 0, pass_flag = 0 } = record
-    if (type === 'delete') {
+    if (type === DataActionType.Delete) {
       await deleteArticle(id)
-    } else if (type === 'sort') {
+    } else if (type === DataActionType.Sort) {
       // > 0 说明取消置顶
       await updateArticle(id, { sort: Number(sort) > 0 ? 0 : dayjs().valueOf() })
-    } else if (type === 'pass_flag') {
+    } else if (type === DataActionType.Pass) {
       //审核
       await updateArticle(id, { pass_flag: Number(!pass_flag) })
     }
@@ -64,7 +73,11 @@ export default function ArticlePage() {
       },
       width: 100,
       render: (_, record) => (
-        <Switch checked={record.sort > 0} onChange={() => onAction('sort', record)} size="small" />
+        <Switch
+          checked={record.sort > 0}
+          onChange={() => onAction(DataActionType.Sort, record)}
+          size="small"
+        />
       ),
     },
     {
@@ -78,7 +91,7 @@ export default function ArticlePage() {
       render: (_, record) => (
         <Switch
           checked={record.pass_flag === 1}
-          onChange={() => onAction('pass_flag', record)}
+          onChange={() => onAction(DataActionType.Pass, record)}
           size="small"
         />
       ),
@@ -91,7 +104,10 @@ export default function ArticlePage() {
         return (
           <Space>
             <ArticleAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
-            <Popconfirm title="确定删除？" onConfirm={() => onAction('delete', record)}>
+            <Popconfirm
+              title="确定删除？"
+              onConfirm={() => onAction(DataActionType.Delete, record)}
+            >
               <a className="a-danger">删除</a>
             </Popconfirm>
           </Space>
