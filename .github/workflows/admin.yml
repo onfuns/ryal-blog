@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./packages/admin
+        working-directory: ./apps/admin
 
     steps:
       - name: 获取代码
@@ -32,8 +32,8 @@ jobs:
         env:
           DEPLOY_KEY: ${{ secrets.ACCESS_TOKEN }}
           ARGS: -avz --delete --exclude='*.pyc'
-          SERVER_PORT: "22"
-          FOLDER: ./packages/admin/admin.tar.gz
+          SERVER_PORT: '22'
+          FOLDER: ./apps/admin/admin.tar.gz
           SERVER_IP: ${{ secrets.SSH_HOST }}
           USERNAME: ${{ secrets.SSH_USERNAME }}
           SERVER_DESTINATION: /opt/nest-blog/deploy/

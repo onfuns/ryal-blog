@@ -40,7 +40,7 @@
     "unocss": "^0.59.4"
   },
   "workspaces": [
-    "packages/*"
+    "apps/*"
   ],
   "engines": {
     "node": ">=18"
