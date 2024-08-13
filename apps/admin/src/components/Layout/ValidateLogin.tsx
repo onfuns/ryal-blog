@@ -1,7 +1,7 @@
 import { getLocalUser, logoutUser } from '@/actions'
 import { useEffect, useState } from 'react'
 
-export default function Auth(props) {
+const ValidateLogin = (props: React.PropsWithChildren) => {
   const [isLogin, setIsLogin] = useState(false)
   const { token } = getLocalUser()
 
@@ -11,6 +11,9 @@ export default function Auth(props) {
     } else {
       logoutUser()
     }
-  }, [])
+  }, [token])
+
   return isLogin && props.children
 }
+
+export default ValidateLogin

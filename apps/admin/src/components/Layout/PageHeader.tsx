@@ -11,11 +11,10 @@ import {
 import { Dropdown } from 'antd'
 import { useState } from 'react'
 
-export default function PageHeader({ store }: { store: HeaderStore }) {
+const PageHeader = ({ store }: { store: HeaderStore }) => {
   const { menuCollapsed, setMenuCollaps } = store
   const { userName } = getLocalUser()
   const [userMenuCollapsed, setUserMenuCollapsed] = useState(true)
-
   const MenuIcon = menuCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined
   const UserMenuIcon = userMenuCollapsed ? DownOutlined : UpOutlined
 
@@ -44,3 +43,5 @@ export default function PageHeader({ store }: { store: HeaderStore }) {
     </div>
   )
 }
+
+export default PageHeader

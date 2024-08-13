@@ -6,20 +6,19 @@ import { Menu } from 'antd'
 import classnames from 'classnames'
 import { createElement, useState } from 'react'
 
-export default function LayoutMenu({ menuCollapsed }: { menuCollapsed: boolean }) {
+const LayoutMenu = ({ menuCollapsed }: { menuCollapsed: boolean }) => {
   const history = useHistory()
-
   const [currentRoot] = history.location.pathname.slice(1).split('/')
   const [openKeys, setOpenKeys] = useState([`/${currentRoot}`])
 
   const renderIcon = (icon: string) => {
-    const icons = {
+    const icons: Record<string, any> = {
       '/dashboard': HomeOutlined,
       '/portal': AppstoreOutlined,
       '/user': UserOutlined,
       '/setting': SettingOutlined,
     }
-    return icon ? createElement(icons[icon]) : null
+    return icon && icons[icon] ? createElement(icons[icon]) : null
   }
 
   const menuItems = adminRoutes.map(({ name, path, children }) => {
@@ -55,3 +54,5 @@ export default function LayoutMenu({ menuCollapsed }: { menuCollapsed: boolean }
     </div>
   )
 }
+
+export default LayoutMenu

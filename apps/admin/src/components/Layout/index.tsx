@@ -11,7 +11,7 @@ import PageProvider from './PageProvider'
 import PageTabs from './PageTabs'
 import ValidateLogin from './ValidateLogin'
 
-const Container = observer((props: PropsWithChildren) => {
+const LayoutContainer = observer((props: PropsWithChildren) => {
   const { headerStore: store } = useStore()
   const {
     location: { pathname, search },
@@ -39,24 +39,24 @@ const Container = observer((props: PropsWithChildren) => {
   )
 })
 
-export default function Layout(props: PropsWithChildren) {
+const Layout = (props: PropsWithChildren) => {
   const history = useHistory()
-
   const current = routes.find(router => router.path === history.location.pathname)
   if (current?.redirect) {
     history.push(current.redirect)
     return null
   }
+  const isHideLayout = current?.layout === false
 
-  return (
-    <PageProvider>
-      {current?.layout === false ? (
-        props.children
-      ) : (
-        <ValidateLogin>
-          <Container {...props} />
-        </ValidateLogin>
-      )}
-    </PageProvider>
+  const content = isHideLayout ? (
+    props.children
+  ) : (
+    <ValidateLogin>
+      <LayoutContainer {...props} />
+    </ValidateLogin>
   )
+
+  return <PageProvider>{content}</PageProvider>
 }
+
+export default Layout
