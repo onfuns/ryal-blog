@@ -15,7 +15,7 @@ import { message } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 
-export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetailModalProps) => {
+export const ArticleAdd = ({ trigger, onClose, onSuccess, detail = {} }: IDetailModalProps) => {
   const [content, setContent] = useState('')
   const [form] = ProForm.useForm()
 
@@ -33,7 +33,7 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
 
   useEffect(() => {
     if (detail?.id) loadData()
-  }, [])
+  }, [detail?.id])
 
   const onFinish = async () => {
     const values = await form.validateFields()
@@ -57,7 +57,7 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
   return (
     <DrawerForm
       title="文章信息"
-      trigger={element}
+      trigger={trigger}
       drawerProps={{ onClose: onClose, destroyOnClose: true }}
       onFinish={onFinish}
       width="50%"

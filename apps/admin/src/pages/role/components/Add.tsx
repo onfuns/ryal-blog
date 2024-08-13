@@ -12,7 +12,7 @@ import { Tree, message } from 'antd'
 import { cloneDeep } from 'lodash'
 import { useEffect, useState } from 'react'
 
-export const RoleAdd = ({ element, onSuccess, onClose, detail }: IDetailModalProps) => {
+export const RoleAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
   const { data: { data: authList = [] } = {} } = useRequest(() =>
     getAuthList({ roleId: detail.id }),
@@ -63,7 +63,7 @@ export const RoleAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
   return (
     <DrawerForm
       title="角色信息"
-      trigger={element}
+      trigger={trigger}
       drawerProps={{ onClose: onClose, destroyOnClose: true }}
       onFinish={onFinish}
       form={form}

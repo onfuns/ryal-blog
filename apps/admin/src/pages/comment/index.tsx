@@ -80,7 +80,7 @@ export default function CommentPage() {
       render: (_, record) => {
         return (
           <Space>
-            <CommentAdd detail={record} element={<a>回复</a>} />
+            <CommentAdd detail={record} trigger={<a>回复</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onAction('delete', record)}>
               <a className="color-red">删除</a>
             </Popconfirm>
@@ -95,7 +95,6 @@ export default function CommentPage() {
       actionRef={actionRef}
       columns={columns}
       headerTitle="评论列表"
-      form={{ autoFocusFirstInput: false }}
       rowKey="id"
       request={async params => {
         const { data, success } = await getCommentList(params)

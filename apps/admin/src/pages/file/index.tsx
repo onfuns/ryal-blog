@@ -96,7 +96,7 @@ export default function FilePage() {
         return { success, data: data.data, total: data.count }
       }}
       toolBarRender={() => [
-        <FileAdd key="add" onSuccess={onReload} element={<Button type="primary">上传</Button>} />,
+        <FileAdd key="add" onSuccess={onReload} trigger={<Button type="primary">上传</Button>} />,
       ]}
       defaultSize="small"
     />

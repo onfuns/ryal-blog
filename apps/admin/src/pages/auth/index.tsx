@@ -39,7 +39,7 @@ export default function AuthPage() {
       render: (_, record) => {
         return (
           <Space>
-            <AuthAdd detail={record} onSuccess={onRoload} element={<a>编辑</a>} />
+            <AuthAdd detail={record} onSuccess={onRoload} trigger={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record)}>
               <a className="a-danger">删除</a>
             </Popconfirm>
@@ -78,7 +78,7 @@ export default function AuthPage() {
       }}
       pagination={false}
       toolBarRender={() => [
-        <AuthAdd onSuccess={onRoload} key="add" element={<Button type="primary">新增</Button>} />,
+        <AuthAdd onSuccess={onRoload} key="add" trigger={<Button type="primary">新增</Button>} />,
       ]}
       defaultSize="small"
     />

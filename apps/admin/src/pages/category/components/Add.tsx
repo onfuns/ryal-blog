@@ -9,7 +9,7 @@ import {
 import { message } from 'antd'
 import { useEffect } from 'react'
 
-export const CategoryAdd = ({ element, onSuccess, onClose, detail }: IDetailModalProps) => {
+export const CategoryAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
   const categoryType = ProForm.useWatch('type', form)
 
@@ -33,7 +33,7 @@ export const CategoryAdd = ({ element, onSuccess, onClose, detail }: IDetailModa
   return (
     <ModalForm
       title="分类信息"
-      trigger={element}
+      trigger={trigger}
       modalProps={{ onOk: onFinish, onCancel: onClose, destroyOnClose: true }}
       form={form}
       initialValues={{

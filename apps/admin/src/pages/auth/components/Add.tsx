@@ -11,7 +11,7 @@ import { useRequest } from 'ahooks'
 import { message } from 'antd'
 import { useEffect } from 'react'
 
-export const AuthAdd = ({ element, onSuccess, onClose, detail }: IDetailModalProps) => {
+export const AuthAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
   const { data: { data: authList = [] } = {} } = useRequest(getAuthList)
 
@@ -52,7 +52,7 @@ export const AuthAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
   return (
     <ModalForm
       title="权限信息"
-      trigger={element}
+      trigger={trigger}
       modalProps={{ onOk: onFinish, onCancel: onClose, destroyOnClose: true }}
       form={form}
       initialValues={{ type: 1 }}

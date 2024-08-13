@@ -10,7 +10,7 @@ import { message } from 'antd'
 import * as md5 from 'md5'
 import { useEffect } from 'react'
 
-export const UserAdd = ({ element, onSuccess, onClose, detail }: IDetailModalProps) => {
+export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
   const isEdit = !!detail?.id
 
@@ -39,7 +39,7 @@ export const UserAdd = ({ element, onSuccess, onClose, detail }: IDetailModalPro
   return (
     <ModalForm
       title="用户信息"
-      trigger={element}
+      trigger={trigger}
       modalProps={{ onOk: onFinish, onCancel: onClose, destroyOnClose: true }}
       initialValues={{ enable: 1, ...detail }}
     >

@@ -2,7 +2,7 @@ import { updateComment } from '@/actions'
 import { ModalForm, ProForm, ProFormTextArea } from '@ant-design/pro-components'
 import { message } from 'antd'
 
-export const CommentAdd = ({ element, onSuccess, onClose, detail }: IDetailModalProps) => {
+export const CommentAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
 
   const onFinish = async () => {
@@ -15,7 +15,7 @@ export const CommentAdd = ({ element, onSuccess, onClose, detail }: IDetailModal
   return (
     <ModalForm
       title="评论信息"
-      trigger={element}
+      trigger={trigger}
       modalProps={{
         destroyOnClose: true,
         onOk: onFinish,

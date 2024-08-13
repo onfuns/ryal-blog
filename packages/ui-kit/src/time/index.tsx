@@ -42,7 +42,7 @@ export const Time = ({
 
   const getFormat = () => {
     if (format) return format
-    let result = undefined
+    let result = ''
     switch (type) {
       case 'date':
         result = 'YYYY-MM-DD'

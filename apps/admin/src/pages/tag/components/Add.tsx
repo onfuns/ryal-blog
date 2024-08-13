@@ -2,7 +2,7 @@ import { addTag, updateTag } from '@/actions'
 import { ModalForm, ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
 import { message } from 'antd'
 
-export const TagAdd = ({ element, onSuccess, onClose, detail = {} }: IDetailModalProps) => {
+export const TagAdd = ({ trigger, onSuccess, onClose, detail = {} }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
 
   const onFinish = async () => {
@@ -19,7 +19,7 @@ export const TagAdd = ({ element, onSuccess, onClose, detail = {} }: IDetailModa
   return (
     <ModalForm
       title="标签信息"
-      trigger={element}
+      trigger={trigger}
       modalProps={{ onOk: onFinish, onCancel: onClose, destroyOnClose: true }}
       initialValues={detail}
     >

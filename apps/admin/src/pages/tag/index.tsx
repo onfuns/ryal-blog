@@ -32,7 +32,7 @@ export default function TagPage() {
       render: (_, record) => {
         return (
           <Space>
-            <TagAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
+            <TagAdd detail={record} onSuccess={onReload} trigger={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
               <a className="a-danger">删除</a>
             </Popconfirm>
@@ -54,7 +54,7 @@ export default function TagPage() {
       }}
       pagination={false}
       toolBarRender={() => [
-        <TagAdd key="add" onSuccess={onReload} element={<Button>新增</Button>} />,
+        <TagAdd key="add" onSuccess={onReload} trigger={<Button>新增</Button>} />,
       ]}
       defaultSize="small"
     />

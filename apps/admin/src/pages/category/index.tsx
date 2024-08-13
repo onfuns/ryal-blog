@@ -64,7 +64,7 @@ export default function CategoryPage() {
       render: (_, record) => {
         return (
           <Space>
-            <CategoryAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
+            <CategoryAdd detail={record} onSuccess={onReload} trigger={<a>编辑</a>} />
             {record.pid === 0 && record?.children?.length ? null : (
               <Popconfirm title="确定删除？" onConfirm={() => onAction('delete', record)}>
                 <a className="a-danger">删除</a>
@@ -102,7 +102,7 @@ export default function CategoryPage() {
         <CategoryAdd
           key="add"
           onSuccess={onReload}
-          element={<Button type="primary">新增</Button>}
+          trigger={<Button type="primary">新增</Button>}
         />,
       ]}
       defaultSize="small"

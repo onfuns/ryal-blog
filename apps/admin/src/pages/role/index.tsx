@@ -32,7 +32,7 @@ export default function RolePage() {
       render: (_, record) => {
         return (
           <Space>
-            <RoleAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
+            <RoleAdd detail={record} onSuccess={onReload} trigger={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
               <a className="a-danger">删除</a>
             </Popconfirm>
@@ -54,7 +54,7 @@ export default function RolePage() {
       }}
       pagination={false}
       toolBarRender={() => [
-        <RoleAdd key="add" onSuccess={onReload} element={<Button>新增</Button>} />,
+        <RoleAdd key="add" onSuccess={onReload} trigger={<Button>新增</Button>} />,
       ]}
       defaultSize="small"
     />

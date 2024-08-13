@@ -66,7 +66,7 @@ export default function UserPage() {
       render: (_, record) => {
         return record.super !== 1 ? (
           <Space>
-            <UserAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
+            <UserAdd detail={record} onSuccess={onReload} trigger={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
               <a className="a-danger">删除</a>
             </Popconfirm>
@@ -86,7 +86,7 @@ export default function UserPage() {
       request={getUserList}
       pagination={false}
       toolBarRender={() => [
-        <UserAdd key="add" onSuccess={onReload} element={<Button type="primary">新增</Button>} />,
+        <UserAdd key="add" onSuccess={onReload} trigger={<Button type="primary">新增</Button>} />,
       ]}
       defaultSize="small"
     />

@@ -1,0 +1,62 @@
+@import '../style/var.less';
+
+.@{prefixCls}-protable {
+  width: 100%;
+  height: 100%;
+  flex: 1 1;
+  background: #fff;
+  border-radius: 8px;
+
+  /** 最外层布局 */
+  &-root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: unset !important;
+  }
+
+  .ant-pro-table-search-query-filter {
+    margin-bottom: 0;
+
+    .ant-pro-query-filter {
+      padding: 12px 16px 0;
+
+      .ant-form-item .ant-form-item-label > label {
+        color: #666;
+
+        &::after {
+          content: ' ';
+        }
+      }
+    }
+  }
+
+  /** 表格 begin */
+  & &-table {
+    .ant-table-thead > tr:not(.ant-table-measure-row) > th,
+    .ant-table-tbody > tr:not(.ant-table-measure-row) > td {
+      font-size: 12px;
+      padding-top: 12px !important;
+      padding-bottom: 12px !important;
+      border-bottom: none;
+    }
+
+    .ant-table-tbody > tr.ant-table-row:nth-of-type(2n + 1) {
+      background: #fafafa;
+
+      .ant-table-cell-fix-left,
+      .ant-table-cell-fix-right {
+        background: #fafafa;
+      }
+    }
+
+    /** 表头字体设置 */
+    .ant-table-thead tr > th.ant-table-cell {
+      font-family: 'AlibabaPuHuiTi_2_65_Medium';
+      padding: 8px !important;
+      background: #f2f2f2;
+      color: #666;
+    }
+  }
+}

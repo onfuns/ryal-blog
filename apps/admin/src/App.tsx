@@ -5,7 +5,7 @@ import { routes, type IRouter } from './routes'
 
 export default function App() {
   const createRoute = ({ path, component: Component }: IRouter) => {
-    return <Route key={path} path={path} element={<Component />} />
+    return <Route key={path} path={path} trigger={<Component />} />
   }
 
   return (

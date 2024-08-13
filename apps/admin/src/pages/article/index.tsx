@@ -1,6 +1,11 @@
 import { deleteArticle, getArticleList, updateArticle } from '@/actions'
-import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
-import { Time } from '@nest-components/ui-kit'
+import {
+  Table,
+  Time,
+  type TableActionType,
+  type TableColumns,
+  type TableProps,
+} from '@nest-components/ui-kit'
 import { Button, Popconfirm, Space, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
@@ -16,10 +21,13 @@ enum DataActionType {
 }
 
 export default function ArticlePage() {
-  const actionRef = useRef<ActionType>()
+  const actionRef = useRef<TableActionType>()
 
-  const onAction = async (type: DataActionType, record: any = {}) => {
-    const { id, sort = 0, pass_flag = 0 } = record
+  const onAction = async (
+    type: DataActionType,
+    record: { id: string; sort?: number; pass_flag?: number },
+  ) => {
+    const { id, sort = 0, pass_flag = 0 } = record || {}
     if (type === DataActionType.Delete) {
       await deleteArticle(id)
     } else if (type === DataActionType.Sort) {
@@ -35,7 +43,7 @@ export default function ArticlePage() {
 
   const onReload = () => actionRef?.current?.reload()
 
-  const columns: ProColumns<any>[] = [
+  const columns: TableColumns<any>[] = [
     {
       title: '标题',
       dataIndex: 'title',
@@ -72,10 +80,10 @@ export default function ArticlePage() {
         0: '否',
       },
       width: 100,
-      render: (_, record) => (
+      render: (_, { id, sort }) => (
         <Switch
-          checked={record.sort > 0}
-          onChange={() => onAction(DataActionType.Sort, record)}
+          checked={sort > 0}
+          onChange={() => onAction(DataActionType.Sort, { id, sort })}
           size="small"
         />
       ),
@@ -88,10 +96,10 @@ export default function ArticlePage() {
         2: '未审核',
       },
       width: 100,
-      render: (_, record) => (
+      render: (_, { id, pass_flag }) => (
         <Switch
-          checked={record.pass_flag === 1}
-          onChange={() => onAction(DataActionType.Pass, record)}
+          checked={pass_flag === 1}
+          onChange={() => onAction(DataActionType.Pass, { id, pass_flag })}
           size="small"
         />
       ),
@@ -100,46 +108,43 @@ export default function ArticlePage() {
       title: '操作',
       valueType: 'option',
       width: 120,
-      render: (_, record) => {
-        return (
-          <Space>
-            <ArticleAdd detail={record} onSuccess={onReload} element={<a>编辑</a>} />
-            <Popconfirm
-              title="确定删除？"
-              onConfirm={() => onAction(DataActionType.Delete, record)}
-            >
-              <a className="a-danger">删除</a>
-            </Popconfirm>
-          </Space>
-        )
-      },
+      render: (_, record) => (
+        <Space>
+          <ArticleAdd detail={record} onSuccess={onReload} trigger={<a>编辑</a>} />
+          <Popconfirm
+            title="确定删除？"
+            onConfirm={() => onAction(DataActionType.Delete, { id: record.id })}
+          >
+            <a className="a-danger">删除</a>
+          </Popconfirm>
+        </Space>
+      ),
     },
   ]
 
-  return (
-    <ProTable<any>
-      actionRef={actionRef}
-      columns={columns}
-      headerTitle="文章列表"
-      form={{ autoFocusFirstInput: false }}
-      rowKey="id"
-      request={async (params = {}) => {
-        const { success, data } = await getArticleList({ ...params })
-        return { success, data: data.data, total: data.count }
-      }}
-      toolBarRender={() => [
-        <ArticleAdd
-          key="add"
-          onSuccess={onReload}
-          element={
-            <Button key="add" type="primary">
-              新增
-            </Button>
-          }
-        />,
-      ]}
-      scroll={{ x: '100%' }}
-      defaultSize="small"
-    />
-  )
+  const requestTableData = async (params = {}) => {
+    const { success, data } = await getArticleList({ ...params })
+    return { success, data: data.data, total: data.count }
+  }
+
+  const tableProps: TableProps<any, any> = {
+    actionRef,
+    columns,
+    rowKey: 'id',
+    request: requestTableData,
+    scroll: { x: '100%' },
+    toolBarRender: () => [
+      <ArticleAdd
+        key="add"
+        onSuccess={onReload}
+        trigger={
+          <Button key="add" type="primary">
+            新建文章
+          </Button>
+        }
+      />,
+    ],
+  }
+
+  return <Table {...tableProps} />
 }
