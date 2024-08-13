@@ -7,29 +7,23 @@ import {
   ProFormText,
 } from '@ant-design/pro-components'
 import { message } from 'antd'
-import * as md5 from 'md5'
-import { useEffect } from 'react'
+import CryptoJS from 'crypto-js'
+import { UserStatus, UserStatusMap } from '../enum'
 
 export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
   const isEdit = !!detail?.id
 
-  useEffect(() => {
-    if (isEdit) {
-      form.setFieldsValue({ roles: detail?.roles?.map(role => role.id) })
-    }
-  }, [])
-
   const onFinish = async () => {
     const values = await form.validateFields()
     const params = {
       ...values,
-      roles: values.roles?.map(id => ({ id })),
+      roles: values.roles?.map((id: number) => ({ id })),
     }
     if (isEdit) {
       await updateUser(detail.id, params)
     } else {
-      params.password = md5(values.password)
+      params.password = CryptoJS.MD5(values.password)
       await addUser(params)
     }
     message.success('操作成功')
@@ -41,7 +35,7 @@ export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
       title="用户信息"
       trigger={trigger}
       modalProps={{ onOk: onFinish, onCancel: onClose, destroyOnClose: true }}
-      initialValues={{ enable: 1, ...detail }}
+      initialValues={{ enable: UserStatus.Enable, ...detail }}
     >
       <ProFormText
         label="用户名"
@@ -58,15 +52,17 @@ export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
           placeholder="请输入密码"
         />
       )}
+
       <ProFormSelect
         label="所属角色"
         name="roles"
         rules={[{ required: true }]}
         placeholder="请选择角色"
         mode="multiple"
+        convertValue={value => value?.map((role: any) => role.id)}
         request={async () => {
           const { data } = await getRoleList()
-          return data?.map(item => ({ label: item.name, value: item.id }))
+          return data?.map((item: any) => ({ label: item.name, value: item.id }))
         }}
       />
 
@@ -74,10 +70,7 @@ export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
         label="状态"
         name="enable"
         rules={[{ required: true }]}
-        options={[
-          { label: '启用', value: 1 },
-          { label: '停用', value: 0 },
-        ]}
+        options={UserStatusMap}
       />
     </ModalForm>
   )

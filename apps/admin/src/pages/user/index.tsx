@@ -1,12 +1,12 @@
 import { deleteUser, getUserList } from '@/actions'
-import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
-import { Time } from '@nest-components/ui-kit'
+import { Table, Time, type TableActionType, type TableColumns } from '@nest-components/ui-kit'
 import { Button, Popconfirm, Space, Tag, message } from 'antd'
 import { useRef } from 'react'
 import { UserAdd } from './components/Add'
+import { UserStatus } from './enum'
 
-export default function UserPage() {
-  const actionRef = useRef<ActionType>()
+const UserPage = () => {
+  const actionRef = useRef<TableActionType>()
 
   const onDelete = async (id: number) => {
     await deleteUser(id)
@@ -16,7 +16,7 @@ export default function UserPage() {
 
   const onReload = () => actionRef?.current?.reload()
 
-  const columns: ProColumns<any>[] = [
+  const columns: TableColumns<any>[] = [
     {
       title: '用户名',
       dataIndex: 'name',
@@ -26,6 +26,7 @@ export default function UserPage() {
     {
       title: '所属角色',
       dataIndex: 'roles',
+      hideInSearch: true,
       render: (_, record) => {
         return record?.roles?.map(({ id, name }: any) => (
           <Tag key={id} color="blue">
@@ -37,16 +38,19 @@ export default function UserPage() {
     {
       title: '最后登录IP',
       dataIndex: 'last_login_ip',
+      hideInSearch: true,
       render: (_, { last_login_ip }) => last_login_ip && last_login_ip.replace('::ffff:', ''),
     },
     {
       title: '创建时间',
       dataIndex: 'created_at',
+      hideInSearch: true,
       render: (_, { created_at }) => <Time value={created_at} />,
     },
     {
       title: '最后登录时间',
       dataIndex: 'last_login_at',
+      hideInSearch: true,
       render: (_, { last_login_at }) => <Time value={last_login_at} />,
     },
     {
@@ -54,9 +58,17 @@ export default function UserPage() {
       dataIndex: 'enable',
       hideInSearch: true,
       width: 80,
-      render: value => {
-        const isSuccess = value === 1
-        return <Tag color={isSuccess ? 'success' : 'error'}>{isSuccess ? '正常' : '停用'}</Tag>
+      valueEnum: {
+        [UserStatus.Enable]: '正常',
+        [UserStatus.Block]: '停用',
+      },
+      render: (_, { enable }) => {
+        const statusMap: Record<any, { text: string; color: string }> = {
+          [UserStatus.Enable]: { text: '正常', color: 'success' },
+          [UserStatus.Block]: { text: '停用', color: 'error' },
+        }
+        const { color, text } = statusMap[enable] || {}
+        return <Tag color={color}>{text}</Tag>
       },
     },
     {
@@ -77,18 +89,20 @@ export default function UserPage() {
   ]
 
   return (
-    <ProTable<any>
+    <Table
       actionRef={actionRef}
       columns={columns}
-      headerTitle="用户列表"
-      search={false}
       rowKey="id"
       request={getUserList}
-      pagination={false}
       toolBarRender={() => [
-        <UserAdd key="add" onSuccess={onReload} trigger={<Button type="primary">新增</Button>} />,
+        <UserAdd
+          key="add"
+          onSuccess={onReload}
+          trigger={<Button type="primary">新增用户</Button>}
+        />,
       ]}
-      defaultSize="small"
     />
   )
 }
+
+export default UserPage
