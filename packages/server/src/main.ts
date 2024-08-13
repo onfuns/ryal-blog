@@ -37,6 +37,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig)
   IS_DEV &&
     SwaggerModule.setup('swagger', app, document, {
+      jsonDocumentUrl: `swagger/swagger.json`,
       swaggerOptions: {
         explorer: true,
         docExpansion: 'list',

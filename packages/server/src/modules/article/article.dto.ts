@@ -1,4 +1,5 @@
 import { transformToNumber } from '@/util'
+import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
 import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator'
 
@@ -8,10 +9,12 @@ export class ActionDto {
 }
 
 export class CreateDto {
-  @IsNotEmpty()
+  @ApiProperty()
+  @IsNotEmpty({ message: '标题不能为空' })
   readonly title: string
 
-  @IsNotEmpty()
+  @ApiProperty()
+  @IsNotEmpty({ message: '内容不能为空' })
   readonly content: string
 }
 

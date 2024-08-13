@@ -1,10 +1,12 @@
 import { NoPermission } from '@/decorator/permission.decorator'
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import { CreateDto, QueryDto } from './article.dto'
 import { Article } from './article.entity'
 import { ArticleService } from './article.service'
 import { IArticleVO } from './interface'
 
+@ApiTags('article')
 @Controller('/article')
 export class ArticleController {
   constructor(@Inject(ArticleService) private readonly service: ArticleService) {}
