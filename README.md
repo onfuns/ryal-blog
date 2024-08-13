@@ -36,35 +36,42 @@
 
   ![](./screenshot/后台-文章页.png)
 
-## 启动
-
-进入 `server`、`client`、`admin` 对应目录启动：
+## 开发
 
 ```bash
-# 开发
-yarn dev
-# 生产
-yarn start:prod
-# pm2 启动
-yarn start:pm2
+# 服务端
+yarn dev:server
+# 管理端
+yarn dev:admin
+# 客户端
+yarn dev:client
 ```
 
 ## 构建
 
-可分别进入各子目录单独构建，也可以在项目根目录统一构建，输出目录分别为各子目录中的 `dist`。
+可全部构建也可分包构建。
 
 ```bash
+# 全部
 yarn build
+# 服务端
+yarn build:server
+# 管理端
+yarn build:admin
+# 客户端
+yarn build:client
+
 ```
 
 ## 部署
 
 新建数据库`nest_blog`，本地可以导入 `server` 中的初始化数据 `init.sql`，生产环境可以使用 `Navicat`数据迁移。
 
-生产环境使用 `nginx` 代理，参考 `nginx.conf` 设置。同时需要设置生产环境相关配置，新建配置文件：
+新建配置文件：
 
 ```bash
 cd /etc && touch .blog.server.production
+
 ```
 
 写入以下数据库配置：
@@ -75,6 +82,19 @@ DB_USER = root            # 用户
 DB_PASS = 123456          # 密码
 DB_DATABASE =  xxxxxxxx   # 数据库
 ```
+
+启动
+
+```bash
+# 单进程模式
+yarn start:prod
+# pm2 启动
+yarn start:pm2
+```
+
+#### Nginx 代理
+
+生产环境使用 `nginx` 代理，参考 `nginx.conf` 设置。
 
 #### Github Action 模式
 
