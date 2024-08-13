@@ -10,6 +10,10 @@ export default defineConfig({
         find: '@',
         replacement: join(__dirname, './src'),
       },
+      {
+        find: '@nest-components/ui-kit',
+        replacement: join(__dirname, '../../packages/ui-kit/src'),
+      },
     ],
   },
   server: {

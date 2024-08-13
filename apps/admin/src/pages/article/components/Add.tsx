@@ -1,6 +1,5 @@
 import { addArticle, getArticle, getCategoryList, getTagList, updateArticle } from '@/actions'
 import MDEditor from '@/components/Editor/MarkdownEditor'
-import { TIME_STRING } from '@/constants'
 import {
   DrawerForm,
   ProForm,
@@ -11,6 +10,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
+import { TimeFormt } from '@nest-components/ui-kit'
 import { message } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
@@ -26,7 +26,7 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
     form.setFieldsValue({
       ...article,
       publish_time: dayjs(publish_time),
-      tags: tags?.map(({ id }) => id),
+      tags: tags?.map(({ id }: any) => id),
       category_id: category?.pid === 0 ? [category.id] : [category.pid, category.id],
     })
   }
@@ -39,9 +39,9 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
     const values = await form.validateFields()
     const params = {
       ...values,
-      publish_time: dayjs(values.publish_time).format(TIME_STRING),
+      publish_time: dayjs(values.publish_time).format(TimeFormt.Time),
       category_id: values.category_id.pop(),
-      tags: values.tags.map(id => ({ id })),
+      tags: values.tags.map((id: string) => ({ id })),
       content,
     }
 
@@ -103,7 +103,7 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
         mode="multiple"
         request={async () => {
           const { data } = await getTagList()
-          return data?.map(item => ({ label: item.name, value: item.id }))
+          return data?.map((item: any) => ({ label: item.name, value: item.id }))
         }}
       />
 
@@ -129,7 +129,7 @@ export const ArticleAdd = ({ element, onClose, onSuccess, detail = {} }: IDetail
         label="发布时间"
         name="publish_time"
         rules={[{ required: true }]}
-        dataFormat={TIME_STRING}
+        dataFormat={TimeFormt.Time}
         fieldProps={{ showTime: true }}
         allowClear
       />

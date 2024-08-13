@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "prebuild": "rimraf dist",
-    "dev": "yarn uno:dev & vite dev",
+    "dev": "yarn uno:dev & vite dev --force",
     "build": "yarn uno:build && vite build",
     "uno:build": "unocss \"./src/**/*.tsx\" -o ./src/style/uno.css",
     "uno:dev": "yarn uno:build - -w"

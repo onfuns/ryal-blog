@@ -1,21 +1,11 @@
 {
+  "extends": "../../tsconfig.common.json",
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "moduleResolution": "Node",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true,
+    "outDir": "./dist",
+    "jsx": "react-jsx",
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "allowJs": true,
-    "jsx": "react-jsx"
+    }
   }
 }

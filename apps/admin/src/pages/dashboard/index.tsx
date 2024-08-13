@@ -1,8 +1,7 @@
 import { getDashboardData } from '@/actions'
-import { TIME_STRING } from '@/constants'
+import { Time } from '@nest-components/ui-kit'
 import { useRequest } from 'ahooks'
 import { Card, Col, List, Row, Space } from 'antd'
-import dayjs from 'dayjs'
 
 type IDashboardInfoProps = {
   article?: { count: number }
@@ -38,7 +37,7 @@ export default function DashboardPage() {
         <Col span={8}>
           <Card title="用户信息">
             <p>
-              上次登录时间： {user?.last_login_at && dayjs(user.last_login_at).format(TIME_STRING)}
+              上次登录时间： <Time value={user?.last_login_at} />
             </p>
             <p>上次登录IP： {user?.last_login_ip?.replace('::ffff:', '')}</p>
           </Card>
@@ -68,9 +67,7 @@ export default function DashboardPage() {
                           </a>
                           评论
                         </Space>
-                        <span style={{ float: 'right' }}>
-                          {record.created_at && dayjs(record.created_at).format(TIME_STRING)}
-                        </span>
+                        <Time value={record.created_at} className="float-right" />
                       </>
                     }
                     description={record.content}

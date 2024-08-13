@@ -1,11 +1,12 @@
-import { ConfigProvider, message, Spin } from 'antd'
+import { ConfigContextProvider, type ConfigConsumerProps } from '@nest-components/ui-kit'
+import { Spin, message } from 'antd'
 import zhCN from 'antd/lib/locale/zh_CN'
 import { Provider as MobxProvider } from 'mobx-react'
 import React, { Suspense } from 'react'
 message.config({ maxCount: 1 })
 
 export default function LayoutProvider(props: React.PropsWithChildren) {
-  const antdConfig: React.ComponentProps<typeof ConfigProvider> = {
+  const antdConfig: ConfigConsumerProps['antdConfig'] = {
     theme: {
       token: {
         colorPrimary: '#52c41a',
@@ -16,7 +17,7 @@ export default function LayoutProvider(props: React.PropsWithChildren) {
 
   return (
     <MobxProvider>
-      <ConfigProvider {...antdConfig}>
+      <ConfigContextProvider antdConfig={antdConfig}>
         <Suspense
           fallback={
             <div className="h-100vh flex-center">
@@ -26,7 +27,7 @@ export default function LayoutProvider(props: React.PropsWithChildren) {
         >
           {props.children}
         </Suspense>
-      </ConfigProvider>
+      </ConfigContextProvider>
     </MobxProvider>
   )
 }

@@ -6,6 +6,7 @@ node_modules
 *.tar.gz
 .next
 uno.css
+packages/**/types
 
 # Logs
 logs

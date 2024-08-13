@@ -5,11 +5,13 @@
   "description": "blog developed by nestjs",
   "scripts": {
     "dev": "lerna run dev",
-    "dev:admin": "lerna run dev --scope @nest-blog/admin",
+    "dev:uikit": "lerna run dev --scope @nest-components/ui-kit",
+    "dev:admin": " yarn dev:uikit & lerna run dev --scope @nest-blog/admin",
     "dev:client": "lerna run dev --scope @nest-blog/client",
     "dev:server": "lerna run dev --scope @nest-blog/server",
     "build": "lerna run build",
-    "build:admin": "lerna run build --scope @nest-blog/admin",
+    "build:uikit": "lerna run build --scope @nest-components/ui-kit",
+    "build:admin": "yarn dev:uikit & lerna run build --scope @nest-blog/admin",
     "build:client": "lerna run build --scope @nest-blog/client",
     "build:server": "lerna run build --scope @nest-blog/server",
     "prepare": "npx husky install",
@@ -40,7 +42,8 @@
     "unocss": "^0.59.4"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "engines": {
     "node": ">=18"

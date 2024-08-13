@@ -1,21 +1,20 @@
 import { deleteUser, getUserList } from '@/actions'
-import { MINUTE_STRING } from '@/constants'
 import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
+import { Time } from '@nest-components/ui-kit'
 import { Button, Popconfirm, Space, Tag, message } from 'antd'
-import dayjs from 'dayjs'
 import { useRef } from 'react'
 import { UserAdd } from './components/Add'
 
 export default function UserPage() {
   const actionRef = useRef<ActionType>()
 
-  const onDelete = async id => {
+  const onDelete = async (id: number) => {
     await deleteUser(id)
     message.success('操作成功')
     onReload()
   }
 
-  const onReload = () => actionRef?.current.reload()
+  const onReload = () => actionRef?.current?.reload()
 
   const columns: ProColumns<any>[] = [
     {
@@ -28,7 +27,7 @@ export default function UserPage() {
       title: '所属角色',
       dataIndex: 'roles',
       render: (_, record) => {
-        return record?.roles?.map(({ id, name }) => (
+        return record?.roles?.map(({ id, name }: any) => (
           <Tag key={id} color="blue">
             {name}
           </Tag>
@@ -43,12 +42,12 @@ export default function UserPage() {
     {
       title: '创建时间',
       dataIndex: 'created_at',
-      render: (_, { created_at }) => created_at && dayjs(created_at).format(MINUTE_STRING),
+      render: (_, { created_at }) => <Time value={created_at} />,
     },
     {
       title: '最后登录时间',
       dataIndex: 'last_login_at',
-      render: (_, { last_login_at }) => last_login_at && dayjs(last_login_at).format(MINUTE_STRING),
+      render: (_, { last_login_at }) => <Time value={last_login_at} />,
     },
     {
       title: '状态',

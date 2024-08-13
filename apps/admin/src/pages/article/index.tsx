@@ -1,6 +1,6 @@
 import { deleteArticle, getArticleList, updateArticle } from '@/actions'
-import { TIME_STRING } from '@/constants'
 import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
+import { Time } from '@nest-components/ui-kit'
 import { Button, Popconfirm, Space, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
@@ -33,7 +33,7 @@ export default function ArticlePage() {
     onReload()
   }
 
-  const onReload = () => actionRef?.current.reload()
+  const onReload = () => actionRef?.current?.reload()
 
   const columns: ProColumns<any>[] = [
     {
@@ -56,13 +56,13 @@ export default function ArticlePage() {
       title: '标签',
       dataIndex: 'tags',
       hideInSearch: true,
-      render: (_, { tags }) => tags?.map(({ name }) => name).join(','),
+      render: (_, { tags }) => tags?.map(({ name }: any) => name).join(','),
     },
     {
       title: '发布时间',
       hideInSearch: true,
       dataIndex: 'publish_time',
-      render: (_, { publish_time }) => publish_time && dayjs(publish_time).format(TIME_STRING),
+      render: (_, { publish_time }) => <Time type="time" value={publish_time} />,
     },
     {
       title: '置顶',

@@ -1,0 +1,25 @@
+{
+  "name": "@nest-components/ui-kit",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "module": "./src/index.ts",
+  "types": "types/index.d.ts",
+  "files": [
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "build": "rm -rf types && yarn types",
+    "dev": "yarn types",
+    "types": "tsc -p tsconfig.types.json"
+  },
+  "dependencies": {
+    "antd": "^5.18.0",
+    "dayjs": "^1.11.10",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.12"
+  }
+}
