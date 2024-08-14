@@ -11,7 +11,7 @@ export default defineConfig({
         replacement: join(__dirname, './src'),
       },
       {
-        find: '@nest-components/ui-kit',
+        find: '@ryal/ui-kit',
         replacement: join(__dirname, '../../packages/ui-kit/src'),
       },
     ],

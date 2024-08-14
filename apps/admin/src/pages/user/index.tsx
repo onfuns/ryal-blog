@@ -1,5 +1,5 @@
 import { deleteUser, getUserList } from '@/actions'
-import { Table, Time, type TableActionType, type TableColumns } from '@nest-components/ui-kit'
+import { Table, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
 import { Button, Popconfirm, Space, Tag, message } from 'antd'
 import { useRef } from 'react'
 import { UserAdd } from './components/Add'

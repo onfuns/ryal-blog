@@ -36,7 +36,7 @@ jobs:
           FOLDER: ./apps/admin/admin.tar.gz
           SERVER_IP: ${{ secrets.SSH_HOST }}
           USERNAME: ${{ secrets.SSH_USERNAME }}
-          SERVER_DESTINATION: /opt/nest-blog/deploy/
+          SERVER_DESTINATION: /opt/ryal-blog/deploy/
 
       - name: 重启服务
         uses: appleboy/ssh-action@v0.1.10
@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.ACCESS_TOKEN }}
           script: |
-            cd /opt/nest-blog/deploy
+            cd /opt/ryal-blog/deploy
             mkdir -p ./admin
             tar -xzvf admin.tar.gz -C ./admin
             mkdir -p ../apps

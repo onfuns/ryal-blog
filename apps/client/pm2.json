@@ -1,5 +1,5 @@
 {
-  "name": "@nest-blog/client",
+  "name": "@ryal/app-client",
   "script": "next start",
   "env": {
     "PORT": 4001,

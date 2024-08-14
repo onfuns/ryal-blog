@@ -1,5 +1,5 @@
 {
-  "name": "@nest-blog/server",
+  "name": "@ryal/app-server",
   "script": "node ./dist/main",
   "env": {
     "PORT": 4000,

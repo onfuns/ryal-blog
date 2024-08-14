@@ -1,5 +1,5 @@
 import { getDashboardData } from '@/actions'
-import { Time } from '@nest-components/ui-kit'
+import { Time } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
 import { Card, Col, List, Row, Space } from 'antd'
 

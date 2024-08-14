@@ -1,4 +1,4 @@
-import { ConfigContextProvider, type ConfigConsumerProps } from '@nest-components/ui-kit'
+import { ConfigContextProvider, type ConfigConsumerProps } from '@ryal/ui-kit'
 import { Spin, message } from 'antd'
 import zhCN from 'antd/lib/locale/zh_CN'
 import { Provider as MobxProvider } from 'mobx-react'

@@ -1,11 +1,5 @@
 import { deleteArticle, getArticleList, updateArticle } from '@/actions'
-import {
-  Table,
-  Time,
-  type TableActionType,
-  type TableColumns,
-  type TableProps,
-} from '@nest-components/ui-kit'
+import { Table, Time, type TableActionType, type TableColumns, type TableProps } from '@ryal/ui-kit'
 import { Button, Popconfirm, Space, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'

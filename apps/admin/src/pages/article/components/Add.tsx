@@ -10,7 +10,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { TimeFormt } from '@nest-components/ui-kit'
+import { TimeFormt } from '@ryal/ui-kit'
 import { message } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
