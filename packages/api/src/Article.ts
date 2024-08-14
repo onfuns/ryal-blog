@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { CreateDtoTypes } from './data-contracts'
+import { ArticleCreateReqType, ArticleListResType, ArticleType } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Article<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -21,9 +21,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @request GET:/api/article
    */
   articleFindAll = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.request<ArticleListResType, any>({
       path: `/api/article`,
       method: 'GET',
+      format: 'json',
       ...params,
     })
   /**
@@ -33,7 +34,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name ArticleAdd
    * @request POST:/api/article
    */
-  articleAdd = (data: CreateDtoTypes, params: RequestParams = {}) =>
+  articleAdd = (data: ArticleCreateReqType, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/article`,
       method: 'POST',
@@ -49,9 +50,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @request GET:/api/article/list
    */
   articleGetClientList = (params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.request<ArticleType[], any>({
       path: `/api/article/list`,
       method: 'GET',
+      format: 'json',
       ...params,
     })
   /**

@@ -1,29 +1,37 @@
 import { NoPermission } from '@/decorator/permission.decorator'
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
-import { CreateDto, QueryDto } from './article.dto'
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { ArticleCreateReq, ArticleListReq, ArticleListRes } from './article.dto'
 import { Article } from './article.entity'
 import { ArticleService } from './article.service'
-import { IArticleVO } from './interface'
 
 @ApiTags('article')
 @Controller('/article')
 export class ArticleController {
   constructor(@Inject(ArticleService) private readonly service: ArticleService) {}
 
+  @ApiOkResponse({
+    description: '查找文章列表',
+    type: ArticleListRes,
+  })
   @Get()
-  async findAll(@Query() query: QueryDto): Promise<IArticleVO> {
+  async findAll(@Query() query: ArticleListReq) {
     return this.service.findAll(query)
   }
 
+  @ApiOkResponse({
+    description: '客户端-查找文章列表',
+    type: Article,
+    isArray: true,
+  })
   @Get('list')
   @NoPermission()
-  async getClientList(@Query() query: QueryDto): Promise<IArticleVO> {
+  async getClientList(@Query() query: ArticleListReq) {
     return this.findAll({ ...query, pass_flag: 1 })
   }
 
   @Post()
-  async add(@Body() body: CreateDto) {
+  async add(@Body() body: ArticleCreateReq) {
     return this.service.create(body as Article)
   }
 

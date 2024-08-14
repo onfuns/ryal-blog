@@ -9,7 +9,7 @@ generateApi({
   url: 'http://localhost:4000/swagger/api-docs.json',
   httpClientType: 'axios',
   modular: true,
-  typeSuffix: 'Types',
+  typeSuffix: 'Type',
   moduleNameFirstTag: true,
   hooks: {
     onFormatRouteName: (routeInfo, templateRouteName) => {

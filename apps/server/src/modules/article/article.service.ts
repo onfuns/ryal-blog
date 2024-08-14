@@ -3,9 +3,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { pickBy } from 'lodash'
 import { Equal, Like, MoreThan, Repository } from 'typeorm'
-import { QueryDto } from './article.dto'
+import { ArticleListReq, ArticleListRes } from './article.dto'
 import { Article } from './article.entity'
-import { IArticleVO } from './interface'
 @Injectable()
 export class ArticleService {
   private readonly logger = new LoggerService(ArticleService.name)
@@ -28,7 +27,7 @@ export class ArticleService {
     })
   }
 
-  async findAll(query?: QueryDto): Promise<IArticleVO> {
+  async findAll(query?: ArticleListReq): Promise<ArticleListRes> {
     const { current = 1, pageSize = 20, sort, title, cid: category_id, pass_flag } = query ?? {}
     const where: any = pickBy({
       title: title ? Like(`%${title}%`) : undefined,

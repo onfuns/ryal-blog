@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { CategoryTypes, RoleTypes, TagTypes, UserTypes } from './data-contracts'
+import { CategoryType, RoleType, TagType, UserType } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -31,7 +31,7 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name TagAdd
    * @request POST:/api/tag
    */
-  tagAdd = (data: TagTypes, params: RequestParams = {}) =>
+  tagAdd = (data: TagType, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/tag`,
       method: 'POST',
@@ -81,7 +81,7 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name CategoryAdd
    * @request POST:/api/category
    */
-  categoryAdd = (data: CategoryTypes, params: RequestParams = {}) =>
+  categoryAdd = (data: CategoryType, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/category`,
       method: 'POST',
@@ -131,7 +131,7 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name UserLogin
    * @request POST:/api/user/login
    */
-  userLogin = (data: UserTypes, params: RequestParams = {}) =>
+  userLogin = (data: UserType, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/user/login`,
       method: 'POST',
@@ -205,7 +205,7 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name RoleAdd
    * @request POST:/api/role
    */
-  roleAdd = (data: RoleTypes, params: RequestParams = {}) =>
+  roleAdd = (data: RoleType, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/role`,
       method: 'POST',
