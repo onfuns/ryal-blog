@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "type": "module",
-  "module": "./src/index.ts",
+  "module": "index.ts",
   "types": "types/index.d.ts",
   "files": [
     "src",
