@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.common.json",
+  "compilerOptions": {
+    "baseUrl": "./"
+  },
+  "include": ["generate.ts"],
+  "exclude": ["src"]
+}

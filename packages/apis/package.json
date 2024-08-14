@@ -1,0 +1,18 @@
+{
+  "name": "@nest-components/apis",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "module": "./src/index.ts",
+  "types": "types/index.d.ts",
+  "files": [
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "build": "npx tsx ./generate.ts"
+  },
+  "devDependencies": {
+    "swagger-typescript-api": "^13.0.21"
+  }
+}

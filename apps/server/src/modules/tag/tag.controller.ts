@@ -12,7 +12,7 @@ import {
 import { Tag } from './tag.entity'
 import { TagService } from './tag.service'
 
-@Controller('/Tag')
+@Controller('/tag')
 export class TagController {
   constructor(@Inject(TagService) private readonly service: TagService) {}
 
