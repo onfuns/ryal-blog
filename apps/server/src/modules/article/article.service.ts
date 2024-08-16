@@ -3,8 +3,10 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { pickBy } from 'lodash'
 import { Equal, Like, MoreThan, Repository } from 'typeorm'
-import { ArticleListReq, ArticleListRes } from './article.dto'
+import { PageListType } from '../../common/model/page.model'
+import { ArticleCreateReqDto, ArticleListReqDto } from './article.dto'
 import { Article } from './article.entity'
+
 @Injectable()
 export class ArticleService {
   private readonly logger = new LoggerService(ArticleService.name)
@@ -13,7 +15,7 @@ export class ArticleService {
     private readonly repository: Repository<Article>,
   ) {}
 
-  async create(body: Article): Promise<Article> {
+  async create(body: ArticleCreateReqDto): Promise<Article> {
     return await this.repository.save(body)
   }
 
@@ -27,7 +29,7 @@ export class ArticleService {
     })
   }
 
-  async findAll(query?: ArticleListReq): Promise<ArticleListRes> {
+  async findAll(query?: ArticleListReqDto): Promise<PageListType<Article>> {
     const { current = 1, pageSize = 20, sort, title, cid: category_id, pass_flag } = query ?? {}
     const where: any = pickBy({
       title: title ? Like(`%${title}%`) : undefined,
@@ -36,7 +38,7 @@ export class ArticleService {
       pass_flag,
     })
     this.logger.info('findAll where: ', where)
-    const [data, count] = await this.repository.findAndCount({
+    const [data, total] = await this.repository.findAndCount({
       where,
       skip: pageSize * (current - 1),
       take: pageSize,
@@ -45,10 +47,10 @@ export class ArticleService {
       },
       relations: ['category', 'tags'],
     })
-    return { data, count }
+    return { data, total }
   }
 
-  async update(id: string, body: Article): Promise<Article> {
+  async update(id: string, body: ArticleCreateReqDto): Promise<Article> {
     const { tags, ...others } = body
     const record = this.repository.create(others)
     record.tags = tags
@@ -56,7 +58,8 @@ export class ArticleService {
     return await this.repository.save(record)
   }
 
-  async delete(id: string): Promise<any> {
-    return await this.repository.delete(id)
+  async delete(id: string): Promise<null> {
+    await this.repository.delete(id)
+    return null
   }
 }

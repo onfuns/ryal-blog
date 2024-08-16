@@ -8,6 +8,8 @@ import {
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { map, tap } from 'rxjs/operators'
+import { ResponseResult } from '../common/model/response.model'
+
 @Injectable()
 export class HttpInterceptor implements NestInterceptor {
   private logger = new LoggerService('HTTP')
@@ -19,7 +21,7 @@ export class HttpInterceptor implements NestInterceptor {
     // 统一调整返回状态码为200
     response.status(HttpStatus.OK)
     const resMapData = map((data: any) => {
-      let result = { success: true, message: '请求成功', data: null }
+      let result = new ResponseResult(true, '请求成功', null, '0')
       if (data && typeof data === 'object' && 'success' in data) {
         result = { ...result, ...data }
       } else {

@@ -11,6 +11,7 @@ generateApi({
   modular: true,
   typeSuffix: 'Type',
   moduleNameFirstTag: true,
+  unwrapResponseData: true,
   hooks: {
     onFormatRouteName: (routeInfo, templateRouteName) => {
       return templateRouteName.replace('Controller', '')
@@ -18,8 +19,10 @@ generateApi({
   },
 }).then(({ files }) => {
   let content = ''
-  files.forEach(file => {
-    content += `export * from './src/${file.fileName}${file.fileExtension}'\n`
-    fs.writeFile(path.join(__dirname, './index.ts'), content, 'utf-8')
-  })
+  files
+    .sort((a, b) => a.fileName.localeCompare(b.fileName))
+    .forEach(file => {
+      content += `export * from './src/${file.fileName}${file.fileExtension}'\n`
+      fs.writeFile(path.join(__dirname, './index.ts'), content, 'utf-8')
+    })
 })

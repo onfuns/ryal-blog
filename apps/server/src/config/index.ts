@@ -1,4 +1,4 @@
-import { IS_DEV } from '@/util'
+import { __DEV__ } from '@/util'
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { DevConfig } from './dev'
 import { ProdConfig } from './prod'
@@ -20,5 +20,5 @@ const BaseConfig: IConfig = {
 
 export default {
   ...BaseConfig,
-  ...(IS_DEV ? DevConfig : ProdConfig),
+  ...(__DEV__ ? DevConfig : ProdConfig),
 }

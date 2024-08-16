@@ -7,7 +7,7 @@ import config from '@/config'
 import { HttpExceptionFilter } from '@/filter/http.filter'
 import { HttpInterceptor } from '@/interceptor/http.interceptor'
 import { ValidationPipe } from '@/pipe/validation.pipe'
-import { IS_DEV } from '@/util'
+import { __DEV__ } from '@/util'
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
@@ -17,7 +17,7 @@ import { AppModule } from './app.module'
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bodyParser: true,
-    logger: IS_DEV ? ['log', 'debug', 'warn', 'error'] : ['warn', 'error'],
+    logger: __DEV__ ? ['log', 'debug', 'warn', 'error'] : ['warn', 'error'],
   })
   app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalInterceptors(new HttpInterceptor())
@@ -28,24 +28,27 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',
   })
-
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle('API')
-    .setDescription('API description')
-    .setVersion('1.0')
-    .build()
-  const document = SwaggerModule.createDocument(app, swaggerConfig)
-  IS_DEV &&
-    SwaggerModule.setup('swagger', app, document, {
-      jsonDocumentUrl: `swagger/api-docs.json`,
-      swaggerOptions: {
-        explorer: true,
-        docExpansion: 'list',
-        filter: true,
-        showRequestDuration: true,
-      },
-    })
-
+  if (__DEV__) {
+    try {
+      const swaggerConfig = new DocumentBuilder()
+        .setTitle('API')
+        .setDescription('API description')
+        .setVersion('1.0')
+        .build()
+      const document = SwaggerModule.createDocument(app, swaggerConfig)
+      SwaggerModule.setup('swagger', app, document, {
+        jsonDocumentUrl: `swagger/api-docs.json`,
+        swaggerOptions: {
+          explorer: true,
+          docExpansion: 'list',
+          filter: true,
+          showRequestDuration: true,
+        },
+      })
+    } catch (error) {
+      console.log('build swagger error', error)
+    }
+  }
   const port = process.env.PORT || 4000
   await app.listen(port)
   console.log(`listen on http://localhost:${port}`)

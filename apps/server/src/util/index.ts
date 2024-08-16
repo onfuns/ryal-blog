@@ -23,7 +23,7 @@ export const toFlatArray = (tree, parentId = null) => {
 }
 
 // is dev environment
-export const IS_DEV = process.env.NODE_ENV !== 'production'
+export const __DEV__ = process.env.NODE_ENV !== 'production'
 
 // is object
 export const isObject = data => Object.is(Object.prototype.toString.call(data), '[object Object]')

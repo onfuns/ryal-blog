@@ -49,8 +49,8 @@ export class Article {
   description: string
 
   @ApiProperty({ description: '排序' })
-  @Column({ default: 0, comment: '排序', type: 'bigint' })
-  sort: string
+  @Column({ default: 0, comment: '排序' })
+  sort: number
 
   @ApiProperty({ description: '内容' })
   @Column({ type: 'text', nullable: true, comment: '内容' })

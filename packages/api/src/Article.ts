@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { ArticleCreateReqType, ArticleListResType, ArticleType } from './data-contracts'
+import { ArticleCreateReqDtoType, ArticleType, ResponseResultType } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Article<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -20,10 +20,35 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name ArticleFindAll
    * @request GET:/api/article
    */
-  articleFindAll = (params: RequestParams = {}) =>
-    this.request<ArticleListResType, any>({
+  articleFindAll = (
+    query: {
+      /** 当前页码 */
+      current: number
+      /** 当前条数 */
+      pageSize: number
+      /** 标题 */
+      title?: string
+      /** 排序 */
+      sort?: number
+      /** 是否审核通过 0-否 1-是 */
+      pass_flag?: number
+      /** 分类 id */
+      cid: number
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<
+      ResponseResultType & {
+        data?: {
+          list?: ArticleType[]
+          total?: number
+        }
+      },
+      any
+    >({
       path: `/api/article`,
       method: 'GET',
+      query: query,
       format: 'json',
       ...params,
     })
@@ -34,12 +59,18 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name ArticleAdd
    * @request POST:/api/article
    */
-  articleAdd = (data: ArticleCreateReqType, params: RequestParams = {}) =>
-    this.request<void, any>({
+  articleAdd = (data: ArticleCreateReqDtoType, params: RequestParams = {}) =>
+    this.request<
+      ResponseResultType & {
+        data?: ArticleType
+      },
+      any
+    >({
       path: `/api/article`,
       method: 'POST',
       body: data,
       type: ContentType.Json,
+      format: 'json',
       ...params,
     })
   /**
@@ -49,10 +80,27 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name ArticleGetClientList
    * @request GET:/api/article/list
    */
-  articleGetClientList = (params: RequestParams = {}) =>
+  articleGetClientList = (
+    query: {
+      /** 当前页码 */
+      current: number
+      /** 当前条数 */
+      pageSize: number
+      /** 标题 */
+      title?: string
+      /** 排序 */
+      sort?: number
+      /** 是否审核通过 0-否 1-是 */
+      pass_flag?: number
+      /** 分类 id */
+      cid: number
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<ArticleType[], any>({
       path: `/api/article/list`,
       method: 'GET',
+      query: query,
       format: 'json',
       ...params,
     })
@@ -63,10 +111,18 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name ArticleUpdate
    * @request PUT:/api/article/{id}
    */
-  articleUpdate = (id: string, params: RequestParams = {}) =>
-    this.request<void, any>({
+  articleUpdate = (id: string, data: ArticleCreateReqDtoType, params: RequestParams = {}) =>
+    this.request<
+      ResponseResultType & {
+        data?: ArticleType
+      },
+      any
+    >({
       path: `/api/article/${id}`,
       method: 'PUT',
+      body: data,
+      type: ContentType.Json,
+      format: 'json',
       ...params,
     })
   /**
@@ -77,9 +133,16 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @request DELETE:/api/article/{id}
    */
   articleDelete = (id: string, params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.request<
+      ResponseResultType & {
+        /** @default null */
+        data?: null
+      },
+      any
+    >({
       path: `/api/article/${id}`,
       method: 'DELETE',
+      format: 'json',
       ...params,
     })
   /**
@@ -90,9 +153,18 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @request GET:/api/article/{id}
    */
   articleInfo = (id: string, params: RequestParams = {}) =>
-    this.request<void, any>({
+    this.request<
+      ResponseResultType & {
+        data?: {
+          list?: ArticleType[]
+          total?: number
+        }
+      },
+      any
+    >({
       path: `/api/article/${id}`,
       method: 'GET',
+      format: 'json',
       ...params,
     })
 }

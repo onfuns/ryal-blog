@@ -1,4 +1,4 @@
-import { IS_DEV, isObject } from '@/util'
+import { __DEV__, isObject } from '@/util'
 import { Injectable } from '@nestjs/common'
 import * as path from 'path'
 import * as winston from 'winston'
@@ -13,7 +13,7 @@ export class LoggerService {
 
   private createLogger(serviceName: string) {
     return winston.createLogger({
-      level: IS_DEV ? 'silly' : 'info',
+      level: __DEV__ ? 'silly' : 'info',
       format: winston.format.combine(
         winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' }),
         winston.format.colorize(),
@@ -39,7 +39,7 @@ export class LoggerService {
           maxFiles: '14d',
           level: 'silly',
         }),
-        IS_DEV ? new winston.transports.Console({}) : null,
+        __DEV__ ? new winston.transports.Console({}) : null,
       ].filter(t => !!t),
     })
   }

@@ -1,4 +1,5 @@
-import { deleteArticle, getArticleList, updateArticle } from '@/actions'
+import { deleteArticle, updateArticle } from '@/actions'
+import { Article, type ArticleType } from '@ryal/api'
 import { Table, Time, type TableActionType, type TableColumns, type TableProps } from '@ryal/ui-kit'
 import { Button, Popconfirm, Space, Switch, message } from 'antd'
 import dayjs from 'dayjs'
@@ -16,6 +17,7 @@ enum DataActionType {
 
 export default function ArticlePage() {
   const actionRef = useRef<TableActionType>()
+  const articleService = new Article()
 
   const onAction = async (
     type: DataActionType,
@@ -37,7 +39,7 @@ export default function ArticlePage() {
 
   const onReload = () => actionRef?.current?.reload()
 
-  const columns: TableColumns<any>[] = [
+  const columns: TableColumns<ArticleType>[] = [
     {
       title: '标题',
       dataIndex: 'title',
@@ -117,8 +119,8 @@ export default function ArticlePage() {
   ]
 
   const requestTableData = async (params = {}) => {
-    const { success, data } = await getArticleList({ ...params })
-    return { success, data: data.data, total: data.count }
+    const { success, data } = await articleService.articleFindAll({ ...params })
+    return { success, data: data?.list, total: data?.count }
   }
 
   const tableProps: TableProps<any, any> = {

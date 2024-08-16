@@ -14,6 +14,7 @@
     "build:admin": "yarn dev:uikit & lerna run build --scope @ryal/app-admin",
     "build:client": "lerna run build --scope @ryal/app-client",
     "build:server": "lerna run build --scope @ryal/app-server",
+    "build:api":"lerna run build --scope @ryal/api",
     "prepare": "npx husky install",
     "bootstrap": "lerna bootstrap"
   },
