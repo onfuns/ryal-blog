@@ -1,34 +1,35 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm'
+import { TimeEntity } from '@/common/model/entity.model'
+import { ApiProperty } from '@nestjs/swagger'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Article } from '../article/article.entity'
 
 @Entity()
-export class Comment {
+export class Comment extends TimeEntity {
+  @ApiProperty({ description: 'id' })
   @PrimaryGeneratedColumn()
   id: number
 
+  @ApiProperty({ description: '昵称' })
   @Column({ comment: '昵称' })
   name: string
 
-  @Column({ type: 'text', comment: '留言内容' })
+  @ApiProperty({ description: '内容' })
+  @Column({ comment: '内容', type: 'text' })
   content: string
 
-  @Column({ type: 'text', comment: '回复内容', nullable: true })
+  @ApiProperty({ description: '回复内容' })
+  @Column({ comment: '回复内容', nullable: true, type: 'text' })
   reply: string
 
+  @ApiProperty({ description: '网址' })
   @Column({ comment: '网址', nullable: true })
   url: string
 
-  @Column({ comment: '文章ID', length: 36 })
+  @ApiProperty({ description: '关联文章 id' })
+  @Column({ comment: '关联文章 id', length: 36 })
   aid: string
 
+  @ApiProperty({ description: '关联文章' })
   @ManyToOne(() => Article, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
@@ -36,12 +37,7 @@ export class Comment {
   @JoinColumn({ name: 'aid' })
   article: Article
 
-  @Column({ comment: '0:未审核 1:通过', default: 0 })
+  @ApiProperty({ description: '状态 0-未审核 1-通过', default: 0 })
+  @Column({ comment: '状态 0-未审核 1-通过', default: 0 })
   status: number
-
-  @CreateDateColumn()
-  created_at: string
-
-  @UpdateDateColumn()
-  updated_at: string
 }

@@ -1,9 +1,9 @@
+import { PageListModel } from '@/common/model/page.model'
 import { LoggerService } from '@/shared/logger/logger.service'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { pickBy } from 'lodash'
 import { Equal, Like, MoreThan, Repository } from 'typeorm'
-import { PageListType } from '../../common/model/page.model'
 import { ArticleCreateReqDto, ArticleListReqDto } from './article.dto'
 import { Article } from './article.entity'
 
@@ -29,9 +29,9 @@ export class ArticleService {
     })
   }
 
-  async findAll(query?: ArticleListReqDto): Promise<PageListType<Article>> {
+  async findAll(query?: ArticleListReqDto): Promise<PageListModel<Article>> {
     const { current = 1, pageSize = 20, sort, title, cid: category_id, pass_flag } = query ?? {}
-    const where: any = pickBy({
+    const where = pickBy({
       title: title ? Like(`%${title}%`) : undefined,
       sort: sort > 0 ? MoreThan(sort) : sort === 0 ? Equal(0) : undefined,
       category_id,

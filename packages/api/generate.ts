@@ -14,7 +14,8 @@ generateApi({
   unwrapResponseData: true,
   hooks: {
     onFormatRouteName: (routeInfo, templateRouteName) => {
-      return templateRouteName.replace('Controller', '')
+      const name = templateRouteName.split('Controller')?.[1] || templateRouteName
+      return name.charAt(0).toLocaleLowerCase() + name.slice(1)
     },
   },
 }).then(({ files }) => {

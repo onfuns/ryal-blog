@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { getRepository, Repository } from 'typeorm'
+import { RoleCreateReqDto } from './role.dto'
 import { Role } from './role.entity'
 
 @Injectable()
@@ -10,7 +11,7 @@ export class RoleService {
     private readonly repository: Repository<Role>,
   ) {}
 
-  async create(body: Role): Promise<Role> {
+  async create(body: RoleCreateReqDto): Promise<Role> {
     const record = this.repository.create(body)
     return await this.repository.save(record)
   }
@@ -22,13 +23,14 @@ export class RoleService {
       .getMany()
   }
 
-  async update(id: number, body: Role): Promise<any> {
+  async update(id: Role['id'], body: RoleCreateReqDto): Promise<Role> {
     const record = this.repository.create(body)
     record.id = id
     return await this.repository.save(record)
   }
 
-  async delete(id: number): Promise<any> {
-    return await this.repository.delete(id)
+  async delete(id: Role['id']): Promise<null> {
+    await this.repository.delete(id)
+    return null
   }
 }

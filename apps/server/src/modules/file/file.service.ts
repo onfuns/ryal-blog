@@ -1,54 +1,55 @@
+import { PageListModel } from '@/common/model/page.model'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { createWriteStream, existsSync, mkdirSync } from 'fs'
 import { pickBy } from 'lodash'
 import { join } from 'path'
 import { Like, Repository } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
-import { File, FileType } from './file.entity'
-import { IFile } from './interface'
+import { FileCreateReqDto, FileListReqDto } from './file.dto'
+import { File, FileCategory } from './file.entity'
 
 @Injectable()
 export class FileService {
   @InjectRepository(File)
   private readonly fileRepository: Repository<File>
-  @InjectRepository(FileType)
-  private readonly fileTypeRepository: Repository<FileType>
+  @InjectRepository(FileCategory)
+  private readonly fileCategoryRepository: Repository<FileCategory>
 
-  async findAll(query): Promise<any> {
-    const { current = 1, pageSize = 20, fileTypeId, originalname } = query ?? {}
+  async findAll(query: FileListReqDto): Promise<PageListModel<File>> {
+    const { current = 1, pageSize = 20, fileCategoryId, originalname } = query ?? {}
 
     const where: Partial<File> = pickBy({
       originalname: originalname ? Like(`%${originalname}%`) : undefined,
-      file_type_id: fileTypeId ?? undefined,
+      file_category_id: fileCategoryId ?? undefined,
     })
-
-    const [data, count] = await this.fileRepository.findAndCount({
+    const [data, total = 0] = await this.fileRepository.findAndCount({
       where: where,
       skip: pageSize * (current - 1),
       take: pageSize,
       order: {
         created_at: 'DESC',
       },
-      relations: ['filetype'],
+      relations: ['filecategory'],
     })
-    return { data, count }
+    return { data, total }
   }
 
-  async delete(id: number): Promise<any> {
-    return await this.fileRepository.delete(id)
+  async delete(id: number): Promise<null> {
+    await this.fileRepository.delete(id)
+    return null
   }
 
-  async findFileType(): Promise<any> {
-    return this.fileTypeRepository.find()
+  async findFileCategory(): Promise<FileCategory[]> {
+    return this.fileCategoryRepository.find()
   }
 
-  async addFileType(name): Promise<any> {
-    return this.fileTypeRepository.save({ name })
+  async addFileCategory(name: FileCategory['name']): Promise<FileCategory> {
+    return this.fileCategoryRepository.save({ name })
   }
 
-  async upload(files: IFile[], fileTypeId = null) {
+  async upload(files: FileCreateReqDto[], fileCategoryId?: FileCategory['id']) {
     const date = dayjs().format('YYYYMMDD')
     const filePath = join('uploads', date)
     const dir = join(__dirname, '../../../', filePath)
@@ -61,7 +62,7 @@ export class FileService {
       createWriteStream(fileUrl).write(file.buffer)
       await this.fileRepository.save({
         ext: fileExt,
-        file_type_id: fileTypeId || undefined,
+        file_category_id: fileCategoryId || undefined,
         url: join(filePath, name),
         size: file.size,
         originalname: file.originalname,

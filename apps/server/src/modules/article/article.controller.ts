@@ -1,7 +1,7 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger'
+import { ApiTags } from '@nestjs/swagger'
 import { ArticleCreateReqDto, ArticleListReqDto } from './article.dto'
 import { Article } from './article.entity'
 import { ArticleService } from './article.service'
@@ -17,19 +17,19 @@ export class ArticleController {
     page: true,
   })
   @Get()
-  async findAll(@Query() query: ArticleListReqDto) {
+  async getList(@Query() query: ArticleListReqDto) {
     return this.service.findAll(query)
   }
 
-  @ApiOkResponse({
+  @ApiResult({
     description: '客户端-获取文章列表',
     type: Article,
-    isArray: true,
+    page: true,
   })
   @Get('list')
   @NoPermission()
   async getClientList(@Query() query: ArticleListReqDto) {
-    return this.findAll({ ...query, pass_flag: 1 })
+    return this.service.findAll({ ...query, pass_flag: 1 })
   }
 
   @ApiResult({

@@ -1,7 +1,9 @@
+import { PageListModel } from '@/common/model/page.model'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { pickBy } from 'lodash'
 import { Like, Repository } from 'typeorm'
+import { CommentCreateReqDto, CommentListReqDto } from './comment.dto'
 import { Comment } from './comment.entity'
 
 @Injectable()
@@ -11,18 +13,14 @@ export class CommentService {
     private readonly repository: Repository<Comment>,
   ) {}
 
-  async create(data: Comment): Promise<Comment> {
+  async create(data: CommentCreateReqDto): Promise<Comment> {
     return await this.repository.save(data)
   }
 
-  async findById(id): Promise<Comment> {
-    return await this.repository.findOneBy(id)
-  }
-
-  async findAll(query: any = {}): Promise<{ data: Comment[]; count: number }> {
-    const { current = 1, pageSize = 20, aid, status, title = '' } = query
+  async findAll(query?: CommentListReqDto): Promise<PageListModel<Comment>> {
+    const { current = 1, pageSize = 20, aid, status, title = '' } = query || {}
     const where = pickBy({ aid, status })
-    const [data = [], count = 0] = await this.repository.findAndCount({
+    const [data = [], total = 0] = await this.repository.findAndCount({
       where: {
         ...where,
         article: {
@@ -42,14 +40,16 @@ export class CommentService {
       },
     })
 
-    return { data, count }
+    return { data, total }
   }
 
-  async update(id: number, body: Comment): Promise<any> {
-    return await this.repository.update(id, body)
+  async update(id: Comment['id'], body: CommentCreateReqDto): Promise<Comment> {
+    const { raw } = await this.repository.update(id, body)
+    return raw
   }
 
-  async delete(id: number): Promise<any> {
-    return await this.repository.delete(id)
+  async delete(id: number): Promise<null> {
+    await this.repository.delete(id)
+    return null
   }
 }

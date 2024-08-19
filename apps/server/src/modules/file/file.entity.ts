@@ -1,58 +1,49 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm'
+import { ApiProperty } from '@nestjs/swagger'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { TimeEntity } from '../../common/model/entity.model'
 
 @Entity()
-export class FileType {
+export class FileCategory extends TimeEntity {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number
 
+  @ApiProperty({ description: '名称' })
   @Column({ comment: '名称', unique: true })
   name: string
-
-  @CreateDateColumn()
-  created_at: string
-
-  @UpdateDateColumn()
-  updated_at: string
 }
 
 @Entity()
-export class File {
+export class File extends TimeEntity {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number
 
-  @ManyToOne(() => FileType, {
+  @ApiProperty({ description: '分类' })
+  @ManyToOne(() => FileCategory, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
   })
-  @JoinColumn({ name: 'file_type_id' })
-  filetype: FileType
+  @JoinColumn({ name: 'file_category_id' })
+  fileCategory: FileCategory
 
-  @Column({ comment: '分组ID', nullable: true })
-  file_type_id: number
+  @ApiProperty({ description: '分类 id' })
+  @Column({ comment: '分类 id', nullable: true })
+  file_category_id: number
 
-  @Column({ comment: '名称', nullable: true })
+  @ApiProperty({ description: '原名称' })
+  @Column({ comment: '原名称', nullable: true })
   originalname: string
 
+  @ApiProperty({ description: '地址' })
   @Column({ comment: '地址' })
   url: string
 
+  @ApiProperty({ description: '大小' })
   @Column({ comment: '大小' })
   size: number
 
-  @Column({ comment: 'ext' })
+  @ApiProperty({ description: '后缀' })
+  @Column({ comment: '后缀' })
   ext: string
-
-  @CreateDateColumn()
-  created_at: string
-
-  @UpdateDateColumn()
-  updated_at: string
 }

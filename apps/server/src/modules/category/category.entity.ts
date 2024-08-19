@@ -1,40 +1,46 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { TimeEntity } from '@/common/model/entity.model'
+import { ApiProperty } from '@nestjs/swagger'
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
-export class Category {
+export class Category extends TimeEntity {
+  @ApiProperty({ description: 'id' })
   @PrimaryGeneratedColumn()
   id: number
 
+  @ApiProperty({ description: '名称' })
   @Column({ comment: '名称' })
   name: string
 
+  @ApiProperty({ description: '路由' })
   @Column({ comment: '路由', unique: true })
   ename: string
 
-  @Column({ default: 0, comment: '父级ID' })
+  @ApiProperty({ description: '父级ID', default: 0 })
+  @Column({ comment: '父级ID', default: 0 })
   pid: number
 
-  @Column({ default: 1, comment: '分类类型' })
+  @ApiProperty({ description: '类型', default: 1 })
+  @Column({ comment: '类型', default: 1 })
   type: number
 
-  @Column({ default: 1, comment: '显示状态' })
+  @ApiProperty({ description: '状态 1-显示 0-隐藏' })
+  @Column({ comment: '状态 1-显示 0-隐藏', default: 1 })
   status: number
 
-  @Column({ default: 0, comment: '排序' })
+  @ApiProperty({ description: '排序', default: 0 })
+  @Column({ comment: '排序', default: 0 })
   sort: number
 
-  @Column({ nullable: true, comment: '外链地址' })
+  @ApiProperty({ description: '外链地址' })
+  @Column({ comment: '外链地址', nullable: true })
   url: string
 
-  @Column({ nullable: true, comment: '图标' })
+  @ApiProperty({ description: '图标' })
+  @Column({ comment: '图标', nullable: true })
   icon: string
 
-  @Column({ nullable: true, comment: '图标颜色' })
+  @ApiProperty({ description: '图标颜色' })
+  @Column({ comment: '图标颜色', nullable: true })
   icon_color: string
-
-  @CreateDateColumn()
-  created_at: string
-
-  @UpdateDateColumn()
-  updated_at: string
 }

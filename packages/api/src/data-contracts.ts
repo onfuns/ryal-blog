@@ -20,9 +20,47 @@ export interface ResponseResultType {
   data: object
 }
 
-export type CategoryType = object
+export interface CategoryType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 名称 */
+  name: string
+  /** 路由 */
+  ename: string
+  /**
+   * 父级ID
+   * @default 0
+   */
+  pid: number
+  /**
+   * 类型
+   * @default 1
+   */
+  type: number
+  /** 状态 1-显示 0-隐藏 */
+  status: number
+  /**
+   * 排序
+   * @default 0
+   */
+  sort: number
+  /** 外链地址 */
+  url: string
+  /** 图标 */
+  icon: string
+  /** 图标颜色 */
+  icon_color: string
+}
 
 export interface ArticleType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
   /** id */
   id: string
   /** 分类 */
@@ -39,18 +77,20 @@ export interface ArticleType {
   sort: number
   /** 内容 */
   content: string
-  /** 是否审核通过 0-否 1-是 */
+  /**
+   * 是否审核通过 0-否 1-是
+   * @default 1
+   */
   pass_flag: number
-  /** 是否评论 0-否 1-是 */
+  /**
+   * 是否评论 0-否 1-是
+   * @default 0
+   */
   comment_flag: number
   /** 发布时间 */
   publish_time: string
   /** 作者 */
   author: string
-  /** 创建时间 */
-  created_at: string
-  /** 更新时间 */
-  updated_at: string
 }
 
 export interface ArticleCreateReqDtoType {
@@ -68,9 +108,15 @@ export interface ArticleCreateReqDtoType {
   sort?: number
   /** 内容 */
   content?: string
-  /** 是否审核通过 0-否 1-是 */
+  /**
+   * 是否审核通过 0-否 1-是
+   * @default 1
+   */
   pass_flag?: number
-  /** 是否评论 0-否 1-是 */
+  /**
+   * 是否评论 0-否 1-是
+   * @default 0
+   */
   comment_flag?: number
   /** 发布时间 */
   publish_time?: string
@@ -78,8 +124,277 @@ export interface ArticleCreateReqDtoType {
   author?: string
 }
 
-export type TagType = object
+export interface TagType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 名称 */
+  name: string
+  /** 描述 */
+  description: string
+}
 
-export type UserType = object
+export interface TagCreateReqDtoType {
+  /** 名称 */
+  name?: string
+  /** 描述 */
+  description?: string
+}
 
-export type RoleType = object
+export interface CategoryCreateReqDtoType {
+  /** 名称 */
+  name?: string
+  /** 路由 */
+  ename?: string
+  /**
+   * 父级ID
+   * @default 0
+   */
+  pid?: number
+  /**
+   * 类型
+   * @default 1
+   */
+  type?: number
+  /** 状态 1-显示 0-隐藏 */
+  status?: number
+  /**
+   * 排序
+   * @default 0
+   */
+  sort?: number
+  /** 外链地址 */
+  url?: string
+  /** 图标 */
+  icon?: string
+  /** 图标颜色 */
+  icon_color?: string
+}
+
+export interface UserType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 名称 */
+  name: string
+  /** 密码 */
+  password: string
+  /** 角色 */
+  roles: string[]
+  /**
+   * 状态 0-停用 1-启用
+   * @default 1
+   */
+  enable: number
+  /**
+   * 是否超级管理员
+   * @default 0
+   */
+  super: number
+  /** 上次登录 ip */
+  last_login_ip: string
+  /** 上次登录时间 */
+  last_login_at: string
+}
+
+export interface UserLoginReqDtoType {
+  /** 用户名 */
+  name: string
+  /** 密码 */
+  password: string
+}
+
+export interface UserCreateReqDtoType {
+  /** 名称 */
+  name?: string
+  /** 密码 */
+  password?: string
+  /** 角色 */
+  roles?: string[]
+  /**
+   * 状态 0-停用 1-启用
+   * @default 1
+   */
+  enable?: number
+  /**
+   * 是否超级管理员
+   * @default 0
+   */
+  super?: number
+  /** 上次登录 ip */
+  last_login_ip?: string
+  /** 上次登录时间 */
+  last_login_at?: string
+}
+
+export interface RoleType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 名称 */
+  name: string
+  /** 描述 */
+  description: string
+  /** 权限节点 id */
+  auths: string[]
+  /**
+   * 状态 0-停用 1-启用
+   * @default 1
+   */
+  enable: number
+}
+
+export interface RoleCreateReqDtoType {
+  /** 名称 */
+  name?: string
+  /** 描述 */
+  description?: string
+  /** 权限节点 id */
+  auths?: string[]
+  /**
+   * 状态 0-停用 1-启用
+   * @default 1
+   */
+  enable?: number
+}
+
+export interface AuthType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 名称 */
+  name: string
+  /** 编码 */
+  code: string
+  /** 类型 1-菜单 2-功能 */
+  type: number
+  /**
+   * 父级节点 id
+   * @default 0
+   */
+  pid: number
+}
+
+export interface AuthCreateReqDtoType {
+  /** 名称 */
+  name?: string
+  /** 编码 */
+  code?: string
+  /** 类型 1-菜单 2-功能 */
+  type?: number
+  /**
+   * 父级节点 id
+   * @default 0
+   */
+  pid?: number
+}
+
+export interface CommentType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 昵称 */
+  name: string
+  /** 内容 */
+  content: string
+  /** 回复内容 */
+  reply: string
+  /** 网址 */
+  url: string
+  /** 关联文章 id */
+  aid: string
+  /** 关联文章 */
+  article: ArticleType
+  /**
+   * 状态 0-未审核 1-通过
+   * @default 0
+   */
+  status: number
+}
+
+export interface CommentCreateReqDtoType {
+  /** 名称 */
+  name?: string
+  /** 内容 */
+  content?: string
+  /** 回复内容 */
+  reply?: string
+  /** 网址 */
+  url?: string
+  /** 关联文章 id */
+  aid?: string
+  /** 关联文章 */
+  article?: ArticleType
+  /**
+   * 状态 0-未审核 1-通过
+   * @default 0
+   */
+  status?: number
+  /** 路由 */
+  ename: string
+}
+
+export interface FileCategoryType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  id: number
+  /** 名称 */
+  name: string
+}
+
+export interface FileType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  id: number
+  /** 分类 */
+  fileCategory: FileCategoryType
+  /** 分类 id */
+  file_category_id: number
+  /** 原名称 */
+  originalname: string
+  /** 地址 */
+  url: string
+  /** 大小 */
+  size: number
+  /** 后缀 */
+  ext: string
+}
+
+export interface WebsiteType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 名称 */
+  name: string
+  /** 值 */
+  value: string
+}
+
+export interface WebsiteCreateReqDtoType {
+  /** 名称 */
+  name?: string
+  /** 值 */
+  value?: string
+}

@@ -1,25 +1,26 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { TimeEntity } from '@/common/model/entity.model'
+import { ApiProperty } from '@nestjs/swagger'
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
-export class Auth {
+export class Auth extends TimeEntity {
+  @ApiProperty({ description: 'id' })
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column()
+  @ApiProperty({ description: '名称' })
+  @Column({ comment: '名称' })
   name: string
 
-  @Column({ unique: true })
+  @ApiProperty({ description: '编码' })
+  @Column({ comment: '编码', unique: true })
   code: string
 
-  @Column({ comment: '1:菜单 2:功能' })
+  @ApiProperty({ description: '类型 1-菜单 2-功能' })
+  @Column({ comment: '1-菜单 2-功能' })
   type: number
 
-  @Column({ default: 0 })
+  @ApiProperty({ description: '父级节点 id', default: 0 })
+  @Column({ comment: '父级节点 id', default: 0 })
   pid: number
-
-  @CreateDateColumn()
-  created_at: string
-
-  @UpdateDateColumn()
-  updated_at: string
 }

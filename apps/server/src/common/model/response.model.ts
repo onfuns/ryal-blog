@@ -13,10 +13,10 @@ export class ResponseResult<TData = any> {
   @ApiProperty({ type: 'object', description: '响应结果' })
   data?: TData
 
-  constructor(success: boolean, data: TData, message = 'success', code: string) {
+  constructor(success: boolean, data: TData, message = 'success', code?: string) {
     this.success = success
     this.data = data
     this.message = message
-    this.code = code
+    this.code = code ?? success === false ? '1000' : '0'
   }
 }

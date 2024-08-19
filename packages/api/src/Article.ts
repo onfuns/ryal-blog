@@ -17,10 +17,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * No description
    *
    * @tags article
-   * @name ArticleFindAll
+   * @name GetList
    * @request GET:/api/article
    */
-  articleFindAll = (
+  getList = (
     query: {
       /** 当前页码 */
       current: number
@@ -30,7 +30,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
       title?: string
       /** 排序 */
       sort?: number
-      /** 是否审核通过 0-否 1-是 */
+      /**
+       * 是否审核通过 0-否 1-是
+       * @default 1
+       */
       pass_flag?: number
       /** 分类 id */
       cid: number
@@ -56,10 +59,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * No description
    *
    * @tags article
-   * @name ArticleAdd
+   * @name Add
    * @request POST:/api/article
    */
-  articleAdd = (data: ArticleCreateReqDtoType, params: RequestParams = {}) =>
+  add = (data: ArticleCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: ArticleType
@@ -77,10 +80,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * No description
    *
    * @tags article
-   * @name ArticleGetClientList
+   * @name GetClientList
    * @request GET:/api/article/list
    */
-  articleGetClientList = (
+  getClientList = (
     query: {
       /** 当前页码 */
       current: number
@@ -90,14 +93,22 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
       title?: string
       /** 排序 */
       sort?: number
-      /** 是否审核通过 0-否 1-是 */
+      /**
+       * 是否审核通过 0-否 1-是
+       * @default 1
+       */
       pass_flag?: number
       /** 分类 id */
       cid: number
     },
     params: RequestParams = {},
   ) =>
-    this.request<ArticleType[], any>({
+    this.request<
+      ResponseResultType & {
+        data?: ArticleType
+      },
+      any
+    >({
       path: `/api/article/list`,
       method: 'GET',
       query: query,
@@ -108,10 +119,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * No description
    *
    * @tags article
-   * @name ArticleUpdate
+   * @name Update
    * @request PUT:/api/article/{id}
    */
-  articleUpdate = (id: string, data: ArticleCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: string, data: ArticleCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: ArticleType
@@ -129,10 +140,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * No description
    *
    * @tags article
-   * @name ArticleDelete
+   * @name Delete
    * @request DELETE:/api/article/{id}
    */
-  articleDelete = (id: string, params: RequestParams = {}) =>
+  delete = (id: string, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         /** @default null */
@@ -149,10 +160,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * No description
    *
    * @tags article
-   * @name ArticleInfo
+   * @name Info
    * @request GET:/api/article/{id}
    */
-  articleInfo = (id: string, params: RequestParams = {}) =>
+  info = (id: string, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {

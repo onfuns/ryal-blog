@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { ResponseResult } from '../../common/model/response.model'
+import { CategoryCreateReqDto } from './category.dto'
 import { Category } from './category.entity'
 
 @Injectable()
@@ -10,7 +12,7 @@ export class CategoryService {
     private readonly repository: Repository<Category>,
   ) {}
 
-  async create(data: Category): Promise<Category> {
+  async create(data: CategoryCreateReqDto): Promise<Category> {
     return await this.repository.save(data)
   }
 
@@ -22,18 +24,20 @@ export class CategoryService {
     })
   }
 
-  async update(id: number, body: Category): Promise<any> {
-    return await this.repository.update(id, body)
+  async update(id: Category['id'], body: CategoryCreateReqDto): Promise<Category> {
+    const { raw } = await this.repository.update(id, body)
+    return raw
   }
 
-  async delete(id: number): Promise<any> {
+  async delete(id: Category['id']): Promise<null | ResponseResult> {
     try {
-      return await this.repository.delete(id)
+      await this.repository.delete(id)
+      return null
     } catch (err) {
       const message = err.message.includes('a foreign key constraint fails')
         ? '有文章引用分类，无法删除'
         : err.message
-      return { success: false, message }
+      return new ResponseResult(false, null, message)
     }
   }
 }

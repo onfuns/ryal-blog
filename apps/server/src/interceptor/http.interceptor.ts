@@ -21,7 +21,7 @@ export class HttpInterceptor implements NestInterceptor {
     // 统一调整返回状态码为200
     response.status(HttpStatus.OK)
     const resMapData = map((data: any) => {
-      let result = new ResponseResult(true, '请求成功', null, '0')
+      let result = new ResponseResult(true, '请求成功', null)
       if (data && typeof data === 'object' && 'success' in data) {
         result = { ...result, ...data }
       } else {

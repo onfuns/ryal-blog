@@ -22,13 +22,13 @@ export class UserGuard implements CanActivate {
     private readonly userService: UserService,
   ) {}
 
-  async canActivate(context: ExecutionContext): Promise<any> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>()
     const NO_PERMISSION = this.reflector.get<string[]>('NO_PERMISSION', context.getHandler())
     /** 不需要校验权限 */
     if (NO_PERMISSION || config.permissionVerification === false) return true
     /** token 鉴权 begin */
-    const token = request.headers['X-AUTH-ID-TOKEN'.toLowerCase()]
+    const token = request.headers['X-AUTH-ID-TOKEN'.toLowerCase()] as string
     console.log('X-AUTH-ID-TOKEN received:', token)
     const tokenInfo = await this.userService.verifyToken(token)
     if (!tokenInfo) {

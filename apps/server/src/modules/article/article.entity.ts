@@ -1,20 +1,19 @@
+import { TimeEntity } from '@/common/model/entity.model'
 import { Category } from '@/modules/category/category.entity'
 import { Tag } from '@/modules/tag/tag.entity'
 import { ApiProperty } from '@nestjs/swagger'
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryColumn,
-  UpdateDateColumn,
 } from 'typeorm'
 
 @Entity()
-export class Article {
+export class Article extends TimeEntity {
   @ApiProperty({ description: 'id' })
   @PrimaryColumn({ generated: 'uuid', length: 36 })
   id: string
@@ -45,23 +44,23 @@ export class Article {
   title: string
 
   @ApiProperty({ description: '描述' })
-  @Column({ nullable: true, comment: '描述' })
+  @Column({ comment: '描述', nullable: true })
   description: string
 
   @ApiProperty({ description: '排序' })
-  @Column({ default: 0, comment: '排序' })
+  @Column({ comment: '排序', default: 0 })
   sort: number
 
   @ApiProperty({ description: '内容' })
-  @Column({ type: 'text', nullable: true, comment: '内容' })
+  @Column({ comment: '内容', type: 'text', nullable: true })
   content: string
 
-  @ApiProperty({ description: '是否审核通过 0-否 1-是' })
-  @Column({ default: 1, comment: '是否审核通过' })
+  @ApiProperty({ description: '是否审核通过 0-否 1-是', default: 1 })
+  @Column({ comment: '是否审核通过', default: 1 })
   pass_flag: number
 
-  @ApiProperty({ description: '是否评论 0-否 1-是' })
-  @Column({ default: 0, comment: '是否评论 0-否 1-是' })
+  @ApiProperty({ description: '是否评论 0-否 1-是', default: 0 })
+  @Column({ comment: '是否评论 0-否 1-是', default: 0 })
   comment_flag: number
 
   @ApiProperty({ description: '发布时间' })
@@ -71,12 +70,4 @@ export class Article {
   @ApiProperty({ description: '作者' })
   @Column({ comment: '作者', nullable: true })
   author: string
-
-  @ApiProperty({ description: '创建时间' })
-  @CreateDateColumn()
-  created_at: string
-
-  @ApiProperty({ description: '更新时间' })
-  @UpdateDateColumn()
-  updated_at: string
 }

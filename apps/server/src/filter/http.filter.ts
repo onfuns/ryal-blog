@@ -1,3 +1,4 @@
+import { ResponseResult } from '@/common/model/response.model'
 import { LoggerService } from '@/shared/logger/logger.service'
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common'
 import { Response } from 'express'
@@ -15,11 +16,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const success = status >= 200 && status <= 300
     !success && this.logger.error(exception)
-    const errorResponse = {
-      success,
-      data: null,
-      message: exception.message,
-    }
+    const errorResponse = new ResponseResult(success, null, exception.message)
     response.status(status)
     response.header('Content-Type', 'application/json; charset=utf-8')
     response.send(errorResponse)

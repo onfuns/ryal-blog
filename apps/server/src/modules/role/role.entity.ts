@@ -1,25 +1,23 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm'
+import { ApiProperty } from '@nestjs/swagger'
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { TimeEntity } from '../../common/model/entity.model'
 import { Auth } from '../auth/auth.entity'
 
 @Entity()
-export class Role {
+export class Role extends TimeEntity {
+  @ApiProperty({ description: 'id' })
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ unique: true })
+  @ApiProperty({ description: '名称' })
+  @Column({ comment: '名称', unique: true })
   name: string
 
-  @Column({ nullable: true })
+  @ApiProperty({ description: '描述' })
+  @Column({ comment: '描述', nullable: true })
   description: string
 
+  @ApiProperty({ description: '权限节点 id' })
   @ManyToMany(() => Auth, { cascade: true })
   @JoinTable({
     name: 'role_auth_relation',
@@ -28,12 +26,7 @@ export class Role {
   })
   auths: Auth[]
 
-  @Column({ default: 1, comment: '0--停用,1--启用' })
+  @ApiProperty({ description: '状态 0-停用 1-启用', default: 1 })
+  @Column({ comment: '状态 0-停用 1-启用', default: 1 })
   enable: number
-
-  @CreateDateColumn()
-  created_at: string
-
-  @UpdateDateColumn()
-  updated_at: string
 }

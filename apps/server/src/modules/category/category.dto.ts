@@ -1,0 +1,14 @@
+import { ApiProperty } from '@nestjs/swagger'
+import { IsNotEmpty } from 'class-validator'
+import { MixinCreateDto } from '../../common/model/page.model'
+import { Category } from './category.entity'
+
+export class CategoryCreateReqDto extends MixinCreateDto(Category) {
+  @ApiProperty()
+  @IsNotEmpty({ message: '名称不能为空' })
+  readonly name: string
+
+  @ApiProperty()
+  @IsNotEmpty({ message: '路由不能为空' })
+  readonly ename: string
+}

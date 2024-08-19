@@ -16,10 +16,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name TagFindAll
+   * @name FindAll
    * @request GET:/api/tag
    */
-  tagFindAll = (params: RequestParams = {}) =>
+  findAll = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/tag`,
       method: 'GET',
@@ -28,10 +28,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name TagAdd
+   * @name Add
    * @request POST:/api/tag
    */
-  tagAdd = (data: TagType, params: RequestParams = {}) =>
+  add = (data: TagType, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/tag`,
       method: 'POST',
@@ -42,10 +42,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name TagUpdate
+   * @name Update
    * @request PUT:/api/tag/{id}
    */
-  tagUpdate = (id: number, params: RequestParams = {}) =>
+  update = (id: number, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/tag/${id}`,
       method: 'PUT',
@@ -54,10 +54,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name TagDelete
+   * @name Delete
    * @request DELETE:/api/tag/{id}
    */
-  tagDelete = (id: number, params: RequestParams = {}) =>
+  delete = (id: number, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/tag/${id}`,
       method: 'DELETE',
@@ -66,10 +66,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CategoryFindAll
+   * @name FindAll2
    * @request GET:/api/category
+   * @originalName findAll
+   * @duplicate
    */
-  categoryFindAll = (params: RequestParams = {}) =>
+  findAll2 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/category`,
       method: 'GET',
@@ -78,10 +80,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CategoryAdd
+   * @name Add2
    * @request POST:/api/category
+   * @originalName add
+   * @duplicate
    */
-  categoryAdd = (data: CategoryType, params: RequestParams = {}) =>
+  add2 = (data: CategoryType, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/category`,
       method: 'POST',
@@ -92,10 +96,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CategoryListForClient
+   * @name ListForClient
    * @request GET:/api/category/list
    */
-  categoryListForClient = (params: RequestParams = {}) =>
+  listForClient = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/category/list`,
       method: 'GET',
@@ -104,10 +108,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CategoryUpdate
+   * @name Update2
    * @request PUT:/api/category/{id}
+   * @originalName update
+   * @duplicate
    */
-  categoryUpdate = (id: number, params: RequestParams = {}) =>
+  update2 = (id: number, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/category/${id}`,
       method: 'PUT',
@@ -116,10 +122,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CategoryDelete
+   * @name Delete2
    * @request DELETE:/api/category/{id}
+   * @originalName delete
+   * @duplicate
    */
-  categoryDelete = (id: number, params: RequestParams = {}) =>
+  delete2 = (id: number, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/category/${id}`,
       method: 'DELETE',
@@ -128,10 +136,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name UserLogin
+   * @name Login
    * @request POST:/api/user/login
    */
-  userLogin = (data: UserType, params: RequestParams = {}) =>
+  login = (data: UserType, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/user/login`,
       method: 'POST',
@@ -142,10 +150,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name UserFindAll
+   * @name FindAll3
    * @request GET:/api/user
+   * @originalName findAll
+   * @duplicate
    */
-  userFindAll = (params: RequestParams = {}) =>
+  findAll3 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/user`,
       method: 'GET',
@@ -154,10 +164,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name UserAdd
+   * @name Add3
    * @request POST:/api/user
+   * @originalName add
+   * @duplicate
    */
-  userAdd = (params: RequestParams = {}) =>
+  add3 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/user`,
       method: 'POST',
@@ -166,10 +178,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name UserUpdate
+   * @name Update3
    * @request PUT:/api/user/{id}
+   * @originalName update
+   * @duplicate
    */
-  userUpdate = (id: number, params: RequestParams = {}) =>
+  update3 = (id: number, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/user/${id}`,
       method: 'PUT',
@@ -178,10 +192,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name UserDelete
+   * @name Delete3
    * @request DELETE:/api/user/{id}
+   * @originalName delete
+   * @duplicate
    */
-  userDelete = (id: number, params: RequestParams = {}) =>
+  delete3 = (id: number, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/user/${id}`,
       method: 'DELETE',
@@ -190,10 +206,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name RoleFindAll
+   * @name FindAll4
    * @request GET:/api/role
+   * @originalName findAll
+   * @duplicate
    */
-  roleFindAll = (params: RequestParams = {}) =>
+  findAll4 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/role`,
       method: 'GET',
@@ -202,10 +220,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name RoleAdd
+   * @name Add4
    * @request POST:/api/role
+   * @originalName add
+   * @duplicate
    */
-  roleAdd = (data: RoleType, params: RequestParams = {}) =>
+  add4 = (data: RoleType, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/role`,
       method: 'POST',
@@ -216,10 +236,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name RoleUpdate
+   * @name Update4
    * @request PUT:/api/role/{id}
+   * @originalName update
+   * @duplicate
    */
-  roleUpdate = (id: string, params: RequestParams = {}) =>
+  update4 = (id: string, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/role/${id}`,
       method: 'PUT',
@@ -228,10 +250,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name RoleDelete
+   * @name Delete4
    * @request DELETE:/api/role/{id}
+   * @originalName delete
+   * @duplicate
    */
-  roleDelete = (id: string, params: RequestParams = {}) =>
+  delete4 = (id: string, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/role/${id}`,
       method: 'DELETE',
@@ -240,58 +264,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name AuthFindAll
-   * @request GET:/api/auth
-   */
-  authFindAll = (params: RequestParams = {}) =>
-    this.request<void, any>({
-      path: `/api/auth`,
-      method: 'GET',
-      ...params,
-    })
-  /**
-   * No description
-   *
-   * @name AuthAdd
-   * @request POST:/api/auth
-   */
-  authAdd = (params: RequestParams = {}) =>
-    this.request<void, any>({
-      path: `/api/auth`,
-      method: 'POST',
-      ...params,
-    })
-  /**
-   * No description
-   *
-   * @name AuthUpdate
-   * @request PUT:/api/auth/{id}
-   */
-  authUpdate = (id: number, params: RequestParams = {}) =>
-    this.request<void, any>({
-      path: `/api/auth/${id}`,
-      method: 'PUT',
-      ...params,
-    })
-  /**
-   * No description
-   *
-   * @name AuthDelete
-   * @request DELETE:/api/auth/{id}
-   */
-  authDelete = (id: string, params: RequestParams = {}) =>
-    this.request<void, any>({
-      path: `/api/auth/${id}`,
-      method: 'DELETE',
-      ...params,
-    })
-  /**
-   * No description
-   *
-   * @name CommentFindAll
+   * @name FindAll5
    * @request GET:/api/comment
+   * @originalName findAll
+   * @duplicate
    */
-  commentFindAll = (params: RequestParams = {}) =>
+  findAll5 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/comment`,
       method: 'GET',
@@ -300,10 +278,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CommentAdd
+   * @name Add5
    * @request POST:/api/comment
+   * @originalName add
+   * @duplicate
    */
-  commentAdd = (params: RequestParams = {}) =>
+  add5 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/comment`,
       method: 'POST',
@@ -312,10 +292,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CommentGetClientList
+   * @name GetClientList
    * @request GET:/api/comment/list
    */
-  commentGetClientList = (params: RequestParams = {}) =>
+  getClientList = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/comment/list`,
       method: 'GET',
@@ -324,10 +304,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CommentAddForClient
+   * @name AddForClient
    * @request POST:/api/comment/add
    */
-  commentAddForClient = (params: RequestParams = {}) =>
+  addForClient = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/comment/add`,
       method: 'POST',
@@ -336,10 +316,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CommentUpdate
+   * @name Update5
    * @request PUT:/api/comment/{id}
+   * @originalName update
+   * @duplicate
    */
-  commentUpdate = (id: number, params: RequestParams = {}) =>
+  update5 = (id: number, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/comment/${id}`,
       method: 'PUT',
@@ -348,10 +330,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CommentDelete
+   * @name Delete5
    * @request DELETE:/api/comment/{id}
+   * @originalName delete
+   * @duplicate
    */
-  commentDelete = (id: number, params: RequestParams = {}) =>
+  delete5 = (id: number, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/comment/${id}`,
       method: 'DELETE',
@@ -360,10 +344,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name CommonFindDashboardData
+   * @name FindDashboardData
    * @request GET:/api/common/dashboard
    */
-  commonFindDashboardData = (params: RequestParams = {}) =>
+  findDashboardData = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/common/dashboard`,
       method: 'GET',
@@ -372,10 +356,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name FileFindAll
+   * @name FindAll6
    * @request GET:/api/file
+   * @originalName findAll
+   * @duplicate
    */
-  fileFindAll = (params: RequestParams = {}) =>
+  findAll6 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/file`,
       method: 'GET',
@@ -384,10 +370,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name FileFindFileType
+   * @name FindFileType
    * @request GET:/api/file/type
    */
-  fileFindFileType = (params: RequestParams = {}) =>
+  findFileType = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/file/type`,
       method: 'GET',
@@ -396,10 +382,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name FileAddFileType
+   * @name AddFileType
    * @request POST:/api/file/type
    */
-  fileAddFileType = (params: RequestParams = {}) =>
+  addFileType = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/file/type`,
       method: 'POST',
@@ -408,10 +394,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name FileDelete
+   * @name Delete6
    * @request DELETE:/api/file/{id}
+   * @originalName delete
+   * @duplicate
    */
-  fileDelete = (id: number, params: RequestParams = {}) =>
+  delete6 = (id: number, params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/file/${id}`,
       method: 'DELETE',
@@ -420,10 +408,10 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name FileUploadMultiple
+   * @name UploadMultiple
    * @request POST:/api/file/upload
    */
-  fileUploadMultiple = (params: RequestParams = {}) =>
+  uploadMultiple = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/file/upload`,
       method: 'POST',
@@ -432,10 +420,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name WebsiteFindAll
+   * @name FindAll7
    * @request GET:/api/website
+   * @originalName findAll
+   * @duplicate
    */
-  websiteFindAll = (params: RequestParams = {}) =>
+  findAll7 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/website`,
       method: 'GET',
@@ -444,10 +434,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name WebsiteUpdate
+   * @name Update6
    * @request POST:/api/website
+   * @originalName update
+   * @duplicate
    */
-  websiteUpdate = (params: RequestParams = {}) =>
+  update6 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/website`,
       method: 'POST',
@@ -456,10 +448,12 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   /**
    * No description
    *
-   * @name WebsiteGetClientList
+   * @name GetClientList2
    * @request GET:/api/website/info
+   * @originalName getClientList
+   * @duplicate
    */
-  websiteGetClientList = (params: RequestParams = {}) =>
+  getClientList2 = (params: RequestParams = {}) =>
     this.request<void, any>({
       path: `/api/website/info`,
       method: 'GET',
