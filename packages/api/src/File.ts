@@ -21,19 +21,22 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @request GET:/api/file
    */
   getList = (
-    query: {
+    query?: {
       /** 当前页码 */
       current?: number
       /** 当前条数 */
       pageSize?: number
       /** 分类 id */
-      fileCategoryId: number
+      fileCategoryId?: number
     },
     params: RequestParams = {},
   ) =>
     this.request<
       ResponseResultType & {
-        data?: FileType[]
+        data?: {
+          list?: FileType[]
+          total?: number
+        }
       },
       any
     >({
@@ -50,7 +53,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Delete
    * @request DELETE:/api/file/{id}
    */
-  delete = (id: string, params: RequestParams = {}) =>
+  delete = (id: number, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         /** @default null */
@@ -93,7 +96,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
   getFileCategoryList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: FileCategoryType
+        data?: FileCategoryType[]
       },
       any
     >({

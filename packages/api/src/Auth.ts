@@ -60,7 +60,7 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Update
    * @request PUT:/api/auth/{id}
    */
-  update = (id: string, data: AuthCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: AuthCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: AuthType
@@ -81,7 +81,7 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Delete
    * @request DELETE:/api/auth/{id}
    */
-  delete = (id: string, params: RequestParams = {}) =>
+  delete = (id: number, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         /** @default null */

@@ -86,7 +86,7 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Update
    * @request PUT:/api/user/{id}
    */
-  update = (id: string, data: UserCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: UserCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: UserType
@@ -107,7 +107,7 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Delete
    * @request DELETE:/api/user/{id}
    */
-  delete = (id: string, params: RequestParams = {}) =>
+  delete = (id: number, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: UserType

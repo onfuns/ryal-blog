@@ -60,7 +60,7 @@ export class Role<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Update
    * @request PUT:/api/role/{id}
    */
-  update = (id: string, data: RoleCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: RoleCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: RoleType
@@ -81,7 +81,7 @@ export class Role<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Delete
    * @request DELETE:/api/role/{id}
    */
-  delete = (id: string, params: RequestParams = {}) =>
+  delete = (id: number, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: RoleType

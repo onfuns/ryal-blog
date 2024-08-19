@@ -60,7 +60,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name Update
    * @request PUT:/api/tag/{id}
    */
-  update = (id: string, data: TagCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: TagCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: TagType
@@ -81,7 +81,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name Delete
    * @request DELETE:/api/tag/{id}
    */
-  delete = (id: string, params: RequestParams = {}) =>
+  delete = (id: number, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         /** @default null */

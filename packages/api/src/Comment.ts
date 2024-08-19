@@ -21,13 +21,13 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @request GET:/api/comment
    */
   getList = (
-    query: {
+    query?: {
       /** 当前页码 */
       current?: number
       /** 当前条数 */
       pageSize?: number
       /** 文章标题 */
-      title: string
+      title?: string
     },
     params: RequestParams = {},
   ) =>
@@ -114,7 +114,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Update
    * @request PUT:/api/comment/{id}
    */
-  update = (id: string, data: CommentCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: CommentCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CommentType
@@ -135,7 +135,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Delete
    * @request DELETE:/api/comment/{id}
    */
-  delete = (id: string, params: RequestParams = {}) =>
+  delete = (id: number, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CommentType

@@ -84,7 +84,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
    * @name Update
    * @request PUT:/api/category/{id}
    */
-  update = (id: string, data: CategoryCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: CategoryCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CategoryType
@@ -105,7 +105,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
    * @name Delete
    * @request DELETE:/api/category/{id}
    */
-  delete = (id: string, params: RequestParams = {}) =>
+  delete = (id: number, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         /** @default null */

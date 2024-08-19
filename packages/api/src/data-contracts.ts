@@ -366,7 +366,7 @@ export interface CommentType {
 }
 
 export interface CommentCreateReqDtoType {
-  /** 名称 */
+  /** 昵称 */
   name?: string
   /** 内容 */
   content?: string
@@ -383,8 +383,6 @@ export interface CommentCreateReqDtoType {
    * @default 0
    */
   status?: number
-  /** 路由 */
-  ename: string
 }
 
 export interface FileCategoryType {
