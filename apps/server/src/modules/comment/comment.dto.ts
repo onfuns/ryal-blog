@@ -1,19 +1,19 @@
 import { MixinCreateDto, MixinPageListDto } from '@/common/model/page.model'
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { Comment } from './comment.entity'
 
 export class CommentCreateReqDto extends MixinCreateDto(Comment) {
-  @ApiProperty({ description: '名称' })
-  @IsNotEmpty({ message: '名称不能为空' })
+  @ApiProperty({ description: '昵称' })
+  @IsNotEmpty({ message: '昵称不能为空' })
   readonly name: string
 
-  @ApiProperty({ description: '路由' })
-  @IsNotEmpty({ message: '路由不能为空' })
-  readonly ename: string
+  @ApiProperty({ description: '内容' })
+  @IsNotEmpty({ message: '内容不能为空' })
+  readonly content: string
 }
 
 export class CommentListReqDto extends MixinPageListDto(Comment) {
-  @ApiProperty({ description: '文章标题' })
+  @ApiPropertyOptional({ description: '文章标题' })
   readonly title?: string
 }

@@ -13,7 +13,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FilesInterceptor } from '@nestjs/platform-express'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { FileCategoryCreateReqDto, FileCreateReqDto, FileListReqDto } from './file.dto'
 import { File, FileCategory } from './file.entity'
 import { FileService } from './file.service'
@@ -23,13 +23,14 @@ import { FileService } from './file.service'
 export class FileController {
   constructor(@Inject(FileService) private readonly service: FileService) {}
 
-  @ApiResult({ description: '获取文件列表', type: [File] })
+  @ApiResult({ description: '获取文件列表', type: [File], page: true })
   @Get()
   async getList(@Query() query: FileListReqDto) {
     return this.service.findAll(query)
   }
 
   @ApiResult({ description: '删除文件' })
+  @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
   async delete(@Param('id') id: File['id']) {
     return this.service.delete(id)
@@ -50,7 +51,7 @@ export class FileController {
     return this.service.upload(files, fileCategoryId)
   }
 
-  @ApiResult({ description: '获取文件分类列表', type: FileCategory })
+  @ApiResult({ description: '获取文件分类列表', type: [FileCategory] })
   @Get('category')
   async getFileCategoryList() {
     return this.service.getFileCategoryList()

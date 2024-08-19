@@ -1,17 +1,7 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-} from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
+import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { CategoryCreateReqDto, CategoryListItemDto } from './category.dto'
 import { Category } from './category.entity'
 import { CategoryService } from './category.service'
@@ -54,15 +44,17 @@ export class CategoryController {
     type: Category,
   })
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: Category['id'], @Body() body: CategoryCreateReqDto) {
+  @ApiParam({ name: 'id', type: 'number' })
+  async update(@Param('id') id: Category['id'], @Body() body: CategoryCreateReqDto) {
     return this.service.update(id, body)
   }
 
   @ApiResult({
     description: '删除分类',
   })
+  @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: Category['id']) {
+  async delete(@Param('id') id: Category['id']) {
     return this.service.delete(id)
   }
 }

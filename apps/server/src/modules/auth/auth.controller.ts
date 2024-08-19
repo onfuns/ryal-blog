@@ -1,16 +1,6 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-} from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
+import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { AuthCreateReqDto } from './auth.dto'
 import { Auth } from './auth.entity'
 import { AuthService } from './auth.service'
@@ -42,16 +32,18 @@ export class AuthController {
     description: '更新权限',
     type: Auth,
   })
+  @ApiParam({ name: 'id', type: 'number' })
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: Auth['id'], @Body() body: AuthCreateReqDto) {
+  async update(@Param('id') id: Auth['id'], @Body() body: AuthCreateReqDto) {
     return this.service.update(id, body)
   }
 
   @ApiResult({
     description: '删除权限',
   })
+  @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
-  async delete(@Body('id', ParseIntPipe) id: Auth['id']) {
+  async delete(@Body('id') id: Auth['id']) {
     return this.service.delete(id)
   }
 }

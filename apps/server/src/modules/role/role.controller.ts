@@ -1,16 +1,6 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-} from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
+import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { RoleCreateReqDto } from './role.dto'
 import { Role } from './role.entity'
 import { RoleService } from './role.service'
@@ -42,8 +32,9 @@ export class RoleController {
     description: '更新角色',
     type: Role,
   })
+  @ApiParam({ name: 'id', type: 'number' })
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: Role['id'], @Body() body: RoleCreateReqDto) {
+  async update(@Param('id') id: Role['id'], @Body() body: RoleCreateReqDto) {
     return this.service.update(id, body)
   }
 
@@ -51,8 +42,9 @@ export class RoleController {
     description: '删除角色',
     type: Role,
   })
+  @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: Role['id']) {
+  async delete(@Param('id') id: Role['id']) {
     return this.service.delete(id)
   }
 }

@@ -8,7 +8,7 @@ import { AuthAdd } from './components/Add'
 
 const AuthPage = () => {
   const actionRef = useRef<TableActionType>()
-  const [expandKeys, setExpandKeys] = useState([])
+  const [expandKeys, setExpandKeys] = useState<number[]>([])
 
   const onDelete = async ({ children, id }: AuthType & { children?: AuthType[] }) => {
     if (children && children?.length > 0) {
@@ -57,10 +57,10 @@ const AuthPage = () => {
       search={false}
       expandable={{
         expandedRowKeys: expandKeys,
-        onExpand: (expand, record) => {
+        onExpand: (expand, { id }) => {
           let newKeys = [...expandKeys]
           if (expand) {
-            newKeys.push(record.id)
+            newKeys.push(id)
           } else {
             newKeys = newKeys.filter(key => key !== id)
           }

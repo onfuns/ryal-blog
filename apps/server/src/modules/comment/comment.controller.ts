@@ -1,18 +1,7 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
+import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { CommentCreateReqDto, CommentListReqDto } from './comment.dto'
 import { Comment } from './comment.entity'
 import { CommentService } from './comment.service'
@@ -66,8 +55,9 @@ export class CommentController {
     description: '更新留言',
     type: Comment,
   })
+  @ApiParam({ name: 'id', type: 'number' })
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: Comment['id'], @Body() body: CommentCreateReqDto) {
+  async update(@Param('id') id: Comment['id'], @Body() body: CommentCreateReqDto) {
     return this.service.update(id, body)
   }
 
@@ -75,8 +65,9 @@ export class CommentController {
     description: '删除留言',
     type: Comment,
   })
+  @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: Comment['id']) {
+  async delete(@Param('id') id: Comment['id']) {
     return this.service.delete(id)
   }
 }

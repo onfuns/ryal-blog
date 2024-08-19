@@ -1,13 +1,13 @@
-import { tagService, TagType } from '@/service'
+import { tagService, type TagType } from '@/service'
 import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
-import { Button, message, Popconfirm, Space } from 'antd'
+import { Button, Popconfirm, Space, message } from 'antd'
 import { useRef } from 'react'
 import { TagAdd } from './components/Add'
 
 const TagPage = () => {
   const actionRef = useRef<TableActionType>()
 
-  const onDelete = async id => {
+  const onDelete = async (id: TagType['id']) => {
     await tagService.delete(id)
     message.success('操作成功')
     onReload()

@@ -8,11 +8,11 @@ import { CommentAdd } from './components/Add'
 const CommentPage = () => {
   const actionRef = useRef<TableActionType>()
 
-  const onAction = async (type: 'delete' | 'pass', record) => {
+  const onAction = async (type: 'delete' | 'pass', { id, status }: CommentType) => {
     if (type === 'delete') {
-      await commentService.delete(record.id)
+      await commentService.delete(id)
     } else if (type === 'pass') {
-      await commentService.update(record.id, { status: Number(!record.status) })
+      await commentService.update(id, { status: Number(!status) })
     }
     message.success('操作成功')
     onReload()
@@ -97,8 +97,8 @@ const CommentPage = () => {
       headerTitle="评论列表"
       rowKey="id"
       request={async params => {
-        const { data, success } = await commentService.getList(params)
-        return { success, data: data?.data || [], total: data.count }
+        const { success, data } = await commentService.getList(params)
+        return { success, data: data?.list || [], total: data?.total }
       }}
     />
   )

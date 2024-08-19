@@ -7,7 +7,7 @@ import { FileAdd } from './components/Add'
 const FilePage = () => {
   const actionRef = useRef<TableActionType>()
 
-  const onDelete = async id => {
+  const onDelete = async (id: FileType['id']) => {
     await fileService.delete(id)
     message.success('操作成功')
     onReload()
@@ -24,15 +24,15 @@ const FilePage = () => {
     },
     {
       title: '分组',
-      dataIndex: 'fileTypeId',
+      dataIndex: 'fileCategoryId',
       request: async () => {
-        const types = await fileService.getFileCategoryList()
-        return types.map(d => ({
+        const { data } = await fileService.getFileCategoryList()
+        return data?.map(d => ({
           label: d.name,
           value: d.id,
         }))
       },
-      render: (_, { filetype }) => filetype?.name,
+      render: (_, { fileCategory }) => fileCategory?.name,
     },
     {
       title: '链接',
@@ -70,13 +70,13 @@ const FilePage = () => {
       title: '操作',
       valueType: 'option',
       width: 120,
-      render: (_, record) => {
+      render: (_, { id, url }) => {
         return (
           <Space>
-            <a target="_blank" rel="noreferrer" href={`/${record.url}`}>
+            <a target="_blank" rel="noreferrer" href={`/${url}`}>
               下载
             </a>
-            <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
+            <Popconfirm title="确定删除？" onConfirm={() => onDelete(id)}>
               <a className="color-red">删除</a>
             </Popconfirm>
           </Space>
@@ -93,7 +93,7 @@ const FilePage = () => {
       rowKey="id"
       request={async (params = {}) => {
         const { success, data } = await fileService.getList({ ...params })
-        return { success, data: data.data, total: data.count }
+        return { success, data: data.list, total: data.total }
       }}
       toolBarRender={() => [
         <FileAdd

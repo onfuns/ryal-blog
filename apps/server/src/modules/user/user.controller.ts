@@ -3,18 +3,8 @@ import config from '@/config'
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { IP } from '@/decorator/ip.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Inject,
-  Param,
-  ParseIntPipe,
-  Post,
-  Put,
-} from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
+import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { UserCreateReqDto, UserLoginReqDto, UserLoginResDto } from './user.dto'
 import { User } from './user.entity'
 import { UserService } from './user.service'
@@ -73,8 +63,9 @@ export class UserController {
     description: '更新用户',
     type: User,
   })
+  @ApiParam({ name: 'id', type: 'number' })
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: User['id'], @Body() body: UserCreateReqDto) {
+  async update(@Param('id') id: User['id'], @Body() body: UserCreateReqDto) {
     return this.service.update(id, body)
   }
 
@@ -82,8 +73,9 @@ export class UserController {
     description: '删除用户',
     type: User,
   })
+  @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: User['id']) {
+  async delete(@Param('id') id: User['id']) {
     return this.service.delete(id)
   }
 }

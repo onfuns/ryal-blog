@@ -1,13 +1,13 @@
-import { roleService, RoleType } from '@/service'
+import { roleService, type RoleType } from '@/service'
 import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
-import { Button, message, Popconfirm, Space } from 'antd'
+import { Button, Popconfirm, Space, message } from 'antd'
 import { useRef } from 'react'
 import { RoleAdd } from './components/Add'
 
 const RolePage = () => {
   const actionRef = useRef<TableActionType>()
 
-  const onDelete = async id => {
+  const onDelete = async (id: RoleType['id']) => {
     await roleService.delete(id)
     message.success('操作成功')
     onReload()
@@ -49,7 +49,7 @@ const RolePage = () => {
       headerTitle="角色列表"
       search={false}
       rowKey="id"
-      request={async (params = {}) => {
+      request={async params => {
         return await roleService.getList({ ...params })
       }}
       pagination={false}

@@ -1,5 +1,5 @@
 import { MixinCreateDto, MixinPageListDto } from '@/common/model/page.model'
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { File, FileCategory } from './file.entity'
 
@@ -13,11 +13,12 @@ export class FileCreateReqDto extends MixinCreateDto(File) {
   readonly mimetype: string
 
   @ApiProperty({ description: '文件 buffer' })
+  @IsNotEmpty({ message: '文件 buffer 不能为空' })
   readonly buffer: Buffer
 }
 
 export class FileListReqDto extends MixinPageListDto(File) {
-  @ApiProperty({ description: '分类 id' })
+  @ApiPropertyOptional({ description: '分类 id' })
   fileCategoryId?: number
 }
 
