@@ -41,7 +41,7 @@ export class FileService {
     return null
   }
 
-  async findFileCategory(): Promise<FileCategory[]> {
+  async getFileCategoryList(): Promise<FileCategory[]> {
     return this.fileCategoryRepository.find()
   }
 

@@ -22,7 +22,7 @@ export class TagController {
 
   @ApiResult({
     description: '获取标签列表',
-    type: Tag,
+    type: [Tag],
   })
   @Get()
   async getList() {

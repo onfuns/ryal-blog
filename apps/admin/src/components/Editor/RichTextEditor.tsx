@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import E from 'wangeditor'
 
 let editor = null
-export default function RichTextEditor({
+const RichTextEditor = ({
   id = 'default_wangeditor',
   value = '',
   onChange,
@@ -10,7 +10,7 @@ export default function RichTextEditor({
   id?: string
   value?: string
   onChange: (args?: any) => void
-}) {
+}) => {
   useEffect(() => {
     editor = new E(`#${id}`)
     editor.config.onchange = newHtml => {
@@ -30,3 +30,5 @@ export default function RichTextEditor({
 
   return <div id={id}></div>
 }
+
+export default RichTextEditor

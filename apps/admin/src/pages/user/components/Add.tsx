@@ -1,4 +1,4 @@
-import { addUser, getRoleList, updateUser } from '@/actions'
+import { roleService, userService } from '@/service'
 import {
   ModalForm,
   ProForm,
@@ -21,10 +21,10 @@ export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
       roles: values.roles?.map((id: number) => ({ id })),
     }
     if (isEdit) {
-      await updateUser(detail.id, params)
+      await userService.update(detail.id, params)
     } else {
       params.password = CryptoJS.MD5(values.password)
-      await addUser(params)
+      await userService.add(params)
     }
     message.success('操作成功')
     onSuccess?.()
@@ -61,7 +61,7 @@ export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
         mode="multiple"
         convertValue={value => value?.map((role: any) => role.id)}
         request={async () => {
-          const { data } = await getRoleList()
+          const { data } = await roleService.getList()
           return data?.map((item: any) => ({ label: item.name, value: item.id }))
         }}
       />

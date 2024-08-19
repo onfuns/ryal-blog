@@ -23,7 +23,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
   getList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: TagType
+        data?: TagType[]
       },
       any
     >({

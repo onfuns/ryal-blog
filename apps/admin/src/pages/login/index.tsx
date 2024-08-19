@@ -1,7 +1,7 @@
-import { loginUser, saveLocalUser } from '@/actions'
 import { useHistory } from '@/hooks'
 import LoginImage from '@/public/images/login-bg.png'
 import { adminRoutes } from '@/routes'
+import { userService } from '@/service'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { ProForm, ProFormText } from '@ant-design/pro-components'
 import { Button, message } from 'antd'
@@ -9,7 +9,7 @@ import * as md5 from 'md5'
 import { useState } from 'react'
 import './index.less'
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [loading, setLoading] = useState(false)
   const [form] = ProForm.useForm()
   const history = useHistory()
@@ -19,9 +19,9 @@ export default function LoginPage() {
     try {
       setLoading(true)
       const { name, password } = values
-      const { data } = await loginUser({ name, password: md5(password) })
+      const { data } = await userService.login({ name, password: md5(password) })
       setLoading(false)
-      saveLocalUser(data)
+      userService.saveLocalUser(data)
       message.success('登录成功', 1, () => history.push(adminRoutes[0].path))
     } catch (error) {
       setLoading(false)
@@ -63,3 +63,5 @@ export default function LoginPage() {
     </div>
   )
 }
+
+export default LoginPage

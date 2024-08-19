@@ -1,5 +1,5 @@
-import { addArticle, getArticle, getCategoryList, getTagList, updateArticle } from '@/actions'
 import MDEditor from '@/components/Editor/MarkdownEditor'
+import { articleService, categoryService, tagService } from '@/service'
 import {
   DrawerForm,
   ProForm,
@@ -20,7 +20,7 @@ export const ArticleAdd = ({ trigger, onClose, onSuccess, detail = {} }: IDetail
   const [form] = ProForm.useForm()
 
   const loadData = async () => {
-    const { data: article } = await getArticle(detail.id)
+    const { data: article } = await articleService.info(detail.id)
     const { publish_time, category, tags, content } = article
     setContent(content)
     form.setFieldsValue({
@@ -46,9 +46,9 @@ export const ArticleAdd = ({ trigger, onClose, onSuccess, detail = {} }: IDetail
     }
 
     if (detail?.id) {
-      await updateArticle(detail.id, params)
+      await articleService.update(detail.id, params)
     } else {
-      await addArticle(params)
+      await articleService.add(params)
     }
     message.success('操作成功')
     onSuccess?.()
@@ -88,7 +88,10 @@ export const ArticleAdd = ({ trigger, onClose, onSuccess, detail = {} }: IDetail
         name="category_id"
         rules={[{ required: true }]}
         placeholder="请选择分类"
-        request={getCategoryList}
+        request={async () => {
+          const { data } = await categoryService.getList()
+          return data?.map(item => ({ label: item.name, value: item.id }))
+        }}
         fieldProps={{
           fieldNames: { label: 'name', value: 'id', children: 'children' },
           changeOnSelect: true,
@@ -102,8 +105,8 @@ export const ArticleAdd = ({ trigger, onClose, onSuccess, detail = {} }: IDetail
         placeholder="请选择标签"
         mode="multiple"
         request={async () => {
-          const { data } = await getTagList()
-          return data?.map((item: any) => ({ label: item.name, value: item.id }))
+          const { data } = await tagService.getList()
+          return data?.map(item => ({ label: item.name, value: item.id }))
         }}
       />
 

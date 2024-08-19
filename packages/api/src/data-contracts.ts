@@ -37,7 +37,7 @@ export interface CategoryType {
    */
   pid: number
   /**
-   * 类型
+   * 类型 1-文章列表,2-单页,3-外链
    * @default 1
    */
   type: number
@@ -144,6 +144,44 @@ export interface TagCreateReqDtoType {
   description?: string
 }
 
+export interface CategoryListItemDtoType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 名称 */
+  name: string
+  /** 路由 */
+  ename: string
+  /**
+   * 父级ID
+   * @default 0
+   */
+  pid: number
+  /**
+   * 类型 1-文章列表,2-单页,3-外链
+   * @default 1
+   */
+  type: number
+  /** 状态 1-显示 0-隐藏 */
+  status: number
+  /**
+   * 排序
+   * @default 0
+   */
+  sort: number
+  /** 外链地址 */
+  url: string
+  /** 图标 */
+  icon: string
+  /** 图标颜色 */
+  icon_color: string
+  /** 子类 */
+  children: string[]
+}
+
 export interface CategoryCreateReqDtoType {
   /** 名称 */
   name?: string
@@ -155,7 +193,7 @@ export interface CategoryCreateReqDtoType {
    */
   pid?: number
   /**
-   * 类型
+   * 类型 1-文章列表,2-单页,3-外链
    * @default 1
    */
   type?: number

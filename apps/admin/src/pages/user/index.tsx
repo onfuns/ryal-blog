@@ -1,4 +1,4 @@
-import { deleteUser, getUserList } from '@/actions'
+import { userService } from '@/service'
 import { Table, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
 import { Button, Popconfirm, Space, Tag, message } from 'antd'
 import { useRef } from 'react'
@@ -9,7 +9,7 @@ const UserPage = () => {
   const actionRef = useRef<TableActionType>()
 
   const onDelete = async (id: number) => {
-    await deleteUser(id)
+    await userService.delete(id)
     message.success('操作成功')
     onReload()
   }
@@ -93,7 +93,9 @@ const UserPage = () => {
       actionRef={actionRef}
       columns={columns}
       rowKey="id"
-      request={getUserList}
+      request={async () => {
+        return await userService.getList()
+      }}
       toolBarRender={() => [
         <UserAdd
           key="add"

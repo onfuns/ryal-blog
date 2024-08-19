@@ -19,7 +19,7 @@ export class ArticleService {
     return await this.repository.save(body)
   }
 
-  async findById(id: string): Promise<Article> {
+  async findById(id: Article['id']): Promise<Article> {
     return await this.repository.findOne({
       where: { id },
       relations: {
@@ -50,7 +50,7 @@ export class ArticleService {
     return { data, total }
   }
 
-  async update(id: string, body: ArticleCreateReqDto): Promise<Article> {
+  async update(id: Article['id'], body: ArticleCreateReqDto): Promise<Article> {
     const { tags, ...others } = body
     const record = this.repository.create(others)
     record.tags = tags
@@ -58,7 +58,7 @@ export class ArticleService {
     return await this.repository.save(record)
   }
 
-  async delete(id: string): Promise<null> {
+  async delete(id: Article['id']): Promise<null> {
     await this.repository.delete(id)
     return null
   }

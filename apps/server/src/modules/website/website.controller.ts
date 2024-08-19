@@ -11,7 +11,7 @@ import { WebsiteService } from './website.service'
 export class WebsiteController {
   constructor(@Inject(WebsiteService) private readonly service: WebsiteService) {}
 
-  @ApiResult({ description: '获取配置列表', type: Website })
+  @ApiResult({ description: '获取配置列表', type: [Website] })
   @Get()
   async getList() {
     return this.service.findAll()

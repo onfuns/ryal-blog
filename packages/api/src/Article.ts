@@ -21,11 +21,11 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @request GET:/api/article
    */
   getList = (
-    query: {
+    query?: {
       /** 当前页码 */
-      current: number
+      current?: number
       /** 当前条数 */
-      pageSize: number
+      pageSize?: number
       /** 标题 */
       title?: string
       /** 排序 */
@@ -36,7 +36,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
        */
       pass_flag?: number
       /** 分类 id */
-      cid: number
+      cid?: number
     },
     params: RequestParams = {},
   ) =>
@@ -84,11 +84,11 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @request GET:/api/article/list
    */
   getClientList = (
-    query: {
+    query?: {
       /** 当前页码 */
-      current: number
+      current?: number
       /** 当前条数 */
-      pageSize: number
+      pageSize?: number
       /** 标题 */
       title?: string
       /** 排序 */
@@ -99,7 +99,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
        */
       pass_flag?: number
       /** 分类 id */
-      cid: number
+      cid?: number
     },
     params: RequestParams = {},
   ) =>
@@ -166,10 +166,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
   info = (id: string, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: {
-          list?: ArticleType[]
-          total?: number
-        }
+        data?: ArticleType
       },
       any
     >({

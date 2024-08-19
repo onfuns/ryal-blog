@@ -19,8 +19,8 @@ export class PageDto {
   pageSize?: number
 }
 
-export function MixinPageDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
-  return IntersectionType(PageDto, PartialType(PickType(entity, keys || [])))
+export function MixinPageListDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
+  return IntersectionType(PartialType(PageDto), PartialType(PickType(entity, keys || [])))
 }
 
 export function MixinCreateDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {

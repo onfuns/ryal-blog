@@ -23,7 +23,7 @@ import { FileService } from './file.service'
 export class FileController {
   constructor(@Inject(FileService) private readonly service: FileService) {}
 
-  @ApiResult({ description: '获取文件列表', type: File })
+  @ApiResult({ description: '获取文件列表', type: [File] })
   @Get()
   async getList(@Query() query: FileListReqDto) {
     return this.service.findAll(query)
@@ -52,8 +52,8 @@ export class FileController {
 
   @ApiResult({ description: '获取文件分类列表', type: FileCategory })
   @Get('category')
-  async findFileCategory() {
-    return this.service.findFileCategory()
+  async getFileCategoryList() {
+    return this.service.getFileCategoryList()
   }
 
   @ApiResult({ description: '新增文件分类', type: FileCategory })

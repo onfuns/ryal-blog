@@ -1,4 +1,4 @@
-import { updateComment } from '@/actions'
+import { commentService } from '@/service'
 import { ModalForm, ProForm, ProFormTextArea } from '@ant-design/pro-components'
 import { message } from 'antd'
 
@@ -7,7 +7,7 @@ export const CommentAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModal
 
   const onFinish = async () => {
     const values = await form.validateFields()
-    await updateComment(detail.id, values)
+    await commentService.update(detail.id, values)
     message.success('操作成功')
     onSuccess?.()
   }

@@ -20,7 +20,7 @@ export class Category extends TimeEntity {
   @Column({ comment: '父级ID', default: 0 })
   pid: number
 
-  @ApiProperty({ description: '类型', default: 1 })
+  @ApiProperty({ description: '类型 1-文章列表,2-单页,3-外链', default: 1 })
   @Column({ comment: '类型', default: 1 })
   type: number
 

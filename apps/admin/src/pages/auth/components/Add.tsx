@@ -1,4 +1,4 @@
-import { addAuth, getAuthList, updateAuth } from '@/actions'
+import { authService } from '@/service'
 import { toTree } from '@/utils'
 import {
   ModalForm,
@@ -13,7 +13,7 @@ import { useEffect } from 'react'
 
 export const AuthAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
-  const { data: { data: authList = [] } = {} } = useRequest(getAuthList)
+  const { data: { data: authList = [] } = {} } = useRequest(authService.getList)
 
   useEffect(() => {
     if (detail?.id) {
@@ -22,7 +22,7 @@ export const AuthAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
     }
   }, [])
 
-  const findAllPid = (id: number, result: any[] = []) => {
+  const findAllPid = (id: number, result: any[] = []): number[] => {
     const current = authList?.find(auth => auth.id === id)
     result.push(id)
     if (current && current.pid !== 0) {
@@ -41,9 +41,9 @@ export const AuthAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
       pid: values.pid.pop(),
     }
     if (detail?.id) {
-      await updateAuth(detail.id, params)
+      await authService.update(detail.id, params)
     } else {
-      await addAuth(params)
+      await authService.add(params)
     }
     message.success('操作成功')
     onSuccess?.()

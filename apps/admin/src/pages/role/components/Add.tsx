@@ -1,4 +1,4 @@
-import { addRole, getAuthList, updateRole } from '@/actions'
+import { authService, roleService } from '@/service'
 import { toTree } from '@/utils'
 import {
   DrawerForm,
@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 export const RoleAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
   const { data: { data: authList = [] } = {} } = useRequest(() =>
-    getAuthList({ roleId: detail.id }),
+    authService.getList({ roleId: detail.id }),
   )
   const [selectedKeys, setSelectedKeys] = useState<number[]>([])
 
@@ -50,9 +50,9 @@ export const RoleAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
       auths: [...resources].map(id => ({ id })),
     }
     if (detail?.id) {
-      await updateRole(detail.id, params)
+      await roleService.update(detail.id, params)
     } else {
-      await addRole(params)
+      await roleService.add(params)
     }
     message.success('操作成功')
     onSuccess?.()

@@ -23,7 +23,7 @@ export class Website<SecurityDataType = unknown> extends HttpClient<SecurityData
   getList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: WebsiteType
+        data?: WebsiteType[]
       },
       any
     >({

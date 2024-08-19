@@ -5,13 +5,7 @@ import 'bytemd/dist/index.min.css'
 import zh_Hans from 'bytemd/locales/zh_Hans.json'
 import './style/index.less'
 
-export default function MarkdownEditor({
-  value,
-  onChange,
-}: {
-  value: string
-  onChange: (args?: any) => void
-}) {
+const MarkdownEditor = ({ value, onChange }: { value: string; onChange: (args?: any) => void }) => {
   const modifyViewContent = () => {
     return {
       viewerEffect() {
@@ -31,3 +25,5 @@ export default function MarkdownEditor({
     </div>
   )
 }
+
+export default MarkdownEditor

@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import { useEffect } from 'react'
 import { ITabProps } from '../interface'
 
-export default function SeoPage({ onSubmit, detail }: ITabProps) {
+const SeoPage = ({ onSubmit, detail }: ITabProps) => {
   const [form] = ProForm.useForm()
 
   useEffect(() => {
@@ -41,3 +41,5 @@ export default function SeoPage({ onSubmit, detail }: ITabProps) {
     </ProForm>
   )
 }
+
+export default SeoPage

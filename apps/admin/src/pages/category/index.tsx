@@ -1,32 +1,41 @@
-import { deleteCategory, getCategoryList, updateCategory } from '@/actions'
-import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
+import { CategoryListItemDtoType, categoryService } from '@/service'
+import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
 import { Button, Popconfirm, Space, Switch, Tag, message } from 'antd'
 import { useRef, useState } from 'react'
 import { CategoryAdd } from './components/Add'
 
-export const CATEGORT_TYPE = {
-  1: '文章列表',
-  2: '单页',
-  3: '外链',
+export enum CategoryTypeEnum {
+  /** 文章列表 */
+  List = 1,
+  /** 单页 */
+  Page = 2,
+  /** 外链 */
+  Url = 3,
 }
 
-export default function CategoryPage() {
-  const actionRef = useRef<ActionType>()
-  const [expandKeys, setExpandKeys] = useState([])
+export const CategoryTypeMap: Record<string, string> = {
+  [CategoryTypeEnum.List]: '文章列表',
+  [CategoryTypeEnum.Page]: '单页',
+  [CategoryTypeEnum.Url]: '外链',
+}
 
-  const onAction = async (type: 'delete' | 'status', record) => {
+const CategoryPage = () => {
+  const actionRef = useRef<TableActionType>()
+  const [expandKeys, setExpandKeys] = useState<number[]>([])
+
+  const onAction = async (type: 'delete' | 'status', { id, status }: CategoryListItemDtoType) => {
     if (type === 'delete') {
-      await deleteCategory(record.id)
+      await categoryService.delete(id)
     } else if (type === 'status') {
-      await updateCategory(record.id, { status: Number(!record.status) })
+      await categoryService.update(id, { status: Number(!status) })
     }
     message.success('操作成功')
     onReload()
   }
 
-  const onReload = () => actionRef?.current.reload()
+  const onReload = () => actionRef?.current?.reload()
 
-  const columns: ProColumns<any>[] = [
+  const columns: TableColumns<CategoryListItemDtoType>[] = [
     {
       title: '名称',
       dataIndex: 'name',
@@ -41,8 +50,8 @@ export default function CategoryPage() {
       dataIndex: 'type',
       render: (_, { type, url }) => (
         <Tag color="green">
-          {CATEGORT_TYPE[type]}
-          {type === 3 && `（${url}）`}
+          {CategoryTypeMap[type]}
+          {type === CategoryTypeEnum.Url && `（${url}）`}
         </Tag>
       ),
     },
@@ -77,7 +86,7 @@ export default function CategoryPage() {
   ]
 
   return (
-    <ProTable<any>
+    <Table<CategoryListItemDtoType>
       actionRef={actionRef}
       columns={columns}
       headerTitle="栏目列表"
@@ -96,16 +105,19 @@ export default function CategoryPage() {
       }}
       rowKey="id"
       onDataSourceChange={data => setExpandKeys(data.map(({ id }) => id))}
-      request={getCategoryList}
+      request={async () => {
+        return categoryService.getList()
+      }}
       pagination={false}
       toolBarRender={() => [
         <CategoryAdd
           key="add"
           onSuccess={onReload}
-          trigger={<Button type="primary">新增</Button>}
+          trigger={<Button type="primary">新增分类</Button>}
         />,
       ]}
-      defaultSize="small"
     />
   )
 }
+
+export default CategoryPage

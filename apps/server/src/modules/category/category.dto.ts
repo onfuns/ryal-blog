@@ -12,3 +12,8 @@ export class CategoryCreateReqDto extends MixinCreateDto(Category) {
   @IsNotEmpty({ message: '路由不能为空' })
   readonly ename: string
 }
+
+export class CategoryListItemDto extends Category {
+  @ApiProperty({ description: '子类' })
+  readonly children: Category[]
+}

@@ -14,7 +14,7 @@ import './index.less'
 export type { ActionType as TableActionType, ProColumns as TableColumns }
 
 /** 继承 [ProTableProps](https://procomponents.ant.design/components/table) */
-export type TableProps<T, U extends ParamsType, ValueType = 'text'> = ProTableProps<
+export type TableProps<T, U extends ParamsType = ParamsType, ValueType = 'text'> = ProTableProps<
   T,
   U,
   ValueType
@@ -30,7 +30,11 @@ type IRequestParams = {
   current?: number
   keyword?: string
 }
-export const Table = <DataSource extends Record<string, any>, Params extends ParamsType, ValueType>(
+export const Table = <
+  DataSource extends Record<string, any>,
+  Params extends ParamsType = ParamsType,
+  ValueType = 'text',
+>(
   props: TableProps<DataSource, Params, ValueType>,
 ) => {
   const { wrapperClassName, wrapperStyle, request } = props

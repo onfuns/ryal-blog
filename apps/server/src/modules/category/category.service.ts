@@ -1,3 +1,4 @@
+import { toTree } from '@/util'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -16,12 +17,16 @@ export class CategoryService {
     return await this.repository.save(data)
   }
 
-  async findAll(): Promise<Category[]> {
-    return await this.repository.find({
+  async findAll({ isToTree = false }: { isToTree?: boolean }): Promise<Category[]> {
+    const data = await this.repository.find({
       order: {
         sort: 'DESC',
       },
     })
+    if (isToTree) {
+      return toTree(data)
+    }
+    return data
   }
 
   async update(id: Category['id'], body: CategoryCreateReqDto): Promise<Category> {

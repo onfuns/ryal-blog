@@ -1,21 +1,21 @@
-import { deleteTag, getTagList } from '@/actions'
-import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
-import { Button, Popconfirm, Space, message } from 'antd'
+import { tagService, TagType } from '@/service'
+import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
+import { Button, message, Popconfirm, Space } from 'antd'
 import { useRef } from 'react'
 import { TagAdd } from './components/Add'
 
-export default function TagPage() {
-  const actionRef = useRef<ActionType>()
+const TagPage = () => {
+  const actionRef = useRef<TableActionType>()
 
   const onDelete = async id => {
-    await deleteTag(id)
+    await tagService.delete(id)
     message.success('操作成功')
     onReload()
   }
 
-  const onReload = () => actionRef?.current.reload()
+  const onReload = () => actionRef?.current?.reload()
 
-  const columns: ProColumns<any>[] = [
+  const columns: TableColumns<TagType>[] = [
     {
       title: '名称',
       dataIndex: 'name',
@@ -43,20 +43,25 @@ export default function TagPage() {
   ]
 
   return (
-    <ProTable<any>
+    <Table<TagType>
       actionRef={actionRef}
       columns={columns}
       headerTitle="标签列表"
       search={false}
       rowKey="id"
       request={async (params = {}) => {
-        return getTagList({ ...params })
+        return tagService.getList({ ...params })
       }}
       pagination={false}
       toolBarRender={() => [
-        <TagAdd key="add" onSuccess={onReload} trigger={<Button>新增</Button>} />,
+        <TagAdd
+          key="add"
+          onSuccess={onReload}
+          trigger={<Button type="primary">新增标签</Button>}
+        />,
       ]}
-      defaultSize="small"
     />
   )
 }
+
+export default TagPage

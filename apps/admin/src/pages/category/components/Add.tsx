@@ -1,4 +1,4 @@
-import { addCategory, getCategoryList, updateCategory } from '@/actions'
+import { categoryService } from '@/service'
 import {
   ModalForm,
   ProForm,
@@ -22,9 +22,9 @@ export const CategoryAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModa
   const onFinish = async () => {
     const values = await form.validateFields()
     if (detail?.id) {
-      await updateCategory(detail.id, values)
+      await categoryService.update(detail.id, values)
     } else {
-      await addCategory(values)
+      await categoryService.add(values)
     }
     message.success('操作成功')
     onSuccess?.()
@@ -48,7 +48,7 @@ export const CategoryAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModa
         rules={[{ required: true }]}
         placeholder="请选择分类"
         request={async () => {
-          const { data } = await getCategoryList()
+          const { data } = await categoryService.getList()
           return [{ id: 0, name: '一级分类' }].concat(data)
         }}
         disabled={!!detail?.id}

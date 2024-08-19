@@ -49,7 +49,7 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
   getList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: UserType
+        data?: UserType[]
       },
       any
     >({

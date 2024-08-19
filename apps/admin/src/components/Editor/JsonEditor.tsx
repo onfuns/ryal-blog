@@ -3,7 +3,7 @@ import parserBabel from 'prettier/parser-babel'
 import prettier from 'prettier/standalone'
 import { useEffect } from 'react'
 
-export default function JsonEditor({
+const JsonEditor = ({
   height = '500px',
   value = '',
   onChange,
@@ -11,7 +11,7 @@ export default function JsonEditor({
   height?: string
   value?: string
   onChange: (args?: any) => void
-}) {
+}) => {
   useEffect(() => {
     Promise.all([loader.init(), import(`monaco-themes/themes/Solarized-light.json`)]).then(
       ([monaco, themeData]) => {
@@ -53,3 +53,5 @@ export default function JsonEditor({
     />
   )
 }
+
+export default JsonEditor

@@ -1,4 +1,4 @@
-import { getDashboardData } from '@/actions'
+import { commonService } from '@/service'
 import { Time } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
 import { Card, Col, List, Row, Space } from 'antd'
@@ -9,8 +9,8 @@ type IDashboardInfoProps = {
   user?: Record<any, string>
 }
 
-export default function DashboardPage() {
-  const { data: { data: dashboardData = {} } = {} } = useRequest(getDashboardData)
+const DashboardPage = () => {
+  const { data: { data: dashboardData = {} } = {} } = useRequest(commonService.getDashboardData)
   const { article, comment, user } = dashboardData as IDashboardInfoProps
 
   const countData = [
@@ -81,3 +81,5 @@ export default function DashboardPage() {
     </>
   )
 }
+
+export default DashboardPage

@@ -60,8 +60,7 @@ export class ArticleController {
 
   @ApiResult({
     description: '获取文章详情',
-    type: [Article],
-    page: true,
+    type: Article,
   })
   @Get(':id')
   @NoPermission()

@@ -1,11 +1,11 @@
-import { getWebsiteConfig, updateWebsiteConfig } from '@/actions'
+import { websiteService } from '@/service'
 import { useRequest } from 'ahooks'
 import { FormInstance, Tabs, message } from 'antd'
 import Seo from './components/Seo'
 import Site from './components/Site'
 
-export default function WebsitePage() {
-  const { data: { data: websiteConfig = {} } = {}, refresh } = useRequest(getWebsiteConfig)
+const WebsitePage = () => {
+  const { data: { data: websiteConfig = {} } = {}, refresh } = useRequest(websiteService.getList)
 
   const onSubmit = async (form: FormInstance) => {
     const values = await form.validateFields()
@@ -16,7 +16,7 @@ export default function WebsitePage() {
         value: values[name],
       }
     })
-    await updateWebsiteConfig(params)
+    await websiteService.update(params)
     message.success('设置成功')
     refresh?.()
   }
@@ -48,3 +48,5 @@ export default function WebsitePage() {
     </div>
   )
 }
+
+export default WebsitePage

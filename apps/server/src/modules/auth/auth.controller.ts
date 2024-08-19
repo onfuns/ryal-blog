@@ -22,7 +22,7 @@ export class AuthController {
 
   @ApiResult({
     description: '获取权限列表',
-    type: Auth,
+    type: [Auth],
   })
   @Get()
   async getList() {

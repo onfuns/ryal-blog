@@ -9,7 +9,12 @@
  * ---------------------------------------------------------------
  */
 
-import { CategoryCreateReqDtoType, CategoryType, ResponseResultType } from './data-contracts'
+import {
+  CategoryCreateReqDtoType,
+  CategoryListItemDtoType,
+  CategoryType,
+  ResponseResultType,
+} from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -23,7 +28,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
   getList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: CategoryType
+        data?: CategoryListItemDtoType[]
       },
       any
     >({
@@ -63,7 +68,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
   getClientList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: CategoryType
+        data?: CategoryListItemDtoType[]
       },
       any
     >({

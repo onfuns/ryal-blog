@@ -1,5 +1,5 @@
-import { getLocalUser, logoutUser } from '@/actions'
 import config from '@/config'
+import { userService } from '@/service'
 import { message } from 'antd'
 import axios, { AxiosRequestConfig } from 'axios'
 
@@ -15,7 +15,7 @@ const request = async (
   body: any,
   options: AxiosRequestConfig & { notification?: boolean },
 ) => {
-  const { token = '' } = getLocalUser()
+  const { token = '' } = userService.getLocalUser()
   axios.defaults.baseURL = config.apiBasename
   axios.defaults.headers.common['X-AUTH-ID-TOKEN'] = token
   if (options.method === 'GET') {
@@ -38,7 +38,7 @@ const request = async (
     const { status, data } = response
     if (status === 403) {
       if (data?.message === 'INVALID_TOKEN') {
-        message.error('登录过期，请重新登录', 2).then(logoutUser)
+        message.error('登录过期，请重新登录', 2).then(userService.logout)
         return false
       }
 

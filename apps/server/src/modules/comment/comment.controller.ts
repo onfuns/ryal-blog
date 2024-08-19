@@ -24,7 +24,7 @@ export class CommentController {
 
   @ApiResult({
     description: '获取留言列表',
-    type: Comment,
+    type: [Comment],
     page: true,
   })
   @Get()

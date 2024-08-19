@@ -23,7 +23,7 @@ export class Role<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
   getList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: RoleType
+        data?: RoleType[]
       },
       any
     >({

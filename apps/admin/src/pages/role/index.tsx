@@ -1,21 +1,21 @@
-import { deleteRole, getRoleList } from '@/actions'
-import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
-import { Button, Popconfirm, Space, message } from 'antd'
+import { roleService, RoleType } from '@/service'
+import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
+import { Button, message, Popconfirm, Space } from 'antd'
 import { useRef } from 'react'
 import { RoleAdd } from './components/Add'
 
-export default function RolePage() {
-  const actionRef = useRef<ActionType>()
+const RolePage = () => {
+  const actionRef = useRef<TableActionType>()
 
   const onDelete = async id => {
-    await deleteRole(id)
+    await roleService.delete(id)
     message.success('操作成功')
     onReload()
   }
 
-  const onReload = () => actionRef?.current.reload()
+  const onReload = () => actionRef?.current?.reload()
 
-  const columns: ProColumns<any>[] = [
+  const columns: TableColumns<RoleType>[] = [
     {
       title: '名称',
       dataIndex: 'name',
@@ -43,20 +43,21 @@ export default function RolePage() {
   ]
 
   return (
-    <ProTable<any>
+    <Table<RoleType>
       actionRef={actionRef}
       columns={columns}
       headerTitle="角色列表"
       search={false}
       rowKey="id"
       request={async (params = {}) => {
-        return await getRoleList({ ...params })
+        return await roleService.getList({ ...params })
       }}
       pagination={false}
       toolBarRender={() => [
         <RoleAdd key="add" onSuccess={onReload} trigger={<Button>新增</Button>} />,
       ]}
-      defaultSize="small"
     />
   )
 }
+
+export default RolePage

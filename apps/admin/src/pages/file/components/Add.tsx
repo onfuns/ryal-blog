@@ -1,4 +1,4 @@
-import { addFile, addFileType, getFileTypeList } from '@/actions'
+import { fileService } from '@/service'
 import { CloseCircleFilled, InboxOutlined, PlusOutlined } from '@ant-design/icons'
 import {
   DrawerForm,
@@ -14,8 +14,8 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
   const [form] = ProForm.useForm()
   const [fileList, setFileList] = useState([])
   const [typeName, setTypeName] = useState(null)
-  const { data: { data: fileTypeList = [] } = {}, refresh: refreshFileTypeList } =
-    useRequest(getFileTypeList)
+  const { data: { data: fileCategoryList = [] } = {}, refresh: refreshfileCategoryList } =
+    useRequest(fileService.getFileCategoryList)
 
   const onFinish = async () => {
     if (!fileList.length) {
@@ -27,10 +27,10 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
     fileList.forEach(file => {
       formData.append('files', file)
     })
-    formData.append('fileTypeId', values.fileTypeId)
-    await addFile(formData)
+    formData.append('fileCategoryId', values.fileCategoryId)
+    await fileService.uploadMultiple(formData)
     message.success('上传成功')
-    onSuccess()
+    onSuccess?.()
   }
 
   const uploadFile = async (file): Promise<any> =>
@@ -70,14 +70,14 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
   }
 
   const addItem = async () => {
-    await addFileType({ name: typeName })
+    await fileService.addFileCategory({ name: typeName })
     setTypeName(null)
-    refreshFileTypeList()
+    refreshfileCategoryList()
   }
 
   return (
     <DrawerForm
-      title="上传附件"
+      title="上传文件"
       trigger={trigger}
       drawerProps={{ onClose: onClose, destroyOnClose: true }}
       onFinish={onFinish}
@@ -85,9 +85,9 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
     >
       <ProFormSelect
         label="分组"
-        name="fileTypeId"
+        name="fileCategoryId"
         placeholder="未分组"
-        options={fileTypeList}
+        options={fileCategoryList}
         fieldProps={{
           dropdownRender: menu => (
             <>

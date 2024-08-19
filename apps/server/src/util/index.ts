@@ -1,7 +1,7 @@
 import { isNumberString } from 'class-validator'
 
 // array to tree
-export const toTree = (list, { parentkey = 'pid', rootParentValue = 0 } = {}) => {
+export const toTree = (list: any[], { parentkey = 'pid', rootParentValue = 0 } = {}) => {
   const tree = list.filter(parent => {
     const children = list.filter(child => parent.id === child[parentkey])
     parent.children = children.length > 0 ? children : []

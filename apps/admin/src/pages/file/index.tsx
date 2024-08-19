@@ -1,21 +1,21 @@
-import { deleteFile, getFileList, getFileTypeList } from '@/actions'
-import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
+import { fileService, type FileType } from '@/service'
+import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
 import { Button, Popconfirm, Popover, Space, message } from 'antd'
 import { useRef } from 'react'
 import { FileAdd } from './components/Add'
 
-export default function FilePage() {
-  const actionRef = useRef<ActionType>()
+const FilePage = () => {
+  const actionRef = useRef<TableActionType>()
 
   const onDelete = async id => {
-    await deleteFile(id)
+    await fileService.delete(id)
     message.success('操作成功')
     onReload()
   }
 
-  const onReload = () => actionRef?.current.reload()
+  const onReload = () => actionRef?.current?.reload()
 
-  const columns: ProColumns<any>[] = [
+  const columns: TableColumns<FileType>[] = [
     {
       title: '原始名称',
       dataIndex: 'originalname',
@@ -26,7 +26,7 @@ export default function FilePage() {
       title: '分组',
       dataIndex: 'fileTypeId',
       request: async () => {
-        const types = await getFileTypeList()
+        const types = await fileService.getFileCategoryList()
         return types.map(d => ({
           label: d.name,
           value: d.id,
@@ -86,19 +86,24 @@ export default function FilePage() {
   ]
 
   return (
-    <ProTable<any>
+    <Table<FileType>
       actionRef={actionRef}
       columns={columns}
       headerTitle="附件列表"
       rowKey="id"
       request={async (params = {}) => {
-        const { success, data } = await getFileList({ ...params })
+        const { success, data } = await fileService.getList({ ...params })
         return { success, data: data.data, total: data.count }
       }}
       toolBarRender={() => [
-        <FileAdd key="add" onSuccess={onReload} trigger={<Button type="primary">上传</Button>} />,
+        <FileAdd
+          key="add"
+          onSuccess={onReload}
+          trigger={<Button type="primary">上传文件</Button>}
+        />,
       ]}
-      defaultSize="small"
     />
   )
 }
+
+export default FilePage

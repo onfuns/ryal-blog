@@ -23,9 +23,9 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
   getList = (
     query: {
       /** 当前页码 */
-      current: number
+      current?: number
       /** 当前条数 */
-      pageSize: number
+      pageSize?: number
       /** 分类 id */
       fileCategoryId: number
     },
@@ -33,7 +33,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
   ) =>
     this.request<
       ResponseResultType & {
-        data?: FileType
+        data?: FileType[]
       },
       any
     >({
@@ -87,10 +87,10 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * No description
    *
    * @tags file
-   * @name FindFileCategory
+   * @name GetFileCategoryList
    * @request GET:/api/file/category
    */
-  findFileCategory = (params: RequestParams = {}) =>
+  getFileCategoryList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: FileCategoryType

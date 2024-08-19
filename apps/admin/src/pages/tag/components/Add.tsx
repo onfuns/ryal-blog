@@ -1,4 +1,4 @@
-import { addTag, updateTag } from '@/actions'
+import { tagService } from '@/service'
 import { ModalForm, ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
 import { message } from 'antd'
 
@@ -8,9 +8,9 @@ export const TagAdd = ({ trigger, onSuccess, onClose, detail = {} }: IDetailModa
   const onFinish = async () => {
     const values = await form.validateFields()
     if (detail?.id) {
-      await updateTag(detail.id, values)
+      await tagService.update(detail.id, values)
     } else {
-      await addTag(values)
+      await tagService.add(values)
     }
     message.success('操作成功')
     onSuccess?.()

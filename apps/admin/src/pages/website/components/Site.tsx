@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import { useEffect } from 'react'
 import { ITabProps } from '../interface'
 
-export default function SitePage({ onSubmit, detail }: ITabProps) {
+const SitePage = ({ onSubmit, detail }: ITabProps) => {
   const [form] = ProForm.useForm()
 
   useEffect(() => {
@@ -31,3 +31,5 @@ export default function SitePage({ onSubmit, detail }: ITabProps) {
     </ProForm>
   )
 }
+
+export default SitePage

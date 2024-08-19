@@ -23,7 +23,7 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
   getList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: AuthType
+        data?: AuthType[]
       },
       any
     >({

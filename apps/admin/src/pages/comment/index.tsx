@@ -1,26 +1,26 @@
-import { deleteComment, getCommentList, updateComment } from '@/actions'
-import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
+import { commentService, type CommentType } from '@/service'
+import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
 import { Popconfirm, Space, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
 import { CommentAdd } from './components/Add'
 
-export default function CommentPage() {
-  const actionRef = useRef<ActionType>()
+const CommentPage = () => {
+  const actionRef = useRef<TableActionType>()
 
   const onAction = async (type: 'delete' | 'pass', record) => {
     if (type === 'delete') {
-      await deleteComment(record.id)
+      await commentService.delete(record.id)
     } else if (type === 'pass') {
-      await updateComment(record.id, { status: Number(!record.status) })
+      await commentService.update(record.id, { status: Number(!record.status) })
     }
     message.success('操作成功')
     onReload()
   }
 
-  const onReload = () => actionRef?.current.reload()
+  const onReload = () => actionRef?.current?.reload()
 
-  const columns: ProColumns<any>[] = [
+  const columns: TableColumns<any>[] = [
     {
       title: '文章标题',
       dataIndex: 'title',
@@ -91,16 +91,17 @@ export default function CommentPage() {
   ]
 
   return (
-    <ProTable<any>
+    <Table<CommentType>
       actionRef={actionRef}
       columns={columns}
       headerTitle="评论列表"
       rowKey="id"
       request={async params => {
-        const { data, success } = await getCommentList(params)
+        const { data, success } = await commentService.getList(params)
         return { success, data: data?.data || [], total: data.count }
       }}
-      defaultSize="small"
     />
   )
 }
+
+export default CommentPage

@@ -1,5 +1,5 @@
-import { getLocalUser, logoutUser } from '@/actions'
 import AvatarImage from '@/public/images/avatar.png'
+import { userService } from '@/service'
 import { HeaderStore } from '@/store'
 import {
   DownOutlined,
@@ -13,7 +13,7 @@ import { useState } from 'react'
 
 const PageHeader = ({ store }: { store: HeaderStore }) => {
   const { menuCollapsed, setMenuCollaps } = store
-  const { userName } = getLocalUser()
+  const { userName } = userService.getLocalUser()
   const [userMenuCollapsed, setUserMenuCollapsed] = useState(true)
   const MenuIcon = menuCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined
   const UserMenuIcon = userMenuCollapsed ? DownOutlined : UpOutlined
@@ -27,7 +27,7 @@ const PageHeader = ({ store }: { store: HeaderStore }) => {
             {
               key: 'logout',
               icon: <LogoutOutlined className="mr-5" />,
-              label: <a onClick={logoutUser}>退出</a>,
+              label: <a onClick={userService.logout}>退出</a>,
             },
           ],
         }}

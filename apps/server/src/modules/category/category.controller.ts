@@ -1,6 +1,5 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
-import { toTree } from '@/util'
 import {
   Body,
   Controller,
@@ -13,7 +12,7 @@ import {
   Put,
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { CategoryCreateReqDto } from './category.dto'
+import { CategoryCreateReqDto, CategoryListItemDto } from './category.dto'
 import { Category } from './category.entity'
 import { CategoryService } from './category.service'
 
@@ -24,23 +23,21 @@ export class CategoryController {
 
   @ApiResult({
     description: '获取分类列表',
-    type: Category,
+    type: [CategoryListItemDto],
   })
   @Get()
   async getList() {
-    const data = await this.service.findAll()
-    return toTree(data)
+    return await this.service.findAll({ isToTree: true })
   }
 
   @ApiResult({
     description: '客户端-获取分类列表',
-    type: Category,
+    type: [CategoryListItemDto],
   })
   @Get('list')
   @NoPermission()
   async getClientList() {
-    const data = await this.service.findAll()
-    return toTree(data)
+    return await this.service.findAll({ isToTree: true })
   }
 
   @ApiResult({

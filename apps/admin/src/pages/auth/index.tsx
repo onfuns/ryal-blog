@@ -1,28 +1,28 @@
-import { deleteAuth, getAuthList } from '@/actions'
+import { authService, type AuthType } from '@/service'
 import { toTree } from '@/utils'
-import { ProTable, type ActionType, type ProColumns } from '@ant-design/pro-components'
+import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
 import { Button, Popconfirm, Space, message } from 'antd'
 import { cloneDeep } from 'lodash'
 import { useRef, useState } from 'react'
 import { AuthAdd } from './components/Add'
 
-export default function AuthPage() {
-  const actionRef = useRef<ActionType>()
+const AuthPage = () => {
+  const actionRef = useRef<TableActionType>()
   const [expandKeys, setExpandKeys] = useState([])
 
-  const onDelete = async record => {
-    if (record?.children?.length > 0) {
+  const onDelete = async ({ children, id }: AuthType & { children?: AuthType[] }) => {
+    if (children && children?.length > 0) {
       message.warning('请先删除子节点')
       return Promise.resolve()
     }
-    await deleteAuth(record.id)
+    await authService.delete(id)
     message.success('操作成功')
     onRoload()
   }
 
-  const onRoload = () => actionRef?.current.reload()
+  const onRoload = () => actionRef?.current?.reload()
 
-  const columns: ProColumns<any>[] = [
+  const columns: TableColumns<AuthType>[] = [
     {
       title: '名称',
       dataIndex: 'name',
@@ -50,17 +50,17 @@ export default function AuthPage() {
   ]
 
   return (
-    <ProTable<any>
+    <Table<AuthType>
       actionRef={actionRef}
       columns={columns}
       headerTitle="权限列表"
       search={false}
       expandable={{
         expandedRowKeys: expandKeys,
-        onExpand: (expand, { id }) => {
+        onExpand: (expand, record) => {
           let newKeys = [...expandKeys]
           if (expand) {
-            newKeys.push(id)
+            newKeys.push(record.id)
           } else {
             newKeys = newKeys.filter(key => key !== id)
           }
@@ -73,14 +73,19 @@ export default function AuthPage() {
         setExpandKeys(keys)
       }}
       request={async () => {
-        const { data } = await getAuthList()
-        return { success: true, data: toTree(cloneDeep(data)) }
+        const { success, data } = await authService.getList()
+        return { success, data: toTree(cloneDeep(data)) }
       }}
       pagination={false}
       toolBarRender={() => [
-        <AuthAdd onSuccess={onRoload} key="add" trigger={<Button type="primary">新增</Button>} />,
+        <AuthAdd
+          onSuccess={onRoload}
+          key="add"
+          trigger={<Button type="primary">新增权限</Button>}
+        />,
       ]}
-      defaultSize="small"
     />
   )
 }
+
+export default AuthPage

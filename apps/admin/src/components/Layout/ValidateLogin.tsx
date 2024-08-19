@@ -1,15 +1,15 @@
-import { getLocalUser, logoutUser } from '@/actions'
+import { userService } from '@/service'
 import { useEffect, useState } from 'react'
 
 const ValidateLogin = (props: React.PropsWithChildren) => {
   const [isLogin, setIsLogin] = useState(false)
-  const { token } = getLocalUser()
+  const { token } = userService.getLocalUser()
 
   useEffect(() => {
     if (token) {
       setIsLogin(true)
     } else {
-      logoutUser()
+      userService.logout()
     }
   }, [token])
 

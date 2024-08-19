@@ -22,7 +22,7 @@ export class RoleController {
 
   @ApiResult({
     description: '获取角色列表',
-    type: Role,
+    type: [Role],
   })
   @Get()
   async getList() {

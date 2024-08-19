@@ -1,5 +1,4 @@
-import { deleteArticle, updateArticle } from '@/actions'
-import { Article, type ArticleType } from '@ryal/api'
+import { articleService, type ArticleType } from '@/service'
 import { Table, Time, type TableActionType, type TableColumns, type TableProps } from '@ryal/ui-kit'
 import { Button, Popconfirm, Space, Switch, message } from 'antd'
 import dayjs from 'dayjs'
@@ -15,9 +14,8 @@ enum DataActionType {
   Delete = 'delete',
 }
 
-export default function ArticlePage() {
+const ArticlePage = () => {
   const actionRef = useRef<TableActionType>()
-  const articleService = new Article()
 
   const onAction = async (
     type: DataActionType,
@@ -25,13 +23,13 @@ export default function ArticlePage() {
   ) => {
     const { id, sort = 0, pass_flag = 0 } = record || {}
     if (type === DataActionType.Delete) {
-      await deleteArticle(id)
+      await articleService.delete(id)
     } else if (type === DataActionType.Sort) {
       // > 0 说明取消置顶
-      await updateArticle(id, { sort: Number(sort) > 0 ? 0 : dayjs().valueOf() })
+      await articleService.update(id, { sort: Number(sort) > 0 ? 0 : dayjs().valueOf() })
     } else if (type === DataActionType.Pass) {
       //审核
-      await updateArticle(id, { pass_flag: Number(!pass_flag) })
+      await articleService.update(id, { pass_flag: Number(!pass_flag) })
     }
     message.success('操作成功')
     onReload()
@@ -119,8 +117,8 @@ export default function ArticlePage() {
   ]
 
   const requestTableData = async (params = {}) => {
-    const { success, data } = await articleService.articleFindAll({ ...params })
-    return { success, data: data?.list, total: data?.count }
+    const { success, data } = await articleService.getList({ ...params })
+    return { success, data: data?.list, total: data?.total }
   }
 
   const tableProps: TableProps<any, any> = {
@@ -135,7 +133,7 @@ export default function ArticlePage() {
         onSuccess={onReload}
         trigger={
           <Button key="add" type="primary">
-            新建文章
+            新增文章
           </Button>
         }
       />,
@@ -144,3 +142,5 @@ export default function ArticlePage() {
 
   return <Table {...tableProps} />
 }
+
+export default ArticlePage

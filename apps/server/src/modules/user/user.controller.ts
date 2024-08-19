@@ -53,7 +53,7 @@ export class UserController {
 
   @ApiResult({
     description: '获取用户列表',
-    type: User,
+    type: [User],
   })
   @Get()
   async getList() {
