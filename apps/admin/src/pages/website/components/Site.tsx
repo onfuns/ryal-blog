@@ -1,17 +1,17 @@
-import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
+import { ProForm, ProFormItem, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
 import { Button } from 'antd'
 import { useEffect } from 'react'
-import { ITabProps } from '../interface'
+import { type PageDetailType } from '../type'
 
-const SitePage = ({ onSubmit, detail }: ITabProps) => {
-  const [form] = ProForm.useForm()
+const SitePage = ({ onSubmit, detail }: PageDetailType) => {
+  const [formInstance] = ProForm.useForm()
 
   useEffect(() => {
-    form.setFieldsValue({ ...detail })
+    formInstance.setFieldsValue({ ...detail })
   }, [detail])
 
   return (
-    <ProForm labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} form={form}>
+    <ProForm labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} form={formInstance}>
       <ProFormText label="网站名称" name="website_title" placeholder="请输入网站名称" />
       <ProFormText label="ICP 备案" name="website_icp" placeholder="请输入 ICP 备案" />
       <ProFormText label="站长邮箱" name="website_email" placeholder="请输入站长邮箱" />
@@ -23,11 +23,11 @@ const SitePage = ({ onSubmit, detail }: ITabProps) => {
         placeholder="请输入微信二维码地址"
       />
       <ProFormTextArea label="统计代码" name="website_analysis_code" placeholder="请输入统计代码" />
-      <ProForm.Item label=" " colon={false}>
-        <Button type="primary" onClick={() => onSubmit(form)}>
+      <ProFormItem colon={false}>
+        <Button type="primary" onClick={() => onSubmit(formInstance)}>
           保存
         </Button>
-      </ProForm.Item>
+      </ProFormItem>
     </ProForm>
   )
 }

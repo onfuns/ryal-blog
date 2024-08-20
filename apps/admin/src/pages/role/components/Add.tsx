@@ -11,28 +11,29 @@ import { useRequest } from 'ahooks'
 import { Tree, message } from 'antd'
 import { cloneDeep } from 'lodash'
 import { useEffect, useState } from 'react'
+import { RoleStatusEnum, RoleStatusMap } from '../enum'
 
 export const RoleAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
-  const [form] = ProForm.useForm()
-  const { data: { data: authList = [] } = {} } = useRequest(() =>
-    authService.getList({ roleId: detail.id }),
-  )
+  const [formInstance] = ProForm.useForm()
   const [selectedKeys, setSelectedKeys] = useState<number[]>([])
+  const { data } = useRequest(() => authService.getList())
+  const authList = data?.data || []
+  const isEditMode = !!detail?.id
 
   useEffect(() => {
-    if (detail?.id) {
-      form.setFieldsValue({ ...detail })
+    if (isEditMode) {
+      formInstance.setFieldsValue({ ...detail })
     }
-  }, [])
+  }, [detail])
 
   const onFinish = async () => {
-    const values = await form.validateFields()
+    const values = await formInstance.validateFields()
     //这里有个注意点，因为tree是完全受控的，所以当点击取消勾选子节点时，父级的节点也不会出现在 selectedKeys里
     //比如 勾选状态下二级结构是[30000,30001,30002]，取消勾选30002子节点后直接变成 [30001]，应该是 [30000,30001]
     //所以需要遍历数组找到其父级节点去重后放进去
-    const resources: any = new Set()
+    const resources: Set<number> = new Set()
 
-    const findAllParent = (id, result = []) => {
+    const findAllParent = (id: number, result: number[] = []): number[] => {
       const current = authList?.find(auth => auth.id === id)
       result.push(id)
       if (current && current.pid !== 0) {
@@ -41,15 +42,15 @@ export const RoleAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
       return result
     }
 
-    selectedKeys.map(id => {
-      //递归找到其所有父级
-      findAllParent(id).map(id => resources.add(id))
+    selectedKeys.forEach(id => {
+      const ids = findAllParent(id)
+      ids.forEach(id => resources.add(id))
     })
     const params = {
       ...values,
       auths: [...resources].map(id => ({ id })),
     }
-    if (detail?.id) {
+    if (isEditMode) {
       await roleService.update(detail.id, params)
     } else {
       await roleService.add(params)
@@ -66,8 +67,8 @@ export const RoleAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
       trigger={trigger}
       drawerProps={{ onClose: onClose, destroyOnClose: true }}
       onFinish={onFinish}
-      form={form}
-      initialValues={{ enable: 1 }}
+      form={formInstance}
+      initialValues={{ enable: RoleStatusEnum.Enable }}
     >
       <ProFormText
         label="名称"
@@ -86,13 +87,10 @@ export const RoleAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
       />
 
       <ProFormRadio.Group
-        label="启用"
+        label="状态"
         name="enable"
         rules={[{ required: true }]}
-        options={[
-          { label: '是', value: 1 },
-          { label: '否', value: 0 },
-        ]}
+        options={RoleStatusMap}
       />
 
       {treeList.length ? (

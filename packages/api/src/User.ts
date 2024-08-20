@@ -46,15 +46,36 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name GetList
    * @request GET:/api/user
    */
-  getList = (params: RequestParams = {}) =>
+  getList = (
+    query?: {
+      /** 当前页码 */
+      current?: number
+      /** 当前条数 */
+      pageSize?: number
+      /**
+       * 状态 0-停用 1-启用
+       * @default 1
+       */
+      enable?: number
+      /** 用户名 */
+      name?: string
+      /** 角色 id */
+      roleId?: string
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ResponseResultType & {
-        data?: UserType[]
+        data?: {
+          list?: UserType[]
+          total?: number
+        }
       },
       any
     >({
       path: `/api/user`,
       method: 'GET',
+      query: query,
       format: 'json',
       ...params,
     })

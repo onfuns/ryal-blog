@@ -3,15 +3,10 @@ import { Time } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
 import { Card, Col, List, Row, Space } from 'antd'
 
-type IDashboardInfoProps = {
-  article?: { count: number }
-  comment?: { count: number; data: any[] }
-  user?: Record<any, string>
-}
-
 const DashboardPage = () => {
-  const { data: { data: dashboardData = {} } = {} } = useRequest(commonService.getDashboardData)
-  const { article, comment, user } = dashboardData as IDashboardInfoProps
+  const { data } = useRequest(commonService.getDashboardData)
+  const dashboardData = data?.data || {}
+  const { article, comment, user } = dashboardData
 
   const countData = [
     { title: '文章总数', value: article?.count || 0 },

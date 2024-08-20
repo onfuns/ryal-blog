@@ -16,15 +16,15 @@ export class User extends TimeEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  @ApiProperty({ description: '名称' })
-  @Column({ comment: '名称', unique: true })
+  @ApiProperty({ description: '用户名' })
+  @Column({ comment: '用户名', unique: true })
   name: string
 
   @ApiProperty({ description: '密码' })
   @Column({ comment: '密码', select: false })
   password: string
 
-  @ApiProperty({ description: '角色' })
+  @ApiProperty({ description: '角色', type: [Role] })
   @ManyToMany(() => Role, { cascade: true })
   @JoinTable({
     name: 'user_role_relation',

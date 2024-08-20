@@ -3,9 +3,9 @@ import config from '@/config'
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { IP } from '@/decorator/ip.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
 import { ApiParam, ApiTags } from '@nestjs/swagger'
-import { UserCreateReqDto, UserLoginReqDto, UserLoginResDto } from './user.dto'
+import { UserCreateReqDto, UserListReqDto, UserLoginReqDto, UserLoginResDto } from './user.dto'
 import { User } from './user.entity'
 import { UserService } from './user.service'
 
@@ -44,10 +44,11 @@ export class UserController {
   @ApiResult({
     description: '获取用户列表',
     type: [User],
+    page: true,
   })
   @Get()
-  async getList() {
-    return this.service.findAll()
+  async getList(@Query() query: UserListReqDto) {
+    return this.service.findAll(query)
   }
 
   @ApiResult({

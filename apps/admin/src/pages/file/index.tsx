@@ -6,14 +6,13 @@ import { FileAdd } from './components/Add'
 
 const FilePage = () => {
   const actionRef = useRef<TableActionType>()
+  const refresh = () => actionRef?.current?.reload()
 
   const onDelete = async (id: FileType['id']) => {
     await fileService.delete(id)
     message.success('操作成功')
-    onReload()
+    refresh()
   }
-
-  const onReload = () => actionRef?.current?.reload()
 
   const columns: TableColumns<FileType>[] = [
     {
@@ -98,7 +97,7 @@ const FilePage = () => {
       toolBarRender={() => [
         <FileAdd
           key="add"
-          onSuccess={onReload}
+          onSuccess={refresh}
           trigger={<Button type="primary">上传文件</Button>}
         />,
       ]}

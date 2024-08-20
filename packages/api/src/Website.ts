@@ -39,10 +39,10 @@ export class Website<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Update
    * @request POST:/api/website
    */
-  update = (data: WebsiteCreateReqDtoType, params: RequestParams = {}) =>
+  update = (data: WebsiteCreateReqDtoType[], params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: WebsiteType
+        data?: WebsiteType[]
       },
       any
     >({

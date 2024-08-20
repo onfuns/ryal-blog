@@ -1,17 +1,17 @@
-import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
+import { ProForm, ProFormItem, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
 import { Button } from 'antd'
 import { useEffect } from 'react'
-import { ITabProps } from '../interface'
+import { type PageDetailType } from '../type'
 
-const SeoPage = ({ onSubmit, detail }: ITabProps) => {
-  const [form] = ProForm.useForm()
+const SeoPage = ({ onSubmit, detail }: PageDetailType) => {
+  const [formInstance] = ProForm.useForm()
 
   useEffect(() => {
-    form.setFieldsValue({ ...detail })
+    formInstance.setFieldsValue({ ...detail })
   }, [detail])
 
   return (
-    <ProForm labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} form={form}>
+    <ProForm labelCol={{ span: 4 }} wrapperCol={{ span: 20 }} form={formInstance}>
       <ProFormText
         label="SEO 标题"
         name="website_seo_title"
@@ -33,11 +33,11 @@ const SeoPage = ({ onSubmit, detail }: ITabProps) => {
         fieldProps={{ showCount: true, maxLength: 200 }}
       />
 
-      <ProForm.Item label=" " colon={false}>
-        <Button type="primary" onClick={() => onSubmit(form)}>
+      <ProFormItem colon={false}>
+        <Button type="primary" onClick={() => onSubmit(formInstance)}>
           保存
         </Button>
-      </ProForm.Item>
+      </ProFormItem>
     </ProForm>
   )
 }

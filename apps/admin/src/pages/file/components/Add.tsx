@@ -3,17 +3,19 @@ import { CloseCircleFilled, InboxOutlined, PlusOutlined } from '@ant-design/icon
 import {
   DrawerForm,
   ProForm,
+  ProFormItem,
   ProFormSelect,
+  ProFormText,
   ProFormUploadDragger,
 } from '@ant-design/pro-components'
 import { useRequest } from 'ahooks'
-import { Button, Divider, Input, Space, UploadProps, message } from 'antd'
+import { Button, Divider, Space, UploadFile, UploadProps, message } from 'antd'
 import { useState } from 'react'
 
 export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
-  const [form] = ProForm.useForm()
-  const [fileList, setFileList] = useState([])
-  const [typeName, setTypeName] = useState(null)
+  const [formInstance] = ProForm.useForm()
+  const [fileList, setFileList] = useState<UploadFile[]>([])
+  const [typeName, setTypeName] = useState<string>()
   const { data: { data: fileCategoryList = [] } = {}, refresh: refreshfileCategoryList } =
     useRequest(fileService.getFileCategoryList)
 
@@ -22,10 +24,10 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
       return message.warning('请选择图片')
     }
 
-    const values = await form.validateFields()
+    const values = await formInstance.validateFields()
     const formData = new FormData()
     fileList.forEach(file => {
-      formData.append('files', file)
+      formData.append('files', file as any)
     })
     formData.append('fileCategoryId', values.fileCategoryId)
     await fileService.uploadMultiple(formData)
@@ -33,17 +35,18 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
     onSuccess?.()
   }
 
-  const uploadFile = async (file): Promise<any> =>
-    new Promise(resolve => {
+  const uploadFile = async (file: UploadFile): Promise<any> => {
+    return new Promise(resolve => {
       const reader = new FileReader()
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file as any)
       reader.onload = () => {
         file.url = reader.result as string
         resolve(file)
       }
     })
+  }
 
-  const checkFile = file => {
+  const checkFile = (file: UploadFile) => {
     const error = () => {
       message.error('只能上传图片，不超过10M')
       return false
@@ -51,7 +54,7 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
     if (!file?.type?.includes('image/')) {
       return error()
     }
-    if (file.size > 10 * 1024 * 1024) {
+    if (file.size && file.size > 10 * 1024 * 1024) {
       return error()
     }
     return true
@@ -71,7 +74,7 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
 
   const addItem = async () => {
     await fileService.addFileCategory({ name: typeName })
-    setTypeName(null)
+    setTypeName(undefined)
     refreshfileCategoryList()
   }
 
@@ -81,23 +84,23 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
       trigger={trigger}
       drawerProps={{ onClose: onClose, destroyOnClose: true }}
       onFinish={onFinish}
-      form={form}
+      form={formInstance}
     >
       <ProFormSelect
         label="分组"
         name="fileCategoryId"
         placeholder="未分组"
-        options={fileCategoryList}
+        options={fileCategoryList.map(item => ({ label: item.name, value: item.id }))}
         fieldProps={{
           dropdownRender: menu => (
             <>
               {menu}
               <Divider className="my-8" />
               <Space className="px-8 pb-8">
-                <Input
+                <ProFormText
+                  noStyle
                   placeholder="请输入分组名称"
-                  value={typeName}
-                  onChange={e => setTypeName(e.target.value)}
+                  fieldProps={{ value: typeName, onChange: e => setTypeName(e.target.value) }}
                 />
                 <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
                   新增分组
@@ -117,8 +120,8 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
         </div>
       </ProFormUploadDragger>
 
-      {fileList.length ? (
-        <ProForm.Item label=" " colon={false}>
+      {!!fileList.length && (
+        <ProFormItem colon={false}>
           <div className="flex flex-wrap">
             {fileList
               .filter(file => file.url)
@@ -138,8 +141,8 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
                 </div>
               ))}
           </div>
-        </ProForm.Item>
-      ) : null}
+        </ProFormItem>
+      )}
     </DrawerForm>
   )
 }

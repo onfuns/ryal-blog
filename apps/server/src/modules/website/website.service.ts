@@ -13,7 +13,7 @@ export class WebsiteService {
     return this.repository.find()
   }
 
-  async update(data: WebsiteCreateReqDto) {
+  async update(data: WebsiteCreateReqDto[]) {
     return this.repository.save(data)
   }
 }

@@ -1,5 +1,5 @@
-import { MixinCreateDto } from '@/common/model/page.model'
-import { ApiProperty } from '@nestjs/swagger'
+import { MixinCreateDto, MixinPageListDto } from '@/common/model/page.model'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { User } from './user.entity'
 
@@ -25,4 +25,12 @@ export class UserLoginResDto {
 
   @ApiProperty({ description: '用户 token' })
   readonly token: string
+}
+
+export class UserListReqDto extends MixinPageListDto(User, ['enable']) {
+  @ApiPropertyOptional({ description: '用户名' })
+  readonly name?: string
+
+  @ApiPropertyOptional({ description: '角色 id' })
+  readonly roleId?: string
 }

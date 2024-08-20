@@ -6,14 +6,13 @@ import { RoleAdd } from './components/Add'
 
 const RolePage = () => {
   const actionRef = useRef<TableActionType>()
+  const refresh = () => actionRef?.current?.reload()
 
   const onDelete = async (id: RoleType['id']) => {
     await roleService.delete(id)
     message.success('操作成功')
-    onReload()
+    refresh()
   }
-
-  const onReload = () => actionRef?.current?.reload()
 
   const columns: TableColumns<RoleType>[] = [
     {
@@ -32,7 +31,7 @@ const RolePage = () => {
       render: (_, record) => {
         return (
           <Space>
-            <RoleAdd detail={record} onSuccess={onReload} trigger={<a>编辑</a>} />
+            <RoleAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
               <a className="a-danger">删除</a>
             </Popconfirm>
@@ -49,12 +48,10 @@ const RolePage = () => {
       headerTitle="角色列表"
       search={false}
       rowKey="id"
-      request={async params => {
-        return await roleService.getList({ ...params })
-      }}
+      request={() => roleService.getList()}
       pagination={false}
       toolBarRender={() => [
-        <RoleAdd key="add" onSuccess={onReload} trigger={<Button>新增</Button>} />,
+        <RoleAdd key="add" onSuccess={refresh} trigger={<Button>新增角色</Button>} />,
       ]}
     />
   )

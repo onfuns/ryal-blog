@@ -212,7 +212,7 @@ export interface CategoryCreateReqDtoType {
   icon_color?: string
 }
 
-export interface UserType {
+export interface RoleType {
   /** 创建时间 */
   created_at: string
   /** 更新时间 */
@@ -221,10 +221,30 @@ export interface UserType {
   id: number
   /** 名称 */
   name: string
+  /** 描述 */
+  description: string
+  /** 权限节点 id */
+  auths: string[]
+  /**
+   * 状态 0-停用 1-启用
+   * @default 1
+   */
+  enable: number
+}
+
+export interface UserType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 用户名 */
+  name: string
   /** 密码 */
   password: string
   /** 角色 */
-  roles: string[]
+  roles: RoleType[]
   /**
    * 状态 0-停用 1-启用
    * @default 1
@@ -254,7 +274,7 @@ export interface UserCreateReqDtoType {
   /** 密码 */
   password?: string
   /** 角色 */
-  roles?: string[]
+  roles?: RoleType[]
   /**
    * 状态 0-停用 1-启用
    * @default 1
@@ -269,26 +289,6 @@ export interface UserCreateReqDtoType {
   last_login_ip?: string
   /** 上次登录时间 */
   last_login_at?: string
-}
-
-export interface RoleType {
-  /** 创建时间 */
-  created_at: string
-  /** 更新时间 */
-  updated_at: string
-  /** id */
-  id: number
-  /** 名称 */
-  name: string
-  /** 描述 */
-  description: string
-  /** 权限节点 id */
-  auths: string[]
-  /**
-   * 状态 0-停用 1-启用
-   * @default 1
-   */
-  enable: number
 }
 
 export interface RoleCreateReqDtoType {

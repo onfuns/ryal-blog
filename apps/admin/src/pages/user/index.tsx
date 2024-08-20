@@ -3,20 +3,19 @@ import { Table, Time, type TableActionType, type TableColumns } from '@ryal/ui-k
 import { Button, Popconfirm, Space, Tag, message } from 'antd'
 import { useRef } from 'react'
 import { UserAdd } from './components/Add'
-import { UserStatus } from './enum'
+import { UserIdentityEnum, UserStatusMap } from './enum'
 
 const UserPage = () => {
   const actionRef = useRef<TableActionType>()
+  const refresh = () => actionRef?.current?.reload()
 
   const onDelete = async (id: UserType['id']) => {
     await userService.delete(id)
     message.success('操作成功')
-    onReload()
+    refresh()
   }
 
-  const onReload = () => actionRef?.current?.reload()
-
-  const columns: TableColumns<any>[] = [
+  const columns: TableColumns<UserType>[] = [
     {
       title: '用户名',
       dataIndex: 'name',
@@ -27,8 +26,8 @@ const UserPage = () => {
       title: '所属角色',
       dataIndex: 'roles',
       hideInSearch: true,
-      render: (_, record) => {
-        return record?.roles?.map(({ id, name }: any) => (
+      render: (_, { roles }) => {
+        return roles?.map(({ id, name }) => (
           <Tag key={id} color="blue">
             {name}
           </Tag>
@@ -39,7 +38,7 @@ const UserPage = () => {
       title: '最后登录IP',
       dataIndex: 'last_login_ip',
       hideInSearch: true,
-      render: (_, { last_login_ip }) => last_login_ip && last_login_ip.replace('::ffff:', ''),
+      render: (_, { last_login_ip }) => last_login_ip?.replace('::ffff:', ''),
     },
     {
       title: '创建时间',
@@ -58,17 +57,13 @@ const UserPage = () => {
       dataIndex: 'enable',
       hideInSearch: true,
       width: 80,
-      valueEnum: {
-        [UserStatus.Enable]: '正常',
-        [UserStatus.Block]: '停用',
-      },
+      valueEnum: UserStatusMap.reduce((obj: Record<string, string>, current) => {
+        obj[current.value] = current.label
+        return obj
+      }, {}),
       render: (_, { enable }) => {
-        const statusMap: Record<any, { text: string; color: string }> = {
-          [UserStatus.Enable]: { text: '正常', color: 'success' },
-          [UserStatus.Block]: { text: '停用', color: 'error' },
-        }
-        const { color, text } = statusMap[enable] || {}
-        return <Tag color={color}>{text}</Tag>
+        const { color, label } = UserStatusMap.find(item => item.value === enable) || {}
+        return label ? <Tag color={color}>{label}</Tag> : '-'
       },
     },
     {
@@ -76,9 +71,9 @@ const UserPage = () => {
       valueType: 'option',
       width: 120,
       render: (_, record) => {
-        return record.super !== 1 ? (
+        return record.super !== UserIdentityEnum.Super ? (
           <Space>
-            <UserAdd detail={record} onSuccess={onReload} trigger={<a>编辑</a>} />
+            <UserAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
               <a className="a-danger">删除</a>
             </Popconfirm>
@@ -89,17 +84,18 @@ const UserPage = () => {
   ]
 
   return (
-    <Table
+    <Table<UserType>
       actionRef={actionRef}
       columns={columns}
       rowKey="id"
-      request={async () => {
-        return await userService.getList()
+      request={async (params = {}) => {
+        const { success, data } = await userService.getList({ ...params })
+        return { success, data: data?.list, total: data?.total }
       }}
       toolBarRender={() => [
         <UserAdd
           key="add"
-          onSuccess={onReload}
+          onSuccess={refresh}
           trigger={<Button type="primary">新增用户</Button>}
         />,
       ]}

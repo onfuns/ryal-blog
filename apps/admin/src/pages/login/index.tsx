@@ -3,23 +3,26 @@ import LoginImage from '@/public/images/login-bg.png'
 import { adminRoutes } from '@/routes'
 import { userService } from '@/service'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { ProForm, ProFormText } from '@ant-design/pro-components'
+import { ProForm, ProFormItem, ProFormText } from '@ant-design/pro-components'
 import { Button, message } from 'antd'
-import * as md5 from 'md5'
+import CryptoJS from 'crypto-js'
 import { useState } from 'react'
 import './index.less'
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false)
-  const [form] = ProForm.useForm()
+  const [formInstance] = ProForm.useForm()
   const history = useHistory()
 
   const onSubmit = async () => {
-    const values = await form.validateFields()
+    const values = await formInstance.validateFields()
     try {
       setLoading(true)
       const { name, password } = values
-      const { data } = await userService.login({ name, password: md5(password) })
+      const { data } = await userService.login({
+        name,
+        password: CryptoJS.MD5(password).toString(),
+      })
       setLoading(false)
       userService.saveLocalUser(data)
       message.success('登录成功', 1, () => history.push(adminRoutes[0].path))
@@ -33,21 +36,24 @@ const LoginPage = () => {
         <div className="flex items-center w-500 h-100%">
           <img src={LoginImage} className="w-100%" />
         </div>
-        <ProForm form={form} submitter={false} className="w-350 ml-100">
+        <ProForm form={formInstance} submitter={false} className="w-350 ml-100">
           <h1 className="mb-40 text-30">Ryal Blog</h1>
+
           <ProFormText
             name="name"
             rules={[{ required: true, message: '请输入用户名' }]}
             fieldProps={{ prefix: <UserOutlined /> }}
             placeholder="用户名"
           />
+
           <ProFormText.Password
             name="password"
             rules={[{ required: true, message: '请输入密码' }]}
             fieldProps={{ prefix: <LockOutlined />, onPressEnter: onSubmit }}
             placeholder="密码"
           />
-          <ProForm.Item noStyle>
+
+          <ProFormItem noStyle>
             <Button
               type="primary"
               size="large"
@@ -57,7 +63,7 @@ const LoginPage = () => {
             >
               登录
             </Button>
-          </ProForm.Item>
+          </ProFormItem>
         </ProForm>
       </div>
     </div>

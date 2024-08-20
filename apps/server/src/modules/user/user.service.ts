@@ -1,9 +1,11 @@
+import { PageListModel } from '@/common/model/page.model'
 import config from '@/config'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import * as jwt from 'jsonwebtoken'
-import { getRepository, Repository } from 'typeorm'
-import { UserCreateReqDto, UserLoginReqDto } from './user.dto'
+import jwt from 'jsonwebtoken'
+import { pickBy } from 'lodash'
+import { Like, Repository } from 'typeorm'
+import { UserCreateReqDto, UserListReqDto, UserLoginReqDto } from './user.dto'
 import { User } from './user.entity'
 
 @Injectable()
@@ -31,7 +33,7 @@ export class UserService {
     const { jwtToken } = config
     try {
       const decoded = jwt.verify(token, jwtToken)
-      if (decoded?.secret === jwtToken) {
+      if (typeof decoded !== 'string' && decoded?.secret === jwtToken) {
         return decoded
       }
     } catch (err) {
@@ -47,12 +49,31 @@ export class UserService {
     return await this.repository.save(record)
   }
 
-  async findAll(): Promise<User[]> {
-    return await getRepository(User)
-      .createQueryBuilder('user')
-      .select(['user', 'role.id', 'role.name'])
-      .leftJoin('user.roles', 'role')
-      .getMany()
+  async findAll(query?: UserListReqDto): Promise<PageListModel<User>> {
+    const { current = 1, pageSize = 20, name, roleId, enable } = query || {}
+
+    const where = pickBy({
+      name: name ? Like(`%${name}%`) : undefined,
+      role_id: roleId ?? undefined,
+      enable: enable ?? undefined,
+    })
+
+    const [data = [], total = 0] = await this.repository.findAndCount({
+      where,
+      join: {
+        alias: 'user',
+        leftJoinAndSelect: {
+          role: 'user.roles',
+        },
+      },
+      skip: pageSize * (current - 1),
+      take: pageSize,
+      order: {
+        created_at: 'DESC',
+      },
+    })
+
+    return { data, total }
   }
 
   async findById(id: number): Promise<User> {
