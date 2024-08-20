@@ -1,7 +1,7 @@
 import { authService, type AuthType } from '@/service'
 import { toTree } from '@/utils'
-import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
-import { Button, Popconfirm, Space, message } from 'antd'
+import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
+import { Button, message } from 'antd'
 import { cloneDeep } from 'lodash'
 import { useRef, useState } from 'react'
 import { AuthAdd } from './components/Add'
@@ -36,16 +36,10 @@ const AuthPage = () => {
       title: '操作',
       valueType: 'option',
       width: 150,
-      render: (_, record) => {
-        return (
-          <Space>
-            <AuthAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
-            <Popconfirm title="确定删除？" onConfirm={() => onDelete(record)}>
-              <a className="a-danger">删除</a>
-            </Popconfirm>
-          </Space>
-        )
-      },
+      render: (_, record) => [
+        <AuthAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+        <TableDelete key="delete" onDelete={() => onDelete(record)} />,
+      ],
     },
   ]
 

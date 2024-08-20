@@ -11,6 +11,7 @@ import _ from 'lodash-es'
 import { useConfigContext } from '../config-provider'
 import './index.less'
 
+export { TableDelete } from './TableDelete'
 export type { ActionType as TableActionType, ProColumns as TableColumns }
 
 /** 继承 [ProTableProps](https://procomponents.ant.design/components/table) */

@@ -1,6 +1,6 @@
 import { roleService, type RoleType } from '@/service'
-import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
-import { Button, Popconfirm, Space, message } from 'antd'
+import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
+import { Button, message } from 'antd'
 import { useRef } from 'react'
 import { RoleAdd } from './components/Add'
 
@@ -28,16 +28,10 @@ const RolePage = () => {
       title: '操作',
       valueType: 'option',
       width: 120,
-      render: (_, record) => {
-        return (
-          <Space>
-            <RoleAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
-            <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
-              <a className="a-danger">删除</a>
-            </Popconfirm>
-          </Space>
-        )
-      },
+      render: (_, record) => [
+        <RoleAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+        <TableDelete key="delete" onDelete={() => onDelete(record.id)} />,
+      ],
     },
   ]
 

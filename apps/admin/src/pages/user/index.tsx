@@ -1,6 +1,6 @@
 import { userService, type UserType } from '@/service'
-import { Table, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
-import { Button, Popconfirm, Space, Tag, message } from 'antd'
+import { Table, TableDelete, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
+import { Button, Tag, message } from 'antd'
 import { useRef } from 'react'
 import { UserAdd } from './components/Add'
 import { UserIdentityEnum, UserStatusMap } from './enum'
@@ -71,14 +71,12 @@ const UserPage = () => {
       valueType: 'option',
       width: 120,
       render: (_, record) => {
-        return record.super !== UserIdentityEnum.Super ? (
-          <Space>
-            <UserAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
-            <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
-              <a className="a-danger">删除</a>
-            </Popconfirm>
-          </Space>
-        ) : null
+        return (
+          record.super !== UserIdentityEnum.Super && [
+            <UserAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+            <TableDelete key="delete" onDelete={() => onDelete(record.id)} />,
+          ]
+        )
       },
     },
   ]

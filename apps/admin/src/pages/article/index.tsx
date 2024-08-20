@@ -1,6 +1,6 @@
 import { articleService, type ArticleType } from '@/service'
-import { Table, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
-import { Button, Popconfirm, Space, Switch, message } from 'antd'
+import { Table, TableDelete, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
+import { Button, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
 import { ArticleAdd } from './components/Add'
@@ -93,17 +93,13 @@ const ArticlePage = () => {
       title: '操作',
       valueType: 'option',
       width: 120,
-      render: (_, record) => (
-        <Space>
-          <ArticleAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
-          <Popconfirm
-            title="确定删除？"
-            onConfirm={() => onAction(DataActionType.Delete, { id: record.id })}
-          >
-            <a className="a-danger">删除</a>
-          </Popconfirm>
-        </Space>
-      ),
+      render: (_, record) => [
+        <ArticleAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+        <TableDelete
+          key="delete"
+          onDelete={() => onAction(DataActionType.Delete, { id: record.id })}
+        />,
+      ],
     },
   ]
 

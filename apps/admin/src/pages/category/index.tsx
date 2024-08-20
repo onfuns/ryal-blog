@@ -1,6 +1,6 @@
 import { CategoryListItemDtoType, categoryService } from '@/service'
-import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
-import { Button, Popconfirm, Space, Tag, message } from 'antd'
+import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
+import { Button, Tag, message } from 'antd'
 import { useRef, useState } from 'react'
 import { CategoryAdd } from './components/Add'
 import { CategoryStatusMap, CategoryTypeEnum, CategoryTypeMap } from './enum'
@@ -55,18 +55,12 @@ const CategoryPage = () => {
       title: '操作',
       dataIndex: 'option',
       width: 120,
-      render: (_, record) => {
-        return (
-          <Space>
-            <CategoryAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
-            {record.pid === 0 && record?.children?.length ? null : (
-              <Popconfirm title="确定删除？" onConfirm={() => onAction('delete', record)}>
-                <a className="a-danger">删除</a>
-              </Popconfirm>
-            )}
-          </Space>
-        )
-      },
+      render: (_, record) => [
+        <CategoryAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+        record.pid === 0 && record?.children?.length ? null : (
+          <TableDelete key="delete" onDelete={() => onAction('delete', record)} />
+        ),
+      ],
     },
   ]
 

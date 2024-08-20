@@ -1,6 +1,6 @@
 import { tagService, type TagType } from '@/service'
-import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
-import { Button, Popconfirm, Space, message } from 'antd'
+import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
+import { Button, message } from 'antd'
 import { useRef } from 'react'
 import { TagAdd } from './components/Add'
 
@@ -28,16 +28,10 @@ const TagPage = () => {
       title: '操作',
       valueType: 'option',
       width: 120,
-      render: (_, record) => {
-        return (
-          <Space>
-            <TagAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
-            <Popconfirm title="确定删除？" onConfirm={() => onDelete(record.id)}>
-              <a className="a-danger">删除</a>
-            </Popconfirm>
-          </Space>
-        )
-      },
+      render: (_, record) => [
+        <TagAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+        <TableDelete key="delete" onDelete={() => onDelete(record.id)} />,
+      ],
     },
   ]
 

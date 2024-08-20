@@ -1,6 +1,6 @@
 import { fileService, type FileType } from '@/service'
-import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
-import { Button, Popconfirm, Popover, Space, message } from 'antd'
+import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
+import { Button, Popover, message } from 'antd'
 import { useRef } from 'react'
 import { FileAdd } from './components/Add'
 
@@ -69,18 +69,12 @@ const FilePage = () => {
       title: '操作',
       valueType: 'option',
       width: 120,
-      render: (_, { id, url }) => {
-        return (
-          <Space>
-            <a target="_blank" rel="noreferrer" href={`/${url}`}>
-              下载
-            </a>
-            <Popconfirm title="确定删除？" onConfirm={() => onDelete(id)}>
-              <a className="color-red">删除</a>
-            </Popconfirm>
-          </Space>
-        )
-      },
+      render: (_, { id, url }) => [
+        <a key="download" target="_blank" rel="noreferrer" href={`/${url}`}>
+          下载
+        </a>,
+        <TableDelete key="delete" onDelete={() => onDelete(id)} />,
+      ],
     },
   ]
 

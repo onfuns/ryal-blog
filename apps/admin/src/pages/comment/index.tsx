@@ -1,6 +1,6 @@
 import { commentService, type CommentType } from '@/service'
-import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
-import { Popconfirm, Space, Switch, message } from 'antd'
+import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
+import { Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
 import { CommentAdd } from './components/Add'
@@ -76,16 +76,10 @@ const CommentPage = () => {
       title: '操作',
       valueType: 'option',
       width: 120,
-      render: (_, record) => {
-        return (
-          <Space>
-            <CommentAdd detail={record} trigger={<a>回复</a>} />
-            <Popconfirm title="确定删除？" onConfirm={() => onAction('delete', record)}>
-              <a className="color-red">删除</a>
-            </Popconfirm>
-          </Space>
-        )
-      },
+      render: (_, record) => [
+        <CommentAdd key="add" detail={record} trigger={<a>回复</a>} />,
+        <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
+      ],
     },
   ]
 
