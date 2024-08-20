@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { ResponseResultType } from './data-contracts'
+import { DashboardDataResDtoType, ResponseResultType } from './data-contracts'
 import { HttpClient, RequestParams } from './http-client'
 
 export class Common<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -23,8 +23,7 @@ export class Common<SecurityDataType = unknown> extends HttpClient<SecurityDataT
   getDashboardData = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        /** @default null */
-        data?: null
+        data?: DashboardDataResDtoType
       },
       any
     >({

@@ -385,6 +385,29 @@ export interface CommentCreateReqDtoType {
   status?: number
 }
 
+export interface DashboardDataArticleListResType {
+  /** 文章列表 */
+  data: ArticleType[]
+  /** 总数 */
+  total: number
+}
+
+export interface DashboardDataCommentListResType {
+  /** 评论列表 */
+  data: CommentType[]
+  /** 总数 */
+  total: number
+}
+
+export interface DashboardDataResDtoType {
+  /** 文章列表 */
+  article: DashboardDataArticleListResType
+  /** 评论列表 */
+  comment: DashboardDataCommentListResType
+  /** 用户信息 */
+  user: UserType
+}
+
 export interface FileCategoryType {
   /** 创建时间 */
   created_at: string
