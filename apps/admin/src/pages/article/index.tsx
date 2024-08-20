@@ -1,27 +1,20 @@
 import { articleService, type ArticleType } from '@/service'
-import { Table, Time, type TableActionType, type TableColumns, type TableProps } from '@ryal/ui-kit'
+import { Table, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
 import { Button, Popconfirm, Space, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
 import { ArticleAdd } from './components/Add'
-
-enum DataActionType {
-  /** 置顶 */
-  Sort = 'sort',
-  /**  审核 */
-  Pass = 'pass',
-  /** 删除 */
-  Delete = 'delete',
-}
+import { DataActionType, PassTypeEnum, SortTypeEnum } from './enum'
 
 const ArticlePage = () => {
   const actionRef = useRef<TableActionType>()
+  const refresh = () => actionRef?.current?.reload()
 
   const onAction = async (
     type: DataActionType,
     record: { id: string; sort?: number; pass_flag?: number },
   ) => {
-    const { id, sort = 0, pass_flag = 0 } = record || {}
+    const { id, sort, pass_flag } = record || {}
     if (type === DataActionType.Delete) {
       await articleService.delete(id)
     } else if (type === DataActionType.Sort) {
@@ -32,10 +25,8 @@ const ArticlePage = () => {
       await articleService.update(id, { pass_flag: Number(!pass_flag) })
     }
     message.success('操作成功')
-    onReload()
+    refresh()
   }
-
-  const onReload = () => actionRef?.current?.reload()
 
   const columns: TableColumns<ArticleType>[] = [
     {
@@ -70,8 +61,8 @@ const ArticlePage = () => {
       title: '置顶',
       dataIndex: 'sort',
       valueEnum: {
-        1: '是',
-        0: '否',
+        [SortTypeEnum.Top]: '是',
+        [SortTypeEnum.UnTop]: '否',
       },
       width: 100,
       render: (_, { id, sort }) => (
@@ -86,13 +77,13 @@ const ArticlePage = () => {
       title: '审核',
       dataIndex: 'pass_flag',
       valueEnum: {
-        1: '已审核',
-        2: '未审核',
+        [PassTypeEnum.Audited]: '已审核',
+        [PassTypeEnum.UnAudited]: '未审核',
       },
       width: 100,
       render: (_, { id, pass_flag }) => (
         <Switch
-          checked={pass_flag === 1}
+          checked={pass_flag === PassTypeEnum.Audited}
           onChange={() => onAction(DataActionType.Pass, { id, pass_flag })}
           size="small"
         />
@@ -104,7 +95,7 @@ const ArticlePage = () => {
       width: 120,
       render: (_, record) => (
         <Space>
-          <ArticleAdd detail={record} onSuccess={onReload} trigger={<a>编辑</a>} />
+          <ArticleAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
           <Popconfirm
             title="确定删除？"
             onConfirm={() => onAction(DataActionType.Delete, { id: record.id })}
@@ -121,26 +112,26 @@ const ArticlePage = () => {
     return { success, data: data?.list, total: data?.total }
   }
 
-  const tableProps: TableProps<any, any> = {
-    actionRef,
-    columns,
-    rowKey: 'id',
-    request: requestTableData,
-    scroll: { x: '100%' },
-    toolBarRender: () => [
-      <ArticleAdd
-        key="add"
-        onSuccess={onReload}
-        trigger={
-          <Button key="add" type="primary">
-            新增文章
-          </Button>
-        }
-      />,
-    ],
-  }
-
-  return <Table {...tableProps} />
+  return (
+    <Table<ArticleType>
+      actionRef={actionRef}
+      columns={columns}
+      rowKey="id"
+      request={requestTableData}
+      scroll={{ x: '100%' }}
+      toolBarRender={() => [
+        <ArticleAdd
+          key="add"
+          onSuccess={refresh}
+          trigger={
+            <Button key="add" type="primary">
+              新增文章
+            </Button>
+          }
+        />,
+      ]}
+    />
+  )
 }
 
 export default ArticlePage

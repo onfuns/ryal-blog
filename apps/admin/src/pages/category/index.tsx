@@ -1,26 +1,13 @@
 import { CategoryListItemDtoType, categoryService } from '@/service'
 import { Table, TableActionType, TableColumns } from '@ryal/ui-kit'
-import { Button, Popconfirm, Space, Switch, Tag, message } from 'antd'
+import { Button, Popconfirm, Space, Tag, message } from 'antd'
 import { useRef, useState } from 'react'
 import { CategoryAdd } from './components/Add'
-
-export enum CategoryTypeEnum {
-  /** 文章列表 */
-  List = 1,
-  /** 单页 */
-  Page = 2,
-  /** 外链 */
-  Url = 3,
-}
-
-export const CategoryTypeMap: Record<string, string> = {
-  [CategoryTypeEnum.List]: '文章列表',
-  [CategoryTypeEnum.Page]: '单页',
-  [CategoryTypeEnum.Url]: '外链',
-}
+import { CategoryStatusMap, CategoryTypeEnum, CategoryTypeMap } from './enum'
 
 const CategoryPage = () => {
   const actionRef = useRef<TableActionType>()
+  const refresh = () => actionRef?.current?.reload()
   const [expandKeys, setExpandKeys] = useState<number[]>([])
 
   const onAction = async (type: 'delete' | 'status', { id, status }: CategoryListItemDtoType) => {
@@ -30,10 +17,8 @@ const CategoryPage = () => {
       await categoryService.update(id, { status: Number(!status) })
     }
     message.success('操作成功')
-    onReload()
+    refresh()
   }
-
-  const onReload = () => actionRef?.current?.reload()
 
   const columns: TableColumns<CategoryListItemDtoType>[] = [
     {
@@ -48,23 +33,23 @@ const CategoryPage = () => {
     {
       title: '类别',
       dataIndex: 'type',
-      render: (_, { type, url }) => (
-        <Tag color="green">
-          {CategoryTypeMap[type]}
-          {type === CategoryTypeEnum.Url && `（${url}）`}
-        </Tag>
-      ),
+      render: (_, { type, url }) => {
+        const { label } = CategoryTypeMap.find(item => item.value === type) || {}
+        return (
+          <Tag color="green">
+            {label}
+            {type === CategoryTypeEnum.Url && `（${url}）`}
+          </Tag>
+        )
+      },
     },
     {
-      title: '显示',
+      title: '状态',
       dataIndex: 'status',
-      render: (_, record) => (
-        <Switch
-          checked={record.status === 1}
-          onChange={() => onAction('status', record)}
-          size="small"
-        />
-      ),
+      render: (_, { status }) => {
+        const { label, color } = CategoryStatusMap.find(item => item.value === status) || {}
+        return <Tag color={color}>{label}</Tag>
+      },
     },
     {
       title: '操作',
@@ -73,7 +58,7 @@ const CategoryPage = () => {
       render: (_, record) => {
         return (
           <Space>
-            <CategoryAdd detail={record} onSuccess={onReload} trigger={<a>编辑</a>} />
+            <CategoryAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
             {record.pid === 0 && record?.children?.length ? null : (
               <Popconfirm title="确定删除？" onConfirm={() => onAction('delete', record)}>
                 <a className="a-danger">删除</a>
@@ -105,14 +90,12 @@ const CategoryPage = () => {
       }}
       rowKey="id"
       onDataSourceChange={data => setExpandKeys(data.map(({ id }) => id))}
-      request={async () => {
-        return categoryService.getList()
-      }}
+      request={() => categoryService.getList()}
       pagination={false}
       toolBarRender={() => [
         <CategoryAdd
           key="add"
-          onSuccess={onReload}
+          onSuccess={refresh}
           trigger={<Button type="primary">新增分类</Button>}
         />,
       ]}

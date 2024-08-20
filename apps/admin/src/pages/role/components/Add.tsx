@@ -13,7 +13,7 @@ import { cloneDeep } from 'lodash'
 import { useEffect, useState } from 'react'
 import { RoleStatusEnum, RoleStatusMap } from '../enum'
 
-export const RoleAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
+export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
   const [selectedKeys, setSelectedKeys] = useState<number[]>([])
   const { data } = useRequest(() => authService.getList())
@@ -65,7 +65,7 @@ export const RoleAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
     <DrawerForm
       title="角色信息"
       trigger={trigger}
-      drawerProps={{ onClose: onClose, destroyOnClose: true }}
+      drawerProps={{ onClose: onCancel }}
       onFinish={onFinish}
       form={formInstance}
       initialValues={{ enable: RoleStatusEnum.Enable }}

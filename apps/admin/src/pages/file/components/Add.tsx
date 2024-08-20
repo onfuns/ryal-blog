@@ -12,7 +12,7 @@ import { useRequest } from 'ahooks'
 import { Button, Divider, Space, UploadFile, UploadProps, message } from 'antd'
 import { useState } from 'react'
 
-export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
+export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [typeName, setTypeName] = useState<string>()
@@ -82,7 +82,7 @@ export const FileAdd = ({ trigger, onSuccess, onClose }: IDetailModalProps) => {
     <DrawerForm
       title="上传文件"
       trigger={trigger}
-      drawerProps={{ onClose: onClose, destroyOnClose: true }}
+      drawerProps={{ onClose: onCancel }}
       onFinish={onFinish}
       form={formInstance}
     >

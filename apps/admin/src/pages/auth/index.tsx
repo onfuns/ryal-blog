@@ -5,9 +5,11 @@ import { Button, Popconfirm, Space, message } from 'antd'
 import { cloneDeep } from 'lodash'
 import { useRef, useState } from 'react'
 import { AuthAdd } from './components/Add'
+import { AuthIdEnum } from './enum'
 
 const AuthPage = () => {
   const actionRef = useRef<TableActionType>()
+  const refresh = () => actionRef?.current?.reload()
   const [expandKeys, setExpandKeys] = useState<number[]>([])
 
   const onDelete = async ({ children, id }: AuthType & { children?: AuthType[] }) => {
@@ -17,10 +19,8 @@ const AuthPage = () => {
     }
     await authService.delete(id)
     message.success('操作成功')
-    onRoload()
+    refresh()
   }
-
-  const onRoload = () => actionRef?.current?.reload()
 
   const columns: TableColumns<AuthType>[] = [
     {
@@ -28,7 +28,7 @@ const AuthPage = () => {
       dataIndex: 'name',
       render: (_, record) => (
         <span style={{ fontFamily: '"Source Sans Pro",Calibri,Candara,Arial,sans-serif' }}>
-          {record.pid !== 0 ? `   ├─   ${record.name}` : record.name}
+          {record.pid !== AuthIdEnum.Root ? `   ├─   ${record.name}` : record.name}
         </span>
       ),
     },
@@ -39,7 +39,7 @@ const AuthPage = () => {
       render: (_, record) => {
         return (
           <Space>
-            <AuthAdd detail={record} onSuccess={onRoload} trigger={<a>编辑</a>} />
+            <AuthAdd detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />
             <Popconfirm title="确定删除？" onConfirm={() => onDelete(record)}>
               <a className="a-danger">删除</a>
             </Popconfirm>
@@ -79,7 +79,7 @@ const AuthPage = () => {
       pagination={false}
       toolBarRender={() => [
         <AuthAdd
-          onSuccess={onRoload}
+          onSuccess={refresh}
           key="add"
           trigger={<Button type="primary">新增权限</Button>}
         />,

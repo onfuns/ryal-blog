@@ -1,13 +1,23 @@
 import { commentService } from '@/service'
 import { ModalForm, ProForm, ProFormTextArea } from '@ant-design/pro-components'
 import { message } from 'antd'
+import { useEffect } from 'react'
 
-export const CommentAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
-  const [form] = ProForm.useForm()
+export const CommentAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
+  const [formInstance] = ProForm.useForm()
+  const isEditMode = !!detail?.id
 
-  const onFinish = async () => {
-    const values = await form.validateFields()
-    await commentService.update(detail.id, values)
+  useEffect(() => {
+    if (isEditMode) {
+      formInstance.setFieldsValue({ ...detail })
+    }
+  }, [detail])
+
+  const onOk = async () => {
+    const values = await formInstance.validateFields()
+    if (isEditMode) {
+      await commentService.update(detail.id, values)
+    }
     message.success('操作成功')
     onSuccess?.()
   }
@@ -16,13 +26,8 @@ export const CommentAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModal
     <ModalForm
       title="评论信息"
       trigger={trigger}
-      modalProps={{
-        destroyOnClose: true,
-        onOk: onFinish,
-        onCancel: onClose,
-      }}
-      form={form}
-      initialValues={{ reply: detail?.reply }}
+      modalProps={{ onOk, onCancel }}
+      form={formInstance}
     >
       <ProFormTextArea label="回复内容" name="reply" placeholder="请输入回复内容" />
     </ModalForm>

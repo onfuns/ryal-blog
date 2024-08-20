@@ -7,6 +7,7 @@ import { CommentAdd } from './components/Add'
 
 const CommentPage = () => {
   const actionRef = useRef<TableActionType>()
+  const refresh = () => actionRef?.current?.reload()
 
   const onAction = async (type: 'delete' | 'pass', { id, status }: CommentType) => {
     if (type === 'delete') {
@@ -15,10 +16,8 @@ const CommentPage = () => {
       await commentService.update(id, { status: Number(!status) })
     }
     message.success('操作成功')
-    onReload()
+    refresh()
   }
-
-  const onReload = () => actionRef?.current?.reload()
 
   const columns: TableColumns<any>[] = [
     {

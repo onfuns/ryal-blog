@@ -30,7 +30,7 @@ export class Article extends TimeEntity {
   @Column({ comment: '分类ID' })
   category_id: number
 
-  @ApiProperty({ description: '标签' })
+  @ApiProperty({ description: '标签', type: [Tag] })
   @ManyToMany(() => Tag, { cascade: true })
   @JoinTable({
     name: 'article_tag_relation',

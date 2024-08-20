@@ -1,78 +1,72 @@
 import { commonService } from '@/service'
 import { Time } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
-import { Card, Col, List, Row, Space } from 'antd'
+import { Card, List, Space } from 'antd'
 
 const DashboardPage = () => {
   const { data } = useRequest(commonService.getDashboardData)
   const dashboardData = data?.data || {}
   const { article, comment, user } = dashboardData
 
-  const countData = [
+  const statisticsItems = [
     { title: '文章总数', value: article?.count || 0 },
     { title: '评论总数', value: comment?.count || 0 },
   ]
   return (
     <>
-      <Row gutter={16}>
-        <Col span={16}>
-          <Card title="数据统计">
-            <Row gutter={16}>
-              {countData.map(({ title, value }) => (
-                <Col key={title} span={8}>
-                  <div className="py-15 pl-20 border-1 border-solid border-#e6ebf5 border-rd-2 shadow-[0_2px_12px_0_rgba(0,0,0,0.1)]">
-                    <div className="color-#a3aed0">{title}</div>
-                    <div className="text-26">{value}</div>
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card title="用户信息">
-            <p>
-              上次登录时间： <Time value={user?.last_login_at} />
-            </p>
-            <p>上次登录IP： {user?.last_login_ip?.replace('::ffff:', '')}</p>
-          </Card>
-        </Col>
-      </Row>
-      <Row gutter={16} style={{ marginTop: 20 }}>
-        <Col span={16}>
-          <Card title="最新评论">
-            <List
-              itemLayout="horizontal"
-              dataSource={comment?.data || []}
-              renderItem={(record: any) => (
-                <List.Item>
-                  <List.Item.Meta
-                    style={{ width: '100%' }}
-                    title={
-                      <>
-                        <span style={{ marginRight: 5 }}>{record.name}</span>
-                        <Space>
-                          在
-                          <a
-                            target="_blank"
-                            href={`/article/${record?.article?.id}`}
-                            rel="noreferrer"
-                          >
-                            {record?.article?.title}
-                          </a>
-                          评论
-                        </Space>
-                        <Time value={record.created_at} className="float-right" />
-                      </>
-                    }
-                    description={record.content}
-                  />
-                </List.Item>
-              )}
-            />
-          </Card>
-        </Col>
-      </Row>
+      <div>
+        <Card title="数据统计">
+          <div>
+            {statisticsItems.map(({ title, value }) => (
+              <div key={title}>
+                <div className="py-15 pl-20 border-1 border-solid border-#e6ebf5 border-rd-2 shadow-[0_2px_12px_0_rgba(0,0,0,0.1)]">
+                  <div className="color-#a3aed0">{title}</div>
+                  <div className="text-26">{value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+        <Card title="用户信息">
+          <div>
+            上次登录时间： <Time value={user?.last_login_at} />
+          </div>
+          <div>上次登录IP： {user?.last_login_ip?.replace('::ffff:', '')}</div>
+        </Card>
+      </div>
+      <div className="flex mt-20">
+        <Card title="最新评论">
+          <List
+            itemLayout="horizontal"
+            dataSource={comment?.data || []}
+            renderItem={record => (
+              <List.Item>
+                <List.Item.Meta
+                  className="w-100%"
+                  title={
+                    <div>
+                      <span className="mr-5">{record.name}</span>
+                      <Space>
+                        在
+                        <a
+                          target="_blank"
+                          href={`/article/${record?.article?.id}`}
+                          rel="noreferrer"
+                        >
+                          {record?.article?.title}
+                        </a>
+                        评论
+                      </Space>
+                      <Time value={record.created_at} className="float-right" />
+                    </div>
+                  }
+                  description={record.content}
+                />
+              </List.Item>
+            )}
+          />
+        </Card>
+      </div>
     </>
   )
 }

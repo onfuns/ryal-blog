@@ -10,22 +10,25 @@ import {
 import { useRequest } from 'ahooks'
 import { message } from 'antd'
 import { useEffect } from 'react'
+import { AuthIdEnum, AuthTypeEnum, AuthTypeMap } from '../enum'
 
-export const AuthAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
-  const [form] = ProForm.useForm()
-  const { data: { data: authList = [] } = {} } = useRequest(authService.getList)
+export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
+  const [formInstance] = ProForm.useForm()
+  const { data } = useRequest(authService.getList)
+  const authList = data?.data || []
+  const isEditMode = !!detail?.id
 
   useEffect(() => {
-    if (detail?.id) {
+    if (isEditMode) {
       const pid = detail.pid ? findAllPid(detail.id) : undefined
-      form.setFieldsValue({ ...detail, pid })
+      formInstance.setFieldsValue({ ...detail, pid })
     }
-  }, [])
+  }, [detail])
 
   const findAllPid = (id: number, result: any[] = []): number[] => {
     const current = authList?.find(auth => auth.id === id)
     result.push(id)
-    if (current && current.pid !== 0) {
+    if (current && current.pid !== AuthIdEnum.Root) {
       return findAllPid(current.pid, result)
     }
     //只查出父级ID，不包含自己
@@ -34,13 +37,13 @@ export const AuthAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
     return result
   }
 
-  const onFinish = async () => {
-    const values = await form.validateFields()
+  const onOk = async () => {
+    const values = await formInstance.validateFields()
     const params = {
       ...values,
       pid: values.pid.pop(),
     }
-    if (detail?.id) {
+    if (isEditMode) {
       await authService.update(detail.id, params)
     } else {
       await authService.add(params)
@@ -53,18 +56,15 @@ export const AuthAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
     <ModalForm
       title="权限信息"
       trigger={trigger}
-      modalProps={{ onOk: onFinish, onCancel: onClose, destroyOnClose: true }}
-      form={form}
-      initialValues={{ type: 1 }}
+      modalProps={{ onOk, onCancel }}
+      form={formInstance}
+      initialValues={{ type: AuthTypeEnum.Menu }}
     >
       <ProFormRadio.Group
         label="类型"
         name="type"
         rules={[{ required: true }]}
-        options={[
-          { label: '菜单', value: 1 },
-          { label: '功能', value: 2 },
-        ]}
+        options={AuthTypeMap}
       />
 
       <ProFormCascader
@@ -74,8 +74,8 @@ export const AuthAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
         placeholder="请选择所属菜单"
         allowClear={false}
         fieldProps={{
-          options: [{ id: 0, name: '一级菜单' }].concat(
-            toTree(authList.filter(auth => auth.type === 1)), //只过滤菜单
+          options: [{ id: AuthIdEnum.Root, name: '一级菜单' }].concat(
+            toTree(authList.filter(auth => auth.type === AuthTypeEnum.Menu)), //只过滤菜单
           ),
           changeOnSelect: true,
           fieldNames: { label: 'name', value: 'id', children: 'children' },

@@ -3,7 +3,7 @@ import { ModalForm, ProForm, ProFormText, ProFormTextArea } from '@ant-design/pr
 import { message } from 'antd'
 import { useEffect } from 'react'
 
-export const TagAdd = ({ trigger, onSuccess, onClose, detail = {} }: IDetailModalProps) => {
+export const TagAdd = ({ trigger, onSuccess, onCancel, detail = {} }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
   const isEditMode = !!detail?.id
 
@@ -13,7 +13,7 @@ export const TagAdd = ({ trigger, onSuccess, onClose, detail = {} }: IDetailModa
     }
   }, [detail])
 
-  const onFinish = async () => {
+  const onOk = async () => {
     const values = await formInstance.validateFields()
     if (isEditMode) {
       await tagService.update(detail.id, values)
@@ -28,7 +28,7 @@ export const TagAdd = ({ trigger, onSuccess, onClose, detail = {} }: IDetailModa
     <ModalForm
       title="标签信息"
       trigger={trigger}
-      modalProps={{ onOk: onFinish, onCancel: onClose, destroyOnClose: true }}
+      modalProps={{ onOk, onCancel }}
       initialValues={detail}
       form={formInstance}
     >

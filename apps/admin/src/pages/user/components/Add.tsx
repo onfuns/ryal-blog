@@ -11,7 +11,7 @@ import CryptoJS from 'crypto-js'
 import { useEffect } from 'react'
 import { UserStatusEnum, UserStatusMap } from '../enum'
 
-export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
+export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
   const isEditMode = !!detail?.id
 
@@ -21,7 +21,7 @@ export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
     }
   }, [detail])
 
-  const onFinish = async () => {
+  const onOk = async () => {
     const values = await formInstance.validateFields()
     const params = {
       ...values,
@@ -41,7 +41,7 @@ export const UserAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalPro
     <ModalForm
       title="用户信息"
       trigger={trigger}
-      modalProps={{ onOk: onFinish, onCancel: onClose, destroyOnClose: true }}
+      modalProps={{ onOk, onCancel }}
       initialValues={{ enable: UserStatusEnum.Enable }}
       form={formInstance}
     >

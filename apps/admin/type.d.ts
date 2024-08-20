@@ -7,8 +7,8 @@ type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>
 type IDetailModalProps = {
   /** 触发节点 dom */
   trigger?: any
-  /** 关闭事件 */
-  onClose?: () => void
+  /** 取消事件 */
+  onCancel?: () => void
   /** 成功回调 */
   onSuccess?: (args?: any) => void
   /** 详情信息 */

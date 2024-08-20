@@ -56,6 +56,19 @@ export interface CategoryType {
   icon_color: string
 }
 
+export interface TagType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 名称 */
+  name: string
+  /** 描述 */
+  description: string
+}
+
 export interface ArticleType {
   /** 创建时间 */
   created_at: string
@@ -68,7 +81,7 @@ export interface ArticleType {
   /** 分类ID */
   category_id: number
   /** 标签 */
-  tags: string[]
+  tags: TagType[]
   /** 标题 */
   title: string
   /** 描述 */
@@ -99,7 +112,7 @@ export interface ArticleCreateReqDtoType {
   /** 分类ID */
   category_id?: number
   /** 标签 */
-  tags?: string[]
+  tags?: TagType[]
   /** 标题 */
   title?: string
   /** 描述 */
@@ -122,19 +135,6 @@ export interface ArticleCreateReqDtoType {
   publish_time?: string
   /** 作者 */
   author?: string
-}
-
-export interface TagType {
-  /** 创建时间 */
-  created_at: string
-  /** 更新时间 */
-  updated_at: string
-  /** id */
-  id: number
-  /** 名称 */
-  name: string
-  /** 描述 */
-  description: string
 }
 
 export interface TagCreateReqDtoType {

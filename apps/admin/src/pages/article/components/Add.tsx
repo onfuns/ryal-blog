@@ -14,38 +14,46 @@ import { TimeFormt } from '@ryal/ui-kit'
 import { message } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
+import { CatetoryIdEnum } from '../../category/enum'
+import { CommentTypeEnum, PassTypeEnum } from '../enum'
 
-export const ArticleAdd = ({ trigger, onClose, onSuccess, detail = {} }: IDetailModalProps) => {
+export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetailModalProps) => {
   const [content, setContent] = useState('')
-  const [form] = ProForm.useForm()
+  const [formInstance] = ProForm.useForm()
+  const isEditMode = !!detail?.id
 
   const loadData = async () => {
     const { data: article } = await articleService.info(detail.id)
     const { publish_time, category, tags, content } = article
     setContent(content)
-    form.setFieldsValue({
+    formInstance.setFieldsValue({
       ...article,
       publish_time: dayjs(publish_time),
-      tags: tags?.map(({ id }: any) => id),
-      category_id: category?.pid === 0 ? [category.id] : [category.pid, category.id],
+      tags: tags?.map(item => item.id),
+      category_id:
+        category?.pid === CatetoryIdEnum.Root ? [category.id] : [category.pid, category.id],
     })
   }
 
   useEffect(() => {
-    if (detail?.id) loadData()
-  }, [detail?.id])
+    if (isEditMode) {
+      loadData()
+    }
+  }, [detail])
 
   const onFinish = async () => {
-    const values = await form.validateFields()
+    const values = await formInstance.validateFields()
     const params = {
       ...values,
-      publish_time: dayjs(values.publish_time).format(TimeFormt.Time),
-      category_id: values.category_id.pop(),
-      tags: values.tags.map((id: string) => ({ id })),
+      publish_time: values.publish_time
+        ? dayjs(values.publish_time).format(TimeFormt.Time)
+        : undefined,
+      category_id: values?.category_id?.pop(),
+      tags: values?.tags?.map((id: number) => ({ id })),
       content,
     }
 
-    if (detail?.id) {
+    if (isEditMode) {
       await articleService.update(detail.id, params)
     } else {
       await articleService.add(params)
@@ -58,13 +66,13 @@ export const ArticleAdd = ({ trigger, onClose, onSuccess, detail = {} }: IDetail
     <DrawerForm
       title="文章信息"
       trigger={trigger}
-      drawerProps={{ onClose: onClose, destroyOnClose: true }}
+      drawerProps={{ onClose: onCancel }}
       onFinish={onFinish}
-      width="50%"
-      form={form}
+      width="80%"
+      form={formInstance}
       initialValues={{
-        pass_flag: 1,
-        comment_flag: 0,
+        pass_flag: PassTypeEnum.Audited,
+        comment_flag: CommentTypeEnum.Closed,
         publish_time: dayjs(),
       }}
     >
@@ -114,8 +122,8 @@ export const ArticleAdd = ({ trigger, onClose, onSuccess, detail = {} }: IDetail
         label="审核"
         name="pass_flag"
         options={[
-          { label: '通过', value: 1 },
-          { label: '待审核', value: 0 },
+          { label: '通过', value: PassTypeEnum.Audited },
+          { label: '待审核', value: PassTypeEnum.UnAudited },
         ]}
       />
 
@@ -123,8 +131,8 @@ export const ArticleAdd = ({ trigger, onClose, onSuccess, detail = {} }: IDetail
         label="开放评论"
         name="comment_flag"
         options={[
-          { label: '是', value: 1 },
-          { label: '否', value: 0 },
+          { label: '是', value: CommentTypeEnum.Opened },
+          { label: '否', value: CommentTypeEnum.Closed },
         ]}
       />
 

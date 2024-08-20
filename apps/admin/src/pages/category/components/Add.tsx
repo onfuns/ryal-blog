@@ -8,20 +8,28 @@ import {
 } from '@ant-design/pro-components'
 import { message } from 'antd'
 import { useEffect } from 'react'
+import {
+  CategoryStatusEnum,
+  CategoryStatusMap,
+  CategoryTypeEnum,
+  CategoryTypeMap,
+  CatetoryIdEnum,
+} from '../enum'
 
-export const CategoryAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModalProps) => {
-  const [form] = ProForm.useForm()
-  const categoryType = ProForm.useWatch('type', form)
+export const CategoryAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
+  const [formInstance] = ProForm.useForm()
+  const categoryType = ProForm.useWatch('type', formInstance)
+  const isEditMode = !!detail?.id
 
   useEffect(() => {
-    if (detail?.id) {
-      form.setFieldsValue({ ...detail, pid: [detail.pid] })
+    if (isEditMode) {
+      formInstance.setFieldsValue({ ...detail, pid: [detail.pid] })
     }
-  }, [])
+  }, [detail])
 
-  const onFinish = async () => {
-    const values = await form.validateFields()
-    if (detail?.id) {
+  const onOk = async () => {
+    const values = await formInstance.validateFields()
+    if (isEditMode) {
       await categoryService.update(detail.id, values)
     } else {
       await categoryService.add(values)
@@ -34,12 +42,12 @@ export const CategoryAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModa
     <ModalForm
       title="分类信息"
       trigger={trigger}
-      modalProps={{ onOk: onFinish, onCancel: onClose, destroyOnClose: true }}
-      form={form}
+      modalProps={{ onOk, onCancel }}
+      form={formInstance}
       initialValues={{
-        pid: [0],
-        type: 1,
-        status: 1,
+        pid: [CatetoryIdEnum.Root],
+        type: CategoryTypeEnum.List,
+        status: CategoryStatusEnum.Enable,
       }}
     >
       <ProFormCascader
@@ -49,7 +57,7 @@ export const CategoryAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModa
         placeholder="请选择分类"
         request={async () => {
           const { data } = await categoryService.getList()
-          return [{ id: 0, name: '一级分类' }].concat(data)
+          return [{ id: CatetoryIdEnum.Root, name: '一级分类' }].concat(data)
         }}
         disabled={!!detail?.id}
         fieldProps={{
@@ -71,14 +79,10 @@ export const CategoryAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModa
         label="类别"
         name="type"
         rules={[{ required: true }]}
-        options={[
-          { label: '文章列表', value: 1 },
-          { label: '单页', value: 2 },
-          { label: '外链', value: 3 },
-        ]}
+        options={CategoryTypeMap}
       />
 
-      {categoryType === 3 && (
+      {categoryType === CategoryTypeEnum.Url && (
         <ProFormText
           label="外链地址"
           name="url"
@@ -92,13 +96,10 @@ export const CategoryAdd = ({ trigger, onSuccess, onClose, detail }: IDetailModa
       <ProFormText label="图标颜色" name="icon_color" placeholder="只对iconfont 有效" />
 
       <ProFormRadio.Group
-        label="显示"
+        label="状态"
         name="status"
         rules={[{ required: true }]}
-        options={[
-          { label: '是', value: 1 },
-          { label: '否', value: 0 },
-        ]}
+        options={CategoryStatusMap}
       />
     </ModalForm>
   )
