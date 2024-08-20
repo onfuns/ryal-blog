@@ -1,4 +1,4 @@
-import { PageListModel } from '@/common/model/page.model'
+import { PageListResModel } from '@/common/model/page.model'
 import config from '@/config'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -49,7 +49,7 @@ export class UserService {
     return await this.repository.save(record)
   }
 
-  async findAll(query?: UserListReqDto): Promise<PageListModel<User>> {
+  async findAll(query?: UserListReqDto): Promise<PageListResModel<User>> {
     const { current = 1, pageSize = 20, name, roleId, enable } = query || {}
 
     const where = pickBy({

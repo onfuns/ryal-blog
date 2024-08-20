@@ -1,4 +1,4 @@
-import { MixinCreateDto, MixinPageListDto } from '@/common/model/page.model'
+import { MixinCreateDto, MixinPageListReqDto } from '@/common/model/page.model'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { Comment } from './comment.entity'
@@ -13,7 +13,7 @@ export class CommentCreateReqDto extends MixinCreateDto(Comment) {
   readonly content: string
 }
 
-export class CommentListReqDto extends MixinPageListDto(Comment) {
+export class CommentListReqDto extends MixinPageListReqDto(Comment) {
   @ApiPropertyOptional({ description: '文章标题' })
   readonly title?: string
 }

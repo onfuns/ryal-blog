@@ -2,14 +2,17 @@ import { Type } from '@nestjs/common'
 import { ApiProperty, IntersectionType, OmitType, PartialType, PickType } from '@nestjs/swagger'
 import { IsNumber } from 'class-validator'
 
-export class PageListModel<TData = any> {
+export class PageListResModel<TData = any> {
   /** 结果 */
+  @ApiProperty({ description: '结果' })
   data: TData[]
+
+  @ApiProperty({ description: '总数' })
   /** 总数 */
   total: number
 }
 
-export class PageDto {
+export class PageReqDto {
   @ApiProperty({ description: '当前页码' })
   @IsNumber()
   current?: number
@@ -19,8 +22,8 @@ export class PageDto {
   pageSize?: number
 }
 
-export function MixinPageListDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
-  return IntersectionType(PartialType(PageDto), PartialType(PickType(entity, keys || [])))
+export function MixinPageListReqDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
+  return IntersectionType(PartialType(PageReqDto), PartialType(PickType(entity, keys || [])))
 }
 
 export function MixinCreateDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {

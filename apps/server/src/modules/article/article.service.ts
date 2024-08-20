@@ -1,4 +1,4 @@
-import { PageListModel } from '@/common/model/page.model'
+import { PageListResModel } from '@/common/model/page.model'
 import { LoggerService } from '@/shared/logger/logger.service'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -29,7 +29,7 @@ export class ArticleService {
     })
   }
 
-  async findAll(query?: ArticleListReqDto): Promise<PageListModel<Article>> {
+  async findAll(query?: ArticleListReqDto): Promise<PageListResModel<Article>> {
     const { current = 1, pageSize = 20, sort, title, cid: category_id, pass_flag } = query ?? {}
     const where = pickBy({
       title: title ? Like(`%${title}%`) : undefined,

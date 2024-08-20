@@ -1,4 +1,4 @@
-import { MixinCreateDto, MixinPageListDto } from '@/common/model/page.model'
+import { MixinCreateDto, MixinPageListReqDto } from '@/common/model/page.model'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { File, FileCategory } from './file.entity'
@@ -17,7 +17,7 @@ export class FileCreateReqDto extends MixinCreateDto(File) {
   readonly buffer: Buffer
 }
 
-export class FileListReqDto extends MixinPageListDto(File) {
+export class FileListReqDto extends MixinPageListReqDto(File) {
   @ApiPropertyOptional({ description: '分类 id' })
   fileCategoryId?: number
 }

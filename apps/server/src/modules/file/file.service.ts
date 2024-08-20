@@ -1,4 +1,4 @@
-import { PageListModel } from '@/common/model/page.model'
+import { PageListResModel } from '@/common/model/page.model'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import dayjs from 'dayjs'
@@ -17,7 +17,7 @@ export class FileService {
   @InjectRepository(FileCategory)
   private readonly fileCategoryRepository: Repository<FileCategory>
 
-  async findAll(query: FileListReqDto): Promise<PageListModel<File>> {
+  async findAll(query: FileListReqDto): Promise<PageListResModel<File>> {
     const { current = 1, pageSize = 20, fileCategoryId, originalname } = query ?? {}
 
     const where: Partial<File> = pickBy({

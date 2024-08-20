@@ -5,12 +5,12 @@ import { Card, List, Space } from 'antd'
 
 const DashboardPage = () => {
   const { data } = useRequest(commonService.getDashboardData)
-  const dashboardData = data?.data || {}
-  const { article, comment, user } = dashboardData
+  const dashboardData = data?.data
+  const { article, comment, user } = dashboardData || {}
 
   const statisticsItems = [
-    { title: '文章总数', value: article?.count || 0 },
-    { title: '评论总数', value: comment?.count || 0 },
+    { title: '文章总数', value: article?.total || 0 },
+    { title: '评论总数', value: comment?.total || 0 },
   ]
   return (
     <>
