@@ -1,3 +1,2 @@
-export { default as Cache } from './cache'
-export * from './minix'
+export * from './cache'
 export * from './tree'

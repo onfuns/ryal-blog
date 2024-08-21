@@ -1,20 +1,17 @@
-import config from '@/config'
 import { userService } from '@/service'
-import { HttpClient, type ResponseResultType } from '@ryal/api'
+import { type ResponseResultType } from '@ryal/api'
 import { message } from 'antd'
+import axios from 'axios'
 
 const noticeError = (data: ResponseResultType) => {
   message.error(data.message || '请求出错，请重试')
   return Promise.reject(data)
 }
 
-const axios = new HttpClient()
-
-axios.instance.interceptors.request.use(
+axios.interceptors.request.use(
   axiosConfig => {
     const { token = '' } = userService.getLocalUser()
-    axiosConfig.baseURL = config.apiBasename
-    axiosConfig.headers.common['X-AUTH-ID-TOKEN'] = token
+    axiosConfig.headers['X-AUTH-ID-TOKEN'] = token
     return axiosConfig
   },
   error => {
@@ -22,7 +19,7 @@ axios.instance.interceptors.request.use(
   },
 )
 
-axios.instance.interceptors.response.use(
+axios.interceptors.response.use(
   response => {
     const { data } = response
     if (data?.success === false && data?.message) {

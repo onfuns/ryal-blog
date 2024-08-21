@@ -1,5 +1,5 @@
 import { authService, type AuthType } from '@/service'
-import { toTree } from '@/utils'
+import { arrayToTree } from '@/utils'
 import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, message } from 'antd'
 import { cloneDeep } from 'lodash'
@@ -68,7 +68,7 @@ const AuthPage = () => {
       }}
       request={async () => {
         const { success, data } = await authService.getList()
-        return { success, data: toTree(cloneDeep(data)) }
+        return { success, data: arrayToTree(cloneDeep(data)) }
       }}
       pagination={false}
       toolBarRender={() => [

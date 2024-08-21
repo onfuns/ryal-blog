@@ -65,6 +65,9 @@ export class HttpClient<SecurityDataType = unknown> {
     this.secure = secure
     this.format = format
     this.securityWorker = securityWorker
+
+    this.instance.interceptors.request = axios.interceptors.request
+    this.instance.interceptors.response = axios.interceptors.response
   }
 
   public setSecurityData = (data: SecurityDataType | null) => {

@@ -39,12 +39,32 @@
 ## 开发
 
 ```bash
+
+# 添加前置依赖
+npx lerna add @ryal/ui-kit --scope @ryal/{app-admin,app-client}
+npx lerna add @ryal/api --scope @ryal/{app-admin,app-client}
+# 初始化安装包
+yarn bootstrap
+
 # 服务端
 yarn dev:server
 # 管理端
 yarn dev:admin
 # 客户端
 yarn dev:client
+
+```
+
+如果服务端新增接口，需要`@ryal/api`生成接口及接口类型
+
+```bash
+yarn build:api
+```
+
+基础组件库`@ryal/ui-kit`同理
+
+```bash
+yarn build:ui-kit
 ```
 
 ## 构建

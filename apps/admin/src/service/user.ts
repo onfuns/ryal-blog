@@ -1,8 +1,9 @@
 import config from '@/config'
 import { LOCAL_USER_KEY } from '@/constants'
 import { Cache } from '@/utils'
+import { User } from '@ryal/api'
 
-export class UserLocalService {
+export class UserMinixService extends User {
   saveLocalUser(data: any) {
     Cache.set(LOCAL_USER_KEY, data)
   }

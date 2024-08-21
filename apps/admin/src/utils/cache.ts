@@ -1,4 +1,4 @@
-export class Cache {
+class Storage {
   get(key: string) {
     const value = localStorage.getItem(key)
     try {
@@ -18,4 +18,4 @@ export class Cache {
   }
 }
 
-export default new Cache()
+export const Cache = new Storage()

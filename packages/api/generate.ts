@@ -11,6 +11,7 @@ generateApi({
   httpClientType: 'axios',
   modular: true,
   typeSuffix: 'Type',
+  templates: path.join(__dirname, './templates'),
   moduleNameFirstTag: true,
   unwrapResponseData: true,
   hooks: {

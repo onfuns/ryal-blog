@@ -10,14 +10,6 @@ export default defineConfig({
         find: '@',
         replacement: join(__dirname, './src'),
       },
-      {
-        find: '@ryal/ui-kit',
-        replacement: join(__dirname, '../../packages/ui-kit/src'),
-      },
-      {
-        find: '@ryal/api',
-        replacement: join(__dirname, '../../packages/api/src'),
-      },
     ],
   },
   server: {

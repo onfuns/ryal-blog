@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import 'uno.css'
 import config from './config'
 import { routes, type IRouter } from './routes'
 

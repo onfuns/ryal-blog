@@ -1,8 +1,9 @@
-export type ArrayToTreeNode = Record<string, any> & {
-  id?: number
-  pid?: number | null
-  children?: ArrayToTreeNode[]
-}
+export type TreeNode<TData = any> = Record<string, any> &
+  TData & {
+    id?: number
+    pid?: number | null
+    children?: TreeNode<TData>[]
+  }
 
 export type ArrayToTreeOptions = {
   idKey?: string
@@ -10,13 +11,13 @@ export type ArrayToTreeOptions = {
   childKey?: string
 }
 
-export const arrayToTree = (
-  items: ArrayToTreeNode[],
+export const arrayToTree = <TData = any>(
+  items: TreeNode<TData>[],
   options?: ArrayToTreeOptions,
-): ArrayToTreeNode[] => {
+): TreeNode<TData>[] => {
   const { idKey = 'id', parentIdKey = 'pid', childKey = 'children' } = options || {}
-  const map = new Map<number, ArrayToTreeNode>()
-  const roots: ArrayToTreeNode[] = []
+  const map = new Map<number, TreeNode<TData>>()
+  const roots: TreeNode<TData>[] = []
 
   items.forEach(item => {
     map.set(item[idKey], { ...item, [childKey]: [] })

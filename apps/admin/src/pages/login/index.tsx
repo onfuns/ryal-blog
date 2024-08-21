@@ -27,6 +27,7 @@ const LoginPage = () => {
       userService.saveLocalUser(data)
       message.success('登录成功', 1, () => history.push(adminRoutes[0].path))
     } catch (error) {
+      console.log('登录失败', error)
       setLoading(false)
     }
   }
@@ -36,7 +37,15 @@ const LoginPage = () => {
         <div className="flex items-center w-500 h-100%">
           <img src={LoginImage} className="w-100%" />
         </div>
-        <ProForm form={formInstance} submitter={false} className="w-350 ml-100">
+        <ProForm
+          form={formInstance}
+          submitter={false}
+          className="w-350 ml-100"
+          initialValues={{
+            name: 'demo',
+            password: 'a123456',
+          }}
+        >
           <h1 className="mb-40 text-30">Ryal Blog</h1>
 
           <ProFormText

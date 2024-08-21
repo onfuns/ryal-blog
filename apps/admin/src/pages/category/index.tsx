@@ -53,7 +53,7 @@ const CategoryPage = () => {
     },
     {
       title: '操作',
-      dataIndex: 'option',
+      valueType: 'option',
       width: 120,
       render: (_, record) => [
         <CategoryAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,

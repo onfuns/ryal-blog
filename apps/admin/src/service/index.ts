@@ -1,10 +1,9 @@
-import { mixinClass } from '@/utils'
-import { Article, Auth, Category, Comment, Common, File, Role, Tag, User, Website } from '@ryal/api'
-import { UserLocalService } from './user'
+import { Article, Auth, Category, Comment, Common, File, Role, Tag, Website } from '@ryal/api'
+import { UserMinixService } from './user'
 
 export * from '@ryal/api'
 export const articleService = new Article()
-export const userService = mixinClass(UserLocalService, User)
+export const userService = new UserMinixService()
 export const roleService = new Role()
 export const fileService = new File()
 export const categoryService = new Category()

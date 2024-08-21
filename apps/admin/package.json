@@ -17,6 +17,8 @@
     "@bytemd/plugin-highlight": "^1.21.0",
     "@bytemd/react": "^1.21.0",
     "@monaco-editor/react": "^4.5.1",
+    "@ryal/api": "^1.0.0",
+    "@ryal/ui-kit": "^1.0.0",
     "ahooks": "^3.7.7",
     "antd": "^5.18.0",
     "axios": "^1.4.0",
