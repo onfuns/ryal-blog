@@ -13,8 +13,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FilesInterceptor } from '@nestjs/platform-express'
-import { ApiParam, ApiTags } from '@nestjs/swagger'
-import { FileCategoryCreateReqDto, FileCreateReqDto, FileListReqDto } from './file.dto'
+import { ApiBody, ApiConsumes, ApiParam, ApiTags } from '@nestjs/swagger'
+import {
+  FileCategoryCreateReqDto,
+  FileCreateReqDto,
+  FileListReqDto,
+  FileUploadReqDto,
+} from './file.dto'
 import { File, FileCategory } from './file.entity'
 import { FileService } from './file.service'
 
@@ -37,12 +42,15 @@ export class FileController {
   }
 
   @ApiResult({ description: '上传文件' })
+  @ApiConsumes('multipart/form-data')
   @Post('upload')
   @UseInterceptors(FilesInterceptor('files'))
-  uploadMultiple(
-    @UploadedFiles() files: FileCreateReqDto[],
-    @Body('fileCategoryId') fileCategoryId?: FileCategory['id'],
-  ) {
+  @ApiBody({
+    description: '上传文件参数',
+    type: FileUploadReqDto,
+  })
+  upload(@UploadedFiles() files: FileCreateReqDto[], @Body() body: FileUploadReqDto) {
+    const { fileCategoryId } = body
     if (files.length > 5) {
       return new ResponseResult(false, null, '一次最多上传5张图片')
     } else if (files.some(file => !file.mimetype?.includes('image/'))) {
@@ -59,7 +67,7 @@ export class FileController {
 
   @ApiResult({ description: '新增文件分类', type: FileCategory })
   @Post('category')
-  async addFileCategory(@Body('name') name: FileCategoryCreateReqDto['name']) {
-    return this.service.addFileCategory(name)
+  async addFileCategory(@Body() body: FileCategoryCreateReqDto) {
+    return this.service.addFileCategory(body.name)
   }
 }

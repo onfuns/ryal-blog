@@ -113,13 +113,13 @@ export interface ArticleCreateReqDtoType {
   category_id?: number
   /** 标签 */
   tags?: TagType[]
-  /** 标题 */
+  /** 文章标题 */
   title?: string
   /** 描述 */
   description?: string
   /** 排序 */
   sort?: number
-  /** 内容 */
+  /** 文章内容 */
   content?: string
   /**
    * 是否审核通过 0-否 1-是
@@ -183,9 +183,9 @@ export interface CategoryListItemDtoType {
 }
 
 export interface CategoryCreateReqDtoType {
-  /** 名称 */
+  /** 分类名称 */
   name?: string
-  /** 路由 */
+  /** 分类路由 */
   ename?: string
   /**
    * 父级ID
@@ -326,9 +326,9 @@ export interface AuthType {
 }
 
 export interface AuthCreateReqDtoType {
-  /** 名称 */
+  /** 权限名称 */
   name?: string
-  /** 编码 */
+  /** 权限编码 */
   code?: string
   /** 类型 1-菜单 2-功能 */
   type?: number
@@ -413,6 +413,7 @@ export interface FileCategoryType {
   created_at: string
   /** 更新时间 */
   updated_at: string
+  /** id */
   id: number
   /** 名称 */
   name: string
@@ -423,6 +424,7 @@ export interface FileType {
   created_at: string
   /** 更新时间 */
   updated_at: string
+  /** id */
   id: number
   /** 分类 */
   fileCategory: FileCategoryType
@@ -436,6 +438,17 @@ export interface FileType {
   size: number
   /** 后缀 */
   ext: string
+}
+
+export interface FileUploadReqDtoType {
+  files: File[]
+  /** 文件分类 */
+  fileCategoryId?: number
+}
+
+export interface FileCategoryCreateReqDtoType {
+  /** 名称 */
+  name: string
 }
 
 export interface WebsiteType {

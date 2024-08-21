@@ -49,7 +49,7 @@ export class FileService {
     return this.fileCategoryRepository.save({ name })
   }
 
-  async upload(files: FileCreateReqDto[], fileCategoryId?: FileCategory['id']) {
+  async upload(files: FileCreateReqDto[], fileCategoryId?: FileCategory['id']): Promise<boolean> {
     const date = dayjs().format('YYYYMMDD')
     const filePath = join('uploads', date)
     const dir = join(__dirname, '../../../', filePath)

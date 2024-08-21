@@ -15,7 +15,7 @@ import { useState } from 'react'
 export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
   const [fileList, setFileList] = useState<UploadFile[]>([])
-  const [typeName, setTypeName] = useState<string>()
+  const [typeName, setTypeName] = useState<string | undefined>()
   const { data: { data: fileCategoryList = [] } = {}, refresh: refreshfileCategoryList } =
     useRequest(fileService.getFileCategoryList)
 
@@ -26,11 +26,11 @@ export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => 
 
     const values = await formInstance.validateFields()
     const formData = new FormData()
-    fileList.forEach(file => {
-      formData.append('files', file as any)
-    })
     formData.append('fileCategoryId', values.fileCategoryId)
-    await fileService.uploadMultiple(formData)
+    for (let file of fileList) {
+      formData.append('files[]', file as any)
+    }
+    await fileService.upload(formData as any)
     message.success('上传成功')
     onSuccess?.()
   }
@@ -73,9 +73,11 @@ export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => 
   }
 
   const addItem = async () => {
-    await fileService.addFileCategory({ name: typeName })
-    setTypeName(undefined)
-    refreshfileCategoryList()
+    if (typeName) {
+      await fileService.addFileCategory({ name: typeName })
+      setTypeName(undefined)
+      refreshfileCategoryList()
+    }
   }
 
   return (
@@ -113,10 +115,10 @@ export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => 
 
       <ProFormUploadDragger label="附件" extra="仅支持图片类文件上传" {...uploadProps}>
         <div className="flex-center flex-col w-200">
-          <p className="ant-upload-drag-icon">
+          <div className="ant-upload-drag-icon">
             <InboxOutlined />
-          </p>
-          <p className="ant-upload-text">点击或拖拽图片上传</p>
+          </div>
+          <div className="ant-upload-text">点击或拖拽图片上传</div>
         </div>
       </ProFormUploadDragger>
 
@@ -124,7 +126,7 @@ export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => 
         <ProFormItem colon={false}>
           <div className="flex flex-wrap">
             {fileList
-              .filter(file => file.url)
+              .filter(file => !!file.url)
               .map((file, index) => (
                 <div
                   key={file.uid}

@@ -9,8 +9,14 @@
  * ---------------------------------------------------------------
  */
 
-import { FileCategoryType, FileType, ResponseResultType } from './data-contracts'
-import { HttpClient, RequestParams } from './http-client'
+import {
+  FileCategoryCreateReqDtoType,
+  FileCategoryType,
+  FileType,
+  FileUploadReqDtoType,
+  ResponseResultType,
+} from './data-contracts'
+import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
@@ -70,10 +76,10 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * No description
    *
    * @tags file
-   * @name UploadMultiple
+   * @name Upload
    * @request POST:/api/file/upload
    */
-  uploadMultiple = (params: RequestParams = {}) =>
+  upload = (data: FileUploadReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         /** @default null */
@@ -83,6 +89,8 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
     >({
       path: `/api/file/upload`,
       method: 'POST',
+      body: data,
+      type: ContentType.FormData,
       format: 'json',
       ...params,
     })
@@ -112,7 +120,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name AddFileCategory
    * @request POST:/api/file/category
    */
-  addFileCategory = (params: RequestParams = {}) =>
+  addFileCategory = (data: FileCategoryCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: FileCategoryType
@@ -121,6 +129,8 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
     >({
       path: `/api/file/category`,
       method: 'POST',
+      body: data,
+      type: ContentType.Json,
       format: 'json',
       ...params,
     })

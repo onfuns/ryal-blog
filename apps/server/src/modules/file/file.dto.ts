@@ -1,7 +1,7 @@
 import { MixinCreateDto, MixinPageListReqDto } from '@/common/model/page.model'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
-import { File, FileCategory } from './file.entity'
+import { File } from './file.entity'
 
 export class FileCreateReqDto extends MixinCreateDto(File) {
   @ApiProperty({ description: '原名称' })
@@ -17,12 +17,20 @@ export class FileCreateReqDto extends MixinCreateDto(File) {
   readonly buffer: Buffer
 }
 
+export class FileUploadReqDto {
+  @ApiProperty({ type: 'array', items: { type: 'string', format: 'binary' } })
+  files: any[]
+
+  @ApiPropertyOptional({ description: '文件分类' })
+  fileCategoryId: number
+}
+
 export class FileListReqDto extends MixinPageListReqDto(File) {
   @ApiPropertyOptional({ description: '分类 id' })
   fileCategoryId?: number
 }
 
-export class FileCategoryCreateReqDto extends MixinCreateDto(FileCategory) {
+export class FileCategoryCreateReqDto {
   @ApiProperty({ description: '名称' })
   @IsNotEmpty({ message: '名称不能为空' })
   readonly name: string

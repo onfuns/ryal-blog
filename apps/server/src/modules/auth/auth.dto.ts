@@ -4,11 +4,11 @@ import { MixinCreateDto } from '../../common/model/page.model'
 import { Auth } from './auth.entity'
 
 export class AuthCreateReqDto extends MixinCreateDto(Auth) {
-  @ApiProperty()
+  @ApiProperty({ description: '权限名称' })
   @IsNotEmpty({ message: '名称不能为空' })
   readonly name: string
 
-  @ApiProperty()
+  @ApiProperty({ description: '权限编码' })
   @IsNotEmpty({ message: '编码不能为空' })
   readonly code: string
 }

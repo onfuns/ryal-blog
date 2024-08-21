@@ -4,11 +4,11 @@ import { MixinCreateDto, MixinPageListReqDto } from '../../common/model/page.mod
 import { Article } from './article.entity'
 
 export class ArticleCreateReqDto extends MixinCreateDto(Article) {
-  @ApiProperty()
+  @ApiProperty({ description: '文章标题' })
   @IsNotEmpty({ message: '标题不能为空' })
   readonly title: string
 
-  @ApiProperty()
+  @ApiProperty({ description: '文章内容' })
   @IsNotEmpty({ message: '内容不能为空' })
   readonly content: string
 }

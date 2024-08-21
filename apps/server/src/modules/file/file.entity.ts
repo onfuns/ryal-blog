@@ -4,7 +4,7 @@ import { TimeEntity } from '../../common/model/entity.model'
 
 @Entity()
 export class FileCategory extends TimeEntity {
-  @ApiProperty()
+  @ApiProperty({ description: 'id' })
   @PrimaryGeneratedColumn()
   id: number
 
@@ -15,11 +15,11 @@ export class FileCategory extends TimeEntity {
 
 @Entity()
 export class File extends TimeEntity {
-  @ApiProperty()
+  @ApiProperty({ description: 'id' })
   @PrimaryGeneratedColumn()
   id: number
 
-  @ApiProperty({ description: '分类' })
+  @ApiProperty({ description: '分类', type: FileCategory })
   @ManyToOne(() => FileCategory, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',

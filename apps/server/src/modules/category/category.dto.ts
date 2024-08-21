@@ -4,11 +4,11 @@ import { MixinCreateDto } from '../../common/model/page.model'
 import { Category } from './category.entity'
 
 export class CategoryCreateReqDto extends MixinCreateDto(Category) {
-  @ApiProperty()
+  @ApiProperty({ description: '分类名称' })
   @IsNotEmpty({ message: '名称不能为空' })
   readonly name: string
 
-  @ApiProperty()
+  @ApiProperty({ description: '分类路由' })
   @IsNotEmpty({ message: '路由不能为空' })
   readonly ename: string
 }
