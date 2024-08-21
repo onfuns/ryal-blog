@@ -3,6 +3,7 @@ import path from 'path'
 import { generateApi } from 'swagger-typescript-api'
 import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const lowerCase = (name: string) => name.charAt(0).toLocaleLowerCase()
 
 generateApi({
   output: path.join(__dirname, './src'),
@@ -15,13 +16,14 @@ generateApi({
   hooks: {
     onFormatRouteName: (routeInfo, templateRouteName) => {
       const name = templateRouteName.split('Controller')?.[1] || templateRouteName
-      return name.charAt(0).toLocaleLowerCase() + name.slice(1)
+      return lowerCase(name) + name.slice(1)
     },
   },
 }).then(({ files }) => {
-  let content = ''
+  const defaultExoprts = [`export * from './src/http-client.ts'\n`]
+  let content = defaultExoprts.join('')
   files
-    .sort((a, b) => a.fileName.localeCompare(b.fileName))
+    .sort((a, b) => lowerCase(a.fileName).localeCompare(lowerCase(b.fileName)))
     .forEach(file => {
       content += `export * from './src/${file.fileName}${file.fileExtension}'\n`
       fs.writeFile(path.join(__dirname, './index.ts'), content, 'utf-8')

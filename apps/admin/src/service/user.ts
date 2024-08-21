@@ -1,17 +1,17 @@
 import config from '@/config'
 import { LOCAL_USER_KEY } from '@/constants'
-import { cache } from '@/utils'
+import { Cache } from '@/utils'
 
 export class UserLocalService {
   saveLocalUser(data: any) {
-    cache.set(LOCAL_USER_KEY, data)
+    Cache.set(LOCAL_USER_KEY, data)
   }
 
   getLocalUser(): { userName: string; token: string } {
-    return cache.get(LOCAL_USER_KEY) || {}
+    return Cache.get(LOCAL_USER_KEY) || {}
   }
   removeLocalUser() {
-    return cache.remove(LOCAL_USER_KEY)
+    return Cache.remove(LOCAL_USER_KEY)
   }
 
   logout() {

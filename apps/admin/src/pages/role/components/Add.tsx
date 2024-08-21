@@ -1,5 +1,5 @@
 import { authService, roleService } from '@/service'
-import { toTree } from '@/utils'
+import { arrayToTree } from '@/utils'
 import {
   DrawerForm,
   ProForm,
@@ -59,7 +59,7 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
     onSuccess?.()
   }
 
-  const treeList = toTree(cloneDeep(authList))
+  const treeList = arrayToTree(cloneDeep(authList))
 
   return (
     <DrawerForm
@@ -101,7 +101,7 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
             checkedKeys={selectedKeys}
             onCheck={(value: any) => setSelectedKeys([...value])}
             fieldNames={{ title: 'name', key: 'id', children: 'children' }}
-            treeData={treeList}
+            treeData={treeList as any[]}
           />
         </ProForm.Item>
       ) : null}

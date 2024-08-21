@@ -1,3 +1,4 @@
+export * from './src/http-client.ts'
 export * from './src/Article.ts'
 export * from './src/Auth.ts'
 export * from './src/Category.ts'

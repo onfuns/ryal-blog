@@ -2,18 +2,18 @@ export class Cache {
   get(key: string) {
     const value = localStorage.getItem(key)
     try {
-      return JSON.parse(value)
+      return value ? JSON.parse(value) : null
     } catch (error) {
       return value
     }
   }
-  set(key: string, value) {
+  set(key: string, value: any) {
     localStorage.setItem(key, this.isObject(value) ? JSON.stringify(value) : value)
   }
   remove(key: string) {
     localStorage.removeItem(key)
   }
-  isObject(value) {
+  isObject(value: any) {
     return value instanceof Object
   }
 }

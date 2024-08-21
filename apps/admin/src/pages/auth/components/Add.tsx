@@ -1,5 +1,5 @@
 import { authService } from '@/service'
-import { toTree } from '@/utils'
+import { arrayToTree } from '@/utils'
 import {
   ModalForm,
   ProForm,
@@ -52,6 +52,10 @@ export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
     onSuccess?.()
   }
 
+  const menuList = [{ id: AuthIdEnum.Root, name: '一级菜单' }].concat(
+    authList.filter(auth => auth.type === AuthTypeEnum.Menu),
+  )
+
   return (
     <ModalForm
       title="权限信息"
@@ -74,9 +78,7 @@ export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
         placeholder="请选择所属菜单"
         allowClear={false}
         fieldProps={{
-          options: [{ id: AuthIdEnum.Root, name: '一级菜单' }].concat(
-            toTree(authList.filter(auth => auth.type === AuthTypeEnum.Menu)), //只过滤菜单
-          ),
+          options: arrayToTree(menuList),
           changeOnSelect: true,
           fieldNames: { label: 'name', value: 'id', children: 'children' },
         }}
