@@ -1,6 +1,7 @@
 import { TimeEntity } from '@/common/model/entity.model'
 import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { CategoryStatusEnum, CategoryTypeEnum } from './enum'
 
 @Entity()
 export class Category extends TimeEntity {
@@ -20,13 +21,23 @@ export class Category extends TimeEntity {
   @Column({ comment: '父级ID', default: 0 })
   pid: number
 
-  @ApiProperty({ description: '类型 1-文章列表,2-单页,3-外链', default: 1 })
-  @Column({ comment: '类型', default: 1 })
-  type: number
+  @ApiProperty({
+    description: '类型',
+    default: CategoryTypeEnum.List,
+    enum: CategoryTypeEnum,
+    enumName: 'CategoryTypeEnum',
+  })
+  @Column({ comment: '类型', default: CategoryTypeEnum.List })
+  type: string
 
-  @ApiProperty({ description: '状态 1-显示 0-隐藏' })
-  @Column({ comment: '状态 1-显示 0-隐藏', default: 1 })
-  status: number
+  @ApiProperty({
+    description: '显示状态',
+    default: CategoryStatusEnum.Enable,
+    enum: CategoryStatusEnum,
+    enumName: 'CategoryStatusEnum',
+  })
+  @Column({ comment: '显示状态', default: CategoryStatusEnum.Enable })
+  status: string
 
   @ApiProperty({ description: '排序', default: 0 })
   @Column({ comment: '排序', default: 0 })

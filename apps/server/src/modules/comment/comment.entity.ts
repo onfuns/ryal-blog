@@ -2,6 +2,7 @@ import { TimeEntity } from '@/common/model/entity.model'
 import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Article } from '../article/article.entity'
+import { CommentStatusEnum } from './enum'
 
 @Entity()
 export class Comment extends TimeEntity {
@@ -37,7 +38,12 @@ export class Comment extends TimeEntity {
   @JoinColumn({ name: 'aid' })
   article: Article
 
-  @ApiProperty({ description: '状态 0-未审核 1-通过', default: 0 })
-  @Column({ comment: '状态 0-未审核 1-通过', default: 0 })
-  status: number
+  @ApiProperty({
+    description: '状态',
+    default: CommentStatusEnum.Unaudited,
+    enum: CommentStatusEnum,
+    enumName: 'CommentStatusEnum',
+  })
+  @Column({ comment: '状态', default: CommentStatusEnum.Unaudited })
+  status: string
 }

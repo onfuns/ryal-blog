@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { Role } from '../role/role.entity'
+import { UserIdentityEnum, UserStatusEnum } from './enum'
 
 @Entity()
 export class User extends TimeEntity {
@@ -33,13 +34,23 @@ export class User extends TimeEntity {
   })
   roles: Role[]
 
-  @ApiProperty({ description: '状态 0-停用 1-启用', default: 1 })
-  @Column({ comment: '状态 0-停用 1-启用', default: 1 })
-  enable: number
+  @ApiProperty({
+    description: '状态',
+    default: UserStatusEnum.Enable,
+    enum: UserStatusEnum,
+    enumName: 'UserStatusEnum',
+  })
+  @Column({ comment: '状态', default: UserStatusEnum.Enable })
+  status: string
 
-  @ApiProperty({ description: '是否超级管理员', default: 0 })
-  @Column({ comment: '是否超级管理员', default: 0 })
-  super: number
+  @ApiProperty({
+    description: '身份',
+    default: UserIdentityEnum.Normal,
+    enum: UserIdentityEnum,
+    enumName: 'UserIdentityEnum',
+  })
+  @Column({ comment: '身份', default: UserIdentityEnum.Normal })
+  identity: string
 
   @ApiProperty({ description: '上次登录 ip' })
   @Column({ comment: '上次登录 ip', nullable: true })

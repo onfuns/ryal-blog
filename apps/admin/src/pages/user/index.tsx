@@ -1,9 +1,9 @@
-import { userService, type UserType } from '@/service'
+import { UserIdentityEnumType, userService, type UserType } from '@/service'
 import { Table, TableDelete, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
 import { Button, Tag, message } from 'antd'
 import { useRef } from 'react'
 import { UserAdd } from './components/Add'
-import { UserIdentityEnum, UserStatusMap } from './enum'
+import { UserStatusMap } from './enum'
 
 const UserPage = () => {
   const actionRef = useRef<TableActionType>()
@@ -61,8 +61,8 @@ const UserPage = () => {
         obj[current.value] = current.label
         return obj
       }, {}),
-      render: (_, { enable }) => {
-        const { color, label } = UserStatusMap.find(item => item.value === enable) || {}
+      render: (_, { status }) => {
+        const { color, label } = UserStatusMap.find(item => item.value === status) || {}
         return label ? <Tag color={color}>{label}</Tag> : '-'
       },
     },
@@ -72,7 +72,7 @@ const UserPage = () => {
       width: 120,
       render: (_, record) => {
         return (
-          record.super !== UserIdentityEnum.Super && [
+          record.identity !== UserIdentityEnumType.Super && [
             <UserAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
             <TableDelete key="delete" onDelete={() => onDelete(record.id)} />,
           ]

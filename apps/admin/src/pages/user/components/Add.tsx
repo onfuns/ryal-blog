@@ -1,4 +1,4 @@
-import { roleService, userService } from '@/service'
+import { roleService, userService, UserStatusEnumType } from '@/service'
 import {
   ModalForm,
   ProForm,
@@ -9,7 +9,7 @@ import {
 import { message } from 'antd'
 import CryptoJS from 'crypto-js'
 import { useEffect } from 'react'
-import { UserStatusEnum, UserStatusMap } from '../enum'
+import { UserStatusMap } from '../enum'
 
 export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
@@ -42,7 +42,7 @@ export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
       title="用户信息"
       trigger={trigger}
       modalProps={{ onOk, onCancel }}
-      initialValues={{ enable: UserStatusEnum.Enable }}
+      initialValues={{ enable: UserStatusEnumType.Enable }}
       form={formInstance}
     >
       <ProFormText

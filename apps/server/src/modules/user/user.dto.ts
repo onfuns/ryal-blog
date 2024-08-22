@@ -27,7 +27,7 @@ export class UserLoginResDto {
   readonly token: string
 }
 
-export class UserListReqDto extends MixinPageListReqDto(User, ['enable']) {
+export class UserListReqDto extends MixinPageListReqDto(User, ['status']) {
   @ApiPropertyOptional({ description: '用户名' })
   readonly name?: string
 

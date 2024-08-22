@@ -16,7 +16,7 @@ export class ArticleCreateReqDto extends MixinCreateDto(Article) {
 export class ArticleListReqDto extends MixinPageListReqDto(Article, [
   'sort',
   'title',
-  'pass_flag',
+  'pass_status',
 ]) {
   @ApiPropertyOptional({ description: '分类 id' })
   @IsOptional()

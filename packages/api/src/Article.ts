@@ -9,7 +9,12 @@
  * ---------------------------------------------------------------
  */
 
-import { ArticleCreateReqDtoType, ArticleType, ResponseResultType } from './data-contracts'
+import {
+  ArticleCreateReqDtoType,
+  ArticlePassStatusEnumType,
+  ArticleType,
+  ResponseResultType,
+} from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Article<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -30,11 +35,8 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
       title?: string
       /** 排序 */
       sort?: number
-      /**
-       * 是否审核通过 0-否 1-是
-       * @default 1
-       */
-      pass_flag?: number
+      /** 是否审核通过 */
+      pass_status?: ArticlePassStatusEnumType
       /** 分类 id */
       cid?: number
     },
@@ -93,11 +95,8 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
       title?: string
       /** 排序 */
       sort?: number
-      /**
-       * 是否审核通过 0-否 1-是
-       * @default 1
-       */
-      pass_flag?: number
+      /** 是否审核通过 */
+      pass_status?: ArticlePassStatusEnumType
       /** 分类 id */
       cid?: number
     },

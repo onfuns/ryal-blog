@@ -1,4 +1,4 @@
-import { authService } from '@/service'
+import { AuthNodeTypeEnumType, authService } from '@/service'
 import { arrayToTree } from '@/utils'
 import {
   ModalForm,
@@ -10,7 +10,7 @@ import {
 import { useRequest } from 'ahooks'
 import { message } from 'antd'
 import { useEffect } from 'react'
-import { AuthIdEnum, AuthTypeEnum, AuthTypeMap } from '../enum'
+import { AuthIdEnum, AuthNodeTypeMap } from '../enum'
 
 export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
@@ -53,7 +53,7 @@ export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
   }
 
   const menuList = [{ id: AuthIdEnum.Root, name: '一级菜单' }].concat(
-    authList.filter(auth => auth.type === AuthTypeEnum.Menu),
+    authList.filter(auth => auth.node_type === AuthNodeTypeEnumType.Menu),
   )
 
   return (
@@ -62,13 +62,13 @@ export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
       trigger={trigger}
       modalProps={{ onOk, onCancel }}
       form={formInstance}
-      initialValues={{ type: AuthTypeEnum.Menu }}
+      initialValues={{ node_type: AuthNodeTypeEnumType.Menu }}
     >
       <ProFormRadio.Group
         label="类型"
-        name="type"
+        name="node_type"
         rules={[{ required: true }]}
-        options={AuthTypeMap}
+        options={AuthNodeTypeMap}
       />
 
       <ProFormCascader

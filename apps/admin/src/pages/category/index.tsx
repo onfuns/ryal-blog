@@ -1,9 +1,14 @@
-import { CategoryListItemDtoType, categoryService } from '@/service'
+import {
+  CategoryListItemDtoType,
+  CategoryStatusEnumType,
+  CategoryTypeEnumType,
+  categoryService,
+} from '@/service'
 import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, Tag, message } from 'antd'
 import { useRef, useState } from 'react'
 import { CategoryAdd } from './components/Add'
-import { CategoryStatusMap, CategoryTypeEnum, CategoryTypeMap } from './enum'
+import { CategoryStatusMap, CategoryTypeMap } from './enum'
 
 const CategoryPage = () => {
   const actionRef = useRef<TableActionType>()
@@ -14,7 +19,13 @@ const CategoryPage = () => {
     if (type === 'delete') {
       await categoryService.delete(id)
     } else if (type === 'status') {
-      await categoryService.update(id, { status: Number(!status) })
+      let statusValue = undefined
+      if (status === CategoryStatusEnumType.Enable) {
+        statusValue = CategoryStatusEnumType.Block
+      } else {
+        statusValue = CategoryStatusEnumType.Enable
+      }
+      await categoryService.update(id, { status: statusValue })
     }
     message.success('操作成功')
     refresh()
@@ -38,7 +49,7 @@ const CategoryPage = () => {
         return (
           <Tag color="green">
             {label}
-            {type === CategoryTypeEnum.Url && `（${url}）`}
+            {type === CategoryTypeEnumType.Url && `（${url}）`}
           </Tag>
         )
       },

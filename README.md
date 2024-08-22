@@ -1,10 +1,12 @@
-> 基于 NextJS + NestJS + Mysql 开发的博客系统，支持文章发布、分类、标签、评论、角色权限等功能，适合搭建博客或学习使用。
+基于 NextJS + NestJS + Mysql 开发的博客系统，支持文章、分类、标签、评论、角色权限等功能，适合搭建博客或学习使用。
 
 ## 技术栈
 
 - **Server**： `NestJS` + `TypeORM` + `Mysql` + `TypeScript`
 - **Client**： `NextJS` + `Antd` + `Mobx` + `TypeScript`
 - **Admin**： `Vite` + `React` + `Antd` + `Mobx` + `TypeScript`
+
+> V2 版本使用 Swagger 自动生成 API 接口及类型，避免手动定义接口冗余。
 
 ## 预览
 
@@ -40,28 +42,25 @@
 
 ```bash
 
-# 添加前置依赖
-npx lerna add @ryal/ui-kit --scope @ryal/{app-admin,app-client}
-npx lerna add @ryal/api --scope @ryal/{app-admin,app-client}
 # 初始化安装包
 yarn bootstrap
 
-# 服务端
+# 启动服务端
 yarn dev:server
-# 管理端
+# 启动管理端
 yarn dev:admin
-# 客户端
+# 启动客户端
 yarn dev:client
 
 ```
 
-如果服务端新增接口，需要`@ryal/api`生成接口及接口类型
+如果服务端新增接口，需要启动服务端断后，在对应包`@ryal/api`生成接口及接口类型
 
 ```bash
 yarn build:api
 ```
 
-基础组件库`@ryal/ui-kit`同理
+同理，基础组件库`@ryal/ui-kit`如果改动也需要同步到项目里
 
 ```bash
 yarn build:ui-kit

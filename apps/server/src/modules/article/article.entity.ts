@@ -11,6 +11,7 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm'
+import { ArticleCommentStatusEnum, ArticlePassStatusEnum } from './enum'
 
 @Entity()
 export class Article extends TimeEntity {
@@ -55,13 +56,23 @@ export class Article extends TimeEntity {
   @Column({ comment: '内容', type: 'text', nullable: true })
   content: string
 
-  @ApiProperty({ description: '是否审核通过 0-否 1-是', default: 1 })
-  @Column({ comment: '是否审核通过', default: 1 })
-  pass_flag: number
+  @ApiProperty({
+    description: '是否审核通过',
+    default: ArticlePassStatusEnum.Unaudited,
+    enum: ArticlePassStatusEnum,
+    enumName: 'ArticlePassStatusEnum',
+  })
+  @Column({ comment: '是否审核通过', default: ArticlePassStatusEnum.Audited })
+  pass_status: string
 
-  @ApiProperty({ description: '是否评论 0-否 1-是', default: 0 })
-  @Column({ comment: '是否评论 0-否 1-是', default: 0 })
-  comment_flag: number
+  @ApiProperty({
+    description: '是否开放评论',
+    default: ArticleCommentStatusEnum.Closed,
+    enum: ArticleCommentStatusEnum,
+    enumName: 'ArticleCommentStatusEnum',
+  })
+  @Column({ comment: '是否开放评论', default: ArticleCommentStatusEnum.Closed })
+  comment_status: string
 
   @ApiProperty({ description: '发布时间' })
   @Column({ comment: '发布时间' })

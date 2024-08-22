@@ -13,6 +13,7 @@ import {
   ResponseResultType,
   UserCreateReqDtoType,
   UserLoginReqDtoType,
+  UserStatusEnumType,
   UserType,
 } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
@@ -52,11 +53,8 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       current?: number
       /** 当前条数 */
       pageSize?: number
-      /**
-       * 状态 0-停用 1-启用
-       * @default 1
-       */
-      enable?: number
+      /** 状态 */
+      status?: UserStatusEnumType
       /** 用户名 */
       name?: string
       /** 角色 id */

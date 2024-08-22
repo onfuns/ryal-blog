@@ -1,28 +1,32 @@
-import { articleService, type ArticleType } from '@/service'
+import { ArticlePassStatusEnumType, articleService, type ArticleType } from '@/service'
 import { Table, TableDelete, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
 import { Button, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
 import { ArticleAdd } from './components/Add'
-import { DataActionType, PassTypeEnum, SortTypeEnum } from './enum'
+import { DataActionType, SortTypeEnum } from './enum'
 
 const ArticlePage = () => {
   const actionRef = useRef<TableActionType>()
   const refresh = () => actionRef?.current?.reload()
 
-  const onAction = async (
-    type: DataActionType,
-    record: { id: string; sort?: number; pass_flag?: number },
-  ) => {
-    const { id, sort, pass_flag } = record || {}
+  const onAction = async (type: DataActionType, record: Partial<ArticleType>) => {
+    const { id, sort, pass_status } = record || {}
+    if (!id) return false
     if (type === DataActionType.Delete) {
       await articleService.delete(id)
     } else if (type === DataActionType.Sort) {
       // > 0 说明取消置顶
-      await articleService.update(id, { sort: Number(sort) > 0 ? 0 : dayjs().valueOf() })
+      const sortValue = Number(sort) > 0 ? 0 : dayjs().valueOf()
+      await articleService.update(id, { sort: sortValue })
     } else if (type === DataActionType.Pass) {
-      //审核
-      await articleService.update(id, { pass_flag: Number(!pass_flag) })
+      let passStatus = undefined
+      if (pass_status === ArticlePassStatusEnumType.Audited) {
+        passStatus = ArticlePassStatusEnumType.UnAudited
+      } else {
+        passStatus = ArticlePassStatusEnumType.Audited
+      }
+      await articleService.update(id, { pass_status: passStatus })
     }
     message.success('操作成功')
     refresh()
@@ -58,7 +62,7 @@ const ArticlePage = () => {
       render: (_, { publish_time }) => <Time type="time" value={publish_time} />,
     },
     {
-      title: '置顶',
+      title: '是否置顶',
       dataIndex: 'sort',
       valueEnum: {
         [SortTypeEnum.Top]: '是',
@@ -75,16 +79,16 @@ const ArticlePage = () => {
     },
     {
       title: '审核',
-      dataIndex: 'pass_flag',
+      dataIndex: 'pass_status',
       valueEnum: {
-        [PassTypeEnum.Audited]: '已审核',
-        [PassTypeEnum.UnAudited]: '未审核',
+        [ArticlePassStatusEnumType.Audited]: '已审核',
+        [ArticlePassStatusEnumType.UnAudited]: '未审核',
       },
       width: 100,
-      render: (_, { id, pass_flag }) => (
+      render: (_, { id, pass_status }) => (
         <Switch
-          checked={pass_flag === PassTypeEnum.Audited}
-          onChange={() => onAction(DataActionType.Pass, { id, pass_flag })}
+          checked={pass_status === ArticlePassStatusEnumType.Audited}
+          onChange={() => onAction(DataActionType.Pass, { id, pass_status })}
           size="small"
         />
       ),

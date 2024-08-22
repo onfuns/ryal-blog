@@ -20,6 +20,25 @@ export interface ResponseResultType {
   data: object
 }
 
+/**
+ * 类型
+ * @default "list"
+ */
+export enum CategoryTypeEnumType {
+  List = 'list',
+  Page = 'page',
+  Url = 'url',
+}
+
+/**
+ * 显示状态
+ * @default "enable"
+ */
+export enum CategoryStatusEnumType {
+  Enable = 'enable',
+  Block = 'block',
+}
+
 export interface CategoryType {
   /** 创建时间 */
   created_at: string
@@ -36,13 +55,10 @@ export interface CategoryType {
    * @default 0
    */
   pid: number
-  /**
-   * 类型 1-文章列表,2-单页,3-外链
-   * @default 1
-   */
-  type: number
-  /** 状态 1-显示 0-隐藏 */
-  status: number
+  /** 类型 */
+  type: CategoryTypeEnumType
+  /** 显示状态 */
+  status: CategoryStatusEnumType
   /**
    * 排序
    * @default 0
@@ -69,6 +85,24 @@ export interface TagType {
   description: string
 }
 
+/**
+ * 是否审核通过
+ * @default "un_audited"
+ */
+export enum ArticlePassStatusEnumType {
+  Audited = 'audited',
+  UnAudited = 'un_audited',
+}
+
+/**
+ * 是否开放评论
+ * @default "closed"
+ */
+export enum ArticleCommentStatusEnumType {
+  Opened = 'opened',
+  Closed = 'closed',
+}
+
 export interface ArticleType {
   /** 创建时间 */
   created_at: string
@@ -90,16 +124,10 @@ export interface ArticleType {
   sort: number
   /** 内容 */
   content: string
-  /**
-   * 是否审核通过 0-否 1-是
-   * @default 1
-   */
-  pass_flag: number
-  /**
-   * 是否评论 0-否 1-是
-   * @default 0
-   */
-  comment_flag: number
+  /** 是否审核通过 */
+  pass_status: ArticlePassStatusEnumType
+  /** 是否开放评论 */
+  comment_status: ArticleCommentStatusEnumType
   /** 发布时间 */
   publish_time: string
   /** 作者 */
@@ -121,16 +149,10 @@ export interface ArticleCreateReqDtoType {
   sort?: number
   /** 文章内容 */
   content?: string
-  /**
-   * 是否审核通过 0-否 1-是
-   * @default 1
-   */
-  pass_flag?: number
-  /**
-   * 是否评论 0-否 1-是
-   * @default 0
-   */
-  comment_flag?: number
+  /** 是否审核通过 */
+  pass_status?: ArticlePassStatusEnumType
+  /** 是否开放评论 */
+  comment_status?: ArticleCommentStatusEnumType
   /** 发布时间 */
   publish_time?: string
   /** 作者 */
@@ -160,13 +182,10 @@ export interface CategoryListItemDtoType {
    * @default 0
    */
   pid: number
-  /**
-   * 类型 1-文章列表,2-单页,3-外链
-   * @default 1
-   */
-  type: number
-  /** 状态 1-显示 0-隐藏 */
-  status: number
+  /** 类型 */
+  type: CategoryTypeEnumType
+  /** 显示状态 */
+  status: CategoryStatusEnumType
   /**
    * 排序
    * @default 0
@@ -192,13 +211,10 @@ export interface CategoryCreateReqDtoType {
    * @default 0
    */
   pid?: number
-  /**
-   * 类型 1-文章列表,2-单页,3-外链
-   * @default 1
-   */
-  type?: number
-  /** 状态 1-显示 0-隐藏 */
-  status?: number
+  /** 类型 */
+  type?: CategoryTypeEnumType
+  /** 显示状态 */
+  status?: CategoryStatusEnumType
   /**
    * 排序
    * @default 0
@@ -210,6 +226,44 @@ export interface CategoryCreateReqDtoType {
   icon?: string
   /** 图标颜色 */
   icon_color?: string
+}
+
+/**
+ * 节点类型
+ * @default "menu"
+ */
+export enum AuthNodeTypeEnumType {
+  Menu = 'menu',
+  Action = 'action',
+}
+
+export interface AuthType {
+  /** 创建时间 */
+  created_at: string
+  /** 更新时间 */
+  updated_at: string
+  /** id */
+  id: number
+  /** 名称 */
+  name: string
+  /** 编码 */
+  code: string
+  /** 节点类型 */
+  node_type: AuthNodeTypeEnumType
+  /**
+   * 父级节点 id
+   * @default 0
+   */
+  pid: number
+}
+
+/**
+ * 状态
+ * @default "enable"
+ */
+export enum RoleStatusEnumType {
+  Enable = 'enable',
+  Block = 'block',
 }
 
 export interface RoleType {
@@ -224,12 +278,27 @@ export interface RoleType {
   /** 描述 */
   description: string
   /** 权限节点 id */
-  auths: string[]
-  /**
-   * 状态 0-停用 1-启用
-   * @default 1
-   */
-  enable: number
+  auths: AuthType[]
+  /** 状态 */
+  status: RoleStatusEnumType
+}
+
+/**
+ * 状态
+ * @default "enable"
+ */
+export enum UserStatusEnumType {
+  Enable = 'enable',
+  Block = 'block',
+}
+
+/**
+ * 身份
+ * @default "normal"
+ */
+export enum UserIdentityEnumType {
+  Super = 'super',
+  Normal = 'normal',
 }
 
 export interface UserType {
@@ -245,16 +314,10 @@ export interface UserType {
   password: string
   /** 角色 */
   roles: RoleType[]
-  /**
-   * 状态 0-停用 1-启用
-   * @default 1
-   */
-  enable: number
-  /**
-   * 是否超级管理员
-   * @default 0
-   */
-  super: number
+  /** 状态 */
+  status: UserStatusEnumType
+  /** 身份 */
+  identity: UserIdentityEnumType
   /** 上次登录 ip */
   last_login_ip: string
   /** 上次登录时间 */
@@ -275,16 +338,10 @@ export interface UserCreateReqDtoType {
   password?: string
   /** 角色 */
   roles?: RoleType[]
-  /**
-   * 状态 0-停用 1-启用
-   * @default 1
-   */
-  enable?: number
-  /**
-   * 是否超级管理员
-   * @default 0
-   */
-  super?: number
+  /** 状态 */
+  status?: UserStatusEnumType
+  /** 身份 */
+  identity?: UserIdentityEnumType
   /** 上次登录 ip */
   last_login_ip?: string
   /** 上次登录时间 */
@@ -297,32 +354,9 @@ export interface RoleCreateReqDtoType {
   /** 描述 */
   description?: string
   /** 权限节点 id */
-  auths?: string[]
-  /**
-   * 状态 0-停用 1-启用
-   * @default 1
-   */
-  enable?: number
-}
-
-export interface AuthType {
-  /** 创建时间 */
-  created_at: string
-  /** 更新时间 */
-  updated_at: string
-  /** id */
-  id: number
-  /** 名称 */
-  name: string
-  /** 编码 */
-  code: string
-  /** 类型 1-菜单 2-功能 */
-  type: number
-  /**
-   * 父级节点 id
-   * @default 0
-   */
-  pid: number
+  auths?: AuthType[]
+  /** 状态 */
+  status?: RoleStatusEnumType
 }
 
 export interface AuthCreateReqDtoType {
@@ -330,13 +364,22 @@ export interface AuthCreateReqDtoType {
   name?: string
   /** 权限编码 */
   code?: string
-  /** 类型 1-菜单 2-功能 */
-  type?: number
+  /** 节点类型 */
+  node_type?: AuthNodeTypeEnumType
   /**
    * 父级节点 id
    * @default 0
    */
   pid?: number
+}
+
+/**
+ * 状态
+ * @default "un_audited"
+ */
+export enum CommentStatusEnumType {
+  Passed = 'passed',
+  UnAudited = 'un_audited',
 }
 
 export interface CommentType {
@@ -358,11 +401,8 @@ export interface CommentType {
   aid: string
   /** 关联文章 */
   article: ArticleType
-  /**
-   * 状态 0-未审核 1-通过
-   * @default 0
-   */
-  status: number
+  /** 状态 */
+  status: CommentStatusEnumType
 }
 
 export interface CommentCreateReqDtoType {
@@ -378,11 +418,8 @@ export interface CommentCreateReqDtoType {
   aid?: string
   /** 关联文章 */
   article?: ArticleType
-  /**
-   * 状态 0-未审核 1-通过
-   * @default 0
-   */
-  status?: number
+  /** 状态 */
+  status?: CommentStatusEnumType
 }
 
 export interface DashboardDataArticleListResType {

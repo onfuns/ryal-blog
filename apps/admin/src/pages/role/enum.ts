@@ -1,11 +1,6 @@
-export enum RoleStatusEnum {
-  /** 启用 */
-  Enable = 1,
-  /** 禁用 */
-  Block = 0,
-}
+import { RoleStatusEnumType } from '@/service'
 
 export const RoleStatusMap = [
-  { label: '启用', value: RoleStatusEnum.Enable, color: 'success' },
-  { label: '禁用', value: RoleStatusEnum.Block, color: 'error' },
+  { label: '启用', value: RoleStatusEnumType.Enable, color: 'success' },
+  { label: '禁用', value: RoleStatusEnumType.Block, color: 'error' },
 ]

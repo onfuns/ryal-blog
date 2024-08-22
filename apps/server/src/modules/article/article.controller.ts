@@ -5,6 +5,7 @@ import { ApiTags } from '@nestjs/swagger'
 import { ArticleCreateReqDto, ArticleListReqDto } from './article.dto'
 import { Article } from './article.entity'
 import { ArticleService } from './article.service'
+import { ArticlePassStatusEnum } from './enum'
 
 @ApiTags('article')
 @Controller('/article')
@@ -29,7 +30,7 @@ export class ArticleController {
   @Get('list')
   @NoPermission()
   async getClientList(@Query() query: ArticleListReqDto) {
-    return this.service.findAll({ ...query, pass_flag: 1 })
+    return this.service.findAll({ ...query, pass_status: ArticlePassStatusEnum.Audited })
   }
 
   @ApiResult({

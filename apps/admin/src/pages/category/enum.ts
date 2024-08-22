@@ -1,28 +1,14 @@
-export enum CategoryStatusEnum {
-  /** 启用 */
-  Enable = 1,
-  /** 禁用 */
-  Block = 0,
-}
+import { CategoryStatusEnumType, CategoryTypeEnumType } from '@/service'
 
 export const CategoryStatusMap = [
-  { label: '启用', value: CategoryStatusEnum.Enable, color: 'success' },
-  { label: '禁用', value: CategoryStatusEnum.Block, color: 'error' },
+  { label: '启用', value: CategoryStatusEnumType.Enable, color: 'success' },
+  { label: '禁用', value: CategoryStatusEnumType.Block, color: 'error' },
 ]
 
-export enum CategoryTypeEnum {
-  /** 文章列表 */
-  List = 1,
-  /** 单页 */
-  Page = 2,
-  /** 外链 */
-  Url = 3,
-}
-
 export const CategoryTypeMap = [
-  { label: '文章列表', value: CategoryTypeEnum.List },
-  { label: '单页', value: CategoryTypeEnum.Page },
-  { label: '外链', value: CategoryTypeEnum.Url },
+  { label: '文章列表', value: CategoryTypeEnumType.List },
+  { label: '单页', value: CategoryTypeEnumType.Page },
+  { label: '外链', value: CategoryTypeEnumType.Url },
 ]
 
 export enum CatetoryIdEnum {

@@ -50,12 +50,12 @@ export class UserService {
   }
 
   async findAll(query?: UserListReqDto): Promise<PageListResModel<User>> {
-    const { current = 1, pageSize = 20, name, roleId, enable } = query || {}
+    const { current = 1, pageSize = 20, name, roleId, status } = query || {}
 
     const where = pickBy({
       name: name ? Like(`%${name}%`) : undefined,
-      role_id: roleId ?? undefined,
-      enable: enable ?? undefined,
+      role_id: roleId,
+      status,
     })
 
     const [data = [], total = 0] = await this.repository.findAndCount({

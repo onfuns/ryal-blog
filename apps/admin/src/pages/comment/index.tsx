@@ -1,4 +1,4 @@
-import { commentService, type CommentType } from '@/service'
+import { CommentStatusEnumType, commentService, type CommentType } from '@/service'
 import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Switch, message } from 'antd'
 import dayjs from 'dayjs'
@@ -13,7 +13,13 @@ const CommentPage = () => {
     if (type === 'delete') {
       await commentService.delete(id)
     } else if (type === 'pass') {
-      await commentService.update(id, { status: Number(!status) })
+      let statusValue = undefined
+      if (status === CommentStatusEnumType.Passed) {
+        statusValue = CommentStatusEnumType.UnAudited
+      } else {
+        statusValue = CommentStatusEnumType.Passed
+      }
+      await commentService.update(id, { status: statusValue })
     }
     message.success('操作成功')
     refresh()
@@ -66,7 +72,7 @@ const CommentPage = () => {
       width: 100,
       render: (_, record) => (
         <Switch
-          checked={record.status === 1}
+          checked={record.status === CommentStatusEnumType.Passed}
           onChange={() => onAction('pass', record)}
           size="small"
         />

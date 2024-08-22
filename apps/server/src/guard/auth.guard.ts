@@ -1,4 +1,5 @@
 import config from '@/config'
+import { RoleStatusEnum } from '@/modules/role/enum'
 import { User } from '@/modules/user/user.entity'
 import { UserService } from '@/modules/user/user.service'
 import {
@@ -41,7 +42,9 @@ export class UserGuard implements CanActivate {
     const auths = []
     for (let i = 0; i < user?.roles?.length; i++) {
       const role = user.roles[i]
-      if (role.enable === 1) auths.push(...(role.auths || []))
+      if (role.status === RoleStatusEnum.Enable) {
+        auths.push(...(role.auths || []))
+      }
     }
     const url = request.path.replace(config.base, '')
     //code 格式  /role/:id::POST::PUT::DELETE

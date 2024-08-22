@@ -1,4 +1,4 @@
-import { authService, roleService } from '@/service'
+import { authService, roleService, RoleStatusEnumType } from '@/service'
 import { arrayToTree } from '@/utils'
 import {
   DrawerForm,
@@ -8,10 +8,10 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { useRequest } from 'ahooks'
-import { Tree, message } from 'antd'
+import { message, Tree } from 'antd'
 import { cloneDeep } from 'lodash'
 import { useEffect, useState } from 'react'
-import { RoleStatusEnum, RoleStatusMap } from '../enum'
+import { RoleStatusMap } from '../enum'
 
 export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
@@ -68,7 +68,7 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
       drawerProps={{ onClose: onCancel }}
       onFinish={onFinish}
       form={formInstance}
-      initialValues={{ enable: RoleStatusEnum.Enable }}
+      initialValues={{ enable: RoleStatusEnumType.Enable }}
     >
       <ProFormText
         label="名称"

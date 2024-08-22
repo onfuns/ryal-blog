@@ -5,6 +5,7 @@ import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { CommentCreateReqDto, CommentListReqDto } from './comment.dto'
 import { Comment } from './comment.entity'
 import { CommentService } from './comment.service'
+import { CommentStatusEnum } from './enum'
 
 @ApiTags('comment')
 @Controller('/comment')
@@ -29,7 +30,7 @@ export class CommentController {
   @Get('list')
   @NoPermission()
   async getClientList(@Query('aid') aid: Comment['aid']) {
-    return this.service.findAll({ aid, status: 1, pageSize: 100 })
+    return this.service.findAll({ aid, status: CommentStatusEnum.Passed, pageSize: 100 })
   }
 
   @ApiResult({

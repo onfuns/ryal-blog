@@ -1,13 +1,8 @@
-export enum AuthTypeEnum {
-  /** 菜单 */
-  Menu = 1,
-  /** 功能 */
-  Action = 2,
-}
+import { AuthNodeTypeEnumType } from '@/service'
 
-export const AuthTypeMap = [
-  { label: '菜单', value: AuthTypeEnum.Menu },
-  { label: '功能', value: AuthTypeEnum.Action },
+export const AuthNodeTypeMap = [
+  { label: '菜单', value: AuthNodeTypeEnumType.Menu },
+  { label: '功能', value: AuthNodeTypeEnumType.Action },
 ]
 
 export enum AuthIdEnum {

@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
 import { TimeEntity } from '../../common/model/entity.model'
 import { Auth } from '../auth/auth.entity'
+import { RoleStatusEnum } from './enum'
 
 @Entity()
 export class Role extends TimeEntity {
@@ -17,7 +18,7 @@ export class Role extends TimeEntity {
   @Column({ comment: '描述', nullable: true })
   description: string
 
-  @ApiProperty({ description: '权限节点 id' })
+  @ApiProperty({ description: '权限节点 id', type: [Auth] })
   @ManyToMany(() => Auth, { cascade: true })
   @JoinTable({
     name: 'role_auth_relation',
@@ -26,7 +27,12 @@ export class Role extends TimeEntity {
   })
   auths: Auth[]
 
-  @ApiProperty({ description: '状态 0-停用 1-启用', default: 1 })
-  @Column({ comment: '状态 0-停用 1-启用', default: 1 })
-  enable: number
+  @ApiProperty({
+    description: '状态',
+    default: RoleStatusEnum.Enable,
+    enum: RoleStatusEnum,
+    enumName: 'RoleStatusEnum',
+  })
+  @Column({ comment: '状态', default: RoleStatusEnum.Enable })
+  status: string
 }

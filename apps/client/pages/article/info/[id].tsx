@@ -15,7 +15,7 @@ export interface IArticleInfoProps {
   category?: { id: number; name: string }
   tags?: { id: number; name: string }[]
   created_at: string
-  comment_flag: 0 | 1
+  comment_status: 0 | 1
 }
 
 export default function ArticleInfo({ article }: { article: IArticleInfoProps }) {
@@ -57,7 +57,7 @@ export default function ArticleInfo({ article }: { article: IArticleInfoProps })
         </div>
         <ArticleAnchor contentId="article-info-content" />
       </div>
-      {article.comment_flag === 1 && <Comment articeId={article.id} />}
+      {article.comment_status === 1 && <Comment articeId={article.id} />}
     </div>
   )
 }

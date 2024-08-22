@@ -1,5 +1,11 @@
 import MDEditor from '@/components/Editor/MarkdownEditor'
-import { articleService, categoryService, tagService } from '@/service'
+import {
+  ArticleCommentStatusEnumType,
+  ArticlePassStatusEnumType,
+  articleService,
+  categoryService,
+  tagService,
+} from '@/service'
 import {
   DrawerForm,
   ProForm,
@@ -15,7 +21,6 @@ import { message } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { CatetoryIdEnum } from '../../category/enum'
-import { CommentTypeEnum, PassTypeEnum } from '../enum'
 
 export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetailModalProps) => {
   const [content, setContent] = useState('')
@@ -71,8 +76,8 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
       width="80%"
       form={formInstance}
       initialValues={{
-        pass_flag: PassTypeEnum.Audited,
-        comment_flag: CommentTypeEnum.Closed,
+        pass_status: ArticlePassStatusEnumType.Audited,
+        comment_status: ArticleCommentStatusEnumType.Closed,
         publish_time: dayjs(),
       }}
     >
@@ -120,19 +125,19 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
 
       <ProFormRadio.Group
         label="审核"
-        name="pass_flag"
+        name="pass_status"
         options={[
-          { label: '通过', value: PassTypeEnum.Audited },
-          { label: '待审核', value: PassTypeEnum.UnAudited },
+          { label: '通过', value: ArticlePassStatusEnumType.Audited },
+          { label: '待审核', value: ArticlePassStatusEnumType.UnAudited },
         ]}
       />
 
       <ProFormRadio.Group
         label="开放评论"
-        name="comment_flag"
+        name="comment_status"
         options={[
-          { label: '是', value: CommentTypeEnum.Opened },
-          { label: '否', value: CommentTypeEnum.Closed },
+          { label: '是', value: ArticleCommentStatusEnumType.Opened },
+          { label: '否', value: ArticleCommentStatusEnumType.Closed },
         ]}
       />
 

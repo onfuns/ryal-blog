@@ -5,20 +5,6 @@ export enum SortTypeEnum {
   UnTop = 0,
 }
 
-export enum PassTypeEnum {
-  /** 已审核 */
-  Audited = 1,
-  /** 未审核 */
-  UnAudited = 0,
-}
-
-export enum CommentTypeEnum {
-  /** 开放 */
-  Opened = 1,
-  /** 关闭 */
-  Closed = 0,
-}
-
 export enum AuthIdEnum {
   /** 根节点 id */
   Root = 0,
