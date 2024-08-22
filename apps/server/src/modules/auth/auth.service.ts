@@ -15,7 +15,7 @@ export class AuthService {
     return await this.repository.save(data)
   }
 
-  async findAll(): Promise<Auth[]> {
+  async getList(): Promise<Auth[]> {
     return await this.repository.find({
       order: {
         created_at: 'ASC',
@@ -35,7 +35,7 @@ export class AuthService {
 
   async verify(ids: string) {
     const idArr = ids?.split(',')
-    const data = await this.findAll()
+    const data = await this.getList()
     return data.filter(d => idArr.includes(d.id.toString()))
   }
 }

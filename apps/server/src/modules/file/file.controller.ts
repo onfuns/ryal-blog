@@ -31,7 +31,7 @@ export class FileController {
   @ApiResult({ description: '获取文件列表', type: [File], page: true })
   @Get()
   async getList(@Query() query: FileListReqDto) {
-    return this.service.findAll(query)
+    return this.service.getList(query)
   }
 
   @ApiResult({ description: '删除文件' })

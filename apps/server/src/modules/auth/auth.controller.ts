@@ -16,7 +16,7 @@ export class AuthController {
   })
   @Get()
   async getList() {
-    return this.service.findAll()
+    return this.service.getList()
   }
 
   @ApiResult({

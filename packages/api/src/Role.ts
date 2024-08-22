@@ -9,7 +9,12 @@
  * ---------------------------------------------------------------
  */
 
-import { ResponseResultType, RoleCreateReqDtoType, RoleType } from './data-contracts'
+import {
+  ResponseResultType,
+  RoleCreateReqDtoType,
+  RoleStatusEnumType,
+  RoleType,
+} from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Role<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -20,15 +25,31 @@ export class Role<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name GetList
    * @request GET:/api/role
    */
-  getList = (params: RequestParams = {}) =>
+  getList = (
+    query?: {
+      /** 当前页码 */
+      current?: number
+      /** 当前条数 */
+      pageSize?: number
+      /** 名称 */
+      name?: string
+      /** 状态 */
+      status?: RoleStatusEnumType
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ResponseResultType & {
-        data?: RoleType[]
+        data?: {
+          list?: RoleType[]
+          total?: number
+        }
       },
       any
     >({
       path: `/api/role`,
       method: 'GET',
+      query: query,
       format: 'json',
       ...params,
     })

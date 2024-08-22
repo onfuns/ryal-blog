@@ -17,7 +17,7 @@ export class FileService {
   @InjectRepository(FileCategory)
   private readonly fileCategoryRepository: Repository<FileCategory>
 
-  async findAll(query: FileListReqDto): Promise<PageListResModel<File>> {
+  async getList(query: FileListReqDto): Promise<PageListResModel<File>> {
     const { current = 1, pageSize = 20, fileCategoryId, originalname } = query ?? {}
 
     const where: Partial<File> = pickBy({

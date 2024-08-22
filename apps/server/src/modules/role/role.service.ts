@@ -1,7 +1,9 @@
+import { PageListResModel } from '@/common/model/page.model'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { getRepository, Repository } from 'typeorm'
-import { RoleCreateReqDto } from './role.dto'
+import { pickBy } from 'lodash'
+import { Like, Repository } from 'typeorm'
+import { RoleCreateReqDto, RoleListReqDto } from './role.dto'
 import { Role } from './role.entity'
 
 @Injectable()
@@ -16,11 +18,30 @@ export class RoleService {
     return await this.repository.save(record)
   }
 
-  async findAll(): Promise<Role[]> {
-    return getRepository(Role)
-      .createQueryBuilder('role')
-      .leftJoinAndSelect('role.auths', 'auth')
-      .getMany()
+  async getList(query?: RoleListReqDto): Promise<PageListResModel<Role>> {
+    const { current = 1, pageSize = 20, name, status } = query || {}
+
+    const where = pickBy({
+      name: name ? Like(`%${name}%`) : undefined,
+      status,
+    })
+
+    const [data = [], total = 0] = await this.repository.findAndCount({
+      where,
+      join: {
+        alias: 'role',
+        leftJoinAndSelect: {
+          auth: 'role.auths',
+        },
+      },
+      skip: pageSize * (current - 1),
+      take: pageSize,
+      order: {
+        created_at: 'DESC',
+      },
+    })
+
+    return { data, total }
   }
 
   async update(id: Role['id'], body: RoleCreateReqDto): Promise<Role> {

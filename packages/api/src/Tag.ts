@@ -20,15 +20,29 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name GetList
    * @request GET:/api/tag
    */
-  getList = (params: RequestParams = {}) =>
+  getList = (
+    query?: {
+      /** 当前页码 */
+      current?: number
+      /** 当前条数 */
+      pageSize?: number
+      /** 名称 */
+      name?: string
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ResponseResultType & {
-        data?: TagType[]
+        data?: {
+          list?: TagType[]
+          total?: number
+        }
       },
       any
     >({
       path: `/api/tag`,
       method: 'GET',
+      query: query,
       format: 'json',
       ...params,
     })

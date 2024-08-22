@@ -17,7 +17,7 @@ export class CategoryController {
   })
   @Get()
   async getList() {
-    return await this.service.findAll({ isToTree: true })
+    return await this.service.getList({ isToTree: true })
   }
 
   @ApiResult({
@@ -27,7 +27,7 @@ export class CategoryController {
   @Get('list')
   @NoPermission()
   async getClientList() {
-    return await this.service.findAll({ isToTree: true })
+    return await this.service.getList({ isToTree: true })
   }
 
   @ApiResult({

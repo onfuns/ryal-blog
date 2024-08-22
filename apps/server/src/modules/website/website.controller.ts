@@ -14,14 +14,14 @@ export class WebsiteController {
   @ApiResult({ description: '获取配置列表', type: [Website] })
   @Get()
   async getList() {
-    return this.service.findAll()
+    return this.service.getList()
   }
 
   @ApiResult({ description: '客户端-获取配置列表', type: Website })
   @Get('info')
   @NoPermission()
   async getClientList() {
-    return this.service.findAll()
+    return this.service.getList()
   }
 
   @ApiResult({ description: '更新配置', type: [Website] })

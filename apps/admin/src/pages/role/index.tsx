@@ -42,10 +42,17 @@ const RolePage = () => {
       headerTitle="角色列表"
       search={false}
       rowKey="id"
-      request={() => roleService.getList()}
+      request={async params => {
+        const { success, data } = await roleService.getList({ ...params })
+        return { success, data: data?.list || [], total: data?.total }
+      }}
       pagination={false}
       toolBarRender={() => [
-        <RoleAdd key="add" onSuccess={refresh} trigger={<Button>新增角色</Button>} />,
+        <RoleAdd
+          key="add"
+          onSuccess={refresh}
+          trigger={<Button type="primary">新增角色</Button>}
+        />,
       ]}
     />
   )

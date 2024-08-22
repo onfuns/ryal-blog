@@ -19,7 +19,7 @@ export class CommentController {
   })
   @Get()
   async getList(@Query() query: CommentListReqDto) {
-    return this.service.findAll(query)
+    return this.service.getList(query)
   }
 
   @ApiResult({
@@ -30,7 +30,7 @@ export class CommentController {
   @Get('list')
   @NoPermission()
   async getClientList(@Query('aid') aid: Comment['aid']) {
-    return this.service.findAll({ aid, status: CommentStatusEnum.Passed, pageSize: 100 })
+    return this.service.getList({ aid, status: CommentStatusEnum.Passed, pageSize: 100 })
   }
 
   @ApiResult({

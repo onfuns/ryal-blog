@@ -49,7 +49,7 @@ export class UserService {
     return await this.repository.save(record)
   }
 
-  async findAll(query?: UserListReqDto): Promise<PageListResModel<User>> {
+  async getList(query?: UserListReqDto): Promise<PageListResModel<User>> {
     const { current = 1, pageSize = 20, name, roleId, status } = query || {}
 
     const where = pickBy({

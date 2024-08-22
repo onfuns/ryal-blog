@@ -19,7 +19,7 @@ export class ArticleController {
   })
   @Get()
   async getList(@Query() query: ArticleListReqDto) {
-    return this.service.findAll(query)
+    return this.service.getList(query)
   }
 
   @ApiResult({
@@ -30,7 +30,7 @@ export class ArticleController {
   @Get('list')
   @NoPermission()
   async getClientList(@Query() query: ArticleListReqDto) {
-    return this.service.findAll({ ...query, pass_status: ArticlePassStatusEnum.Audited })
+    return this.service.getList({ ...query, pass_status: ArticlePassStatusEnum.Audited })
   }
 
   @ApiResult({

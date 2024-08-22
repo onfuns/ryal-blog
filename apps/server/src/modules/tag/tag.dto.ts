@@ -1,4 +1,4 @@
-import { MixinCreateDto } from '@/common/model/page.model'
+import { MixinCreateDto, MixinPageListReqDto } from '@/common/model/page.model'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { Tag } from './tag.entity'
@@ -8,3 +8,5 @@ export class TagCreateReqDto extends MixinCreateDto(Tag) {
   @IsNotEmpty({ message: '名称不能为空' })
   readonly name: string
 }
+
+export class TagListReqDto extends MixinPageListReqDto(Tag, ['name']) {}

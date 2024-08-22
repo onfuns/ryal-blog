@@ -17,7 +17,7 @@ export class CategoryService {
     return await this.repository.save(data)
   }
 
-  async findAll({ isToTree = false }: { isToTree?: boolean }): Promise<Category[]> {
+  async getList({ isToTree = false }: { isToTree?: boolean }): Promise<Category[]> {
     const data = await this.repository.find({
       order: {
         sort: 'DESC',

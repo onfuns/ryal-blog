@@ -17,7 +17,7 @@ export class CommentService {
     return await this.repository.save(data)
   }
 
-  async findAll(query?: CommentListReqDto): Promise<PageListResModel<Comment>> {
+  async getList(query?: CommentListReqDto): Promise<PageListResModel<Comment>> {
     const { current = 1, pageSize = 20, aid, status, title = '' } = query || {}
     const where = pickBy({ aid, status })
     const [data = [], total = 0] = await this.repository.findAndCount({

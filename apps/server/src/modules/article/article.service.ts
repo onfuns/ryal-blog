@@ -29,7 +29,7 @@ export class ArticleService {
     })
   }
 
-  async findAll(query?: ArticleListReqDto): Promise<PageListResModel<Article>> {
+  async getList(query?: ArticleListReqDto): Promise<PageListResModel<Article>> {
     const { current = 1, pageSize = 20, sort, title, cid: category_id, pass_status } = query ?? {}
     const where = pickBy({
       title: title ? Like(`%${title}%`) : undefined,
@@ -37,7 +37,7 @@ export class ArticleService {
       category_id,
       pass_status,
     })
-    this.logger.info('findAll where: ', where)
+    this.logger.info('getList where: ', where)
     const [data, total] = await this.repository.findAndCount({
       where,
       skip: pageSize * (current - 1),

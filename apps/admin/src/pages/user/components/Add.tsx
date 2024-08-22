@@ -69,8 +69,8 @@ export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
         mode="multiple"
         convertValue={(value: { id: number }[]) => value?.map(role => role.id)}
         request={async () => {
-          const { data } = await roleService.getList()
-          return data?.map(item => ({ label: item.name, value: item.id }))
+          const { data } = await roleService.getList({ current: 1, pageSize: 100 })
+          return (data?.list || [])?.map(item => ({ label: item.name, value: item.id }))
         }}
       />
 

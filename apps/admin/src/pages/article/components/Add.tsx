@@ -118,8 +118,8 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
         placeholder="请选择标签"
         mode="multiple"
         request={async () => {
-          const { data } = await tagService.getList()
-          return data?.map(item => ({ label: item.name, value: item.id }))
+          const { data } = await tagService.getList({ current: 1, pageSize: 100 })
+          return (data?.list || [])?.map(item => ({ label: item.name, value: item.id }))
         }}
       />
 

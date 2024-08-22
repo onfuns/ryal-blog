@@ -9,7 +9,7 @@ export class WebsiteService {
   @InjectRepository(Website)
   private readonly repository: Repository<Website>
 
-  async findAll() {
+  async getList() {
     return this.repository.find()
   }
 

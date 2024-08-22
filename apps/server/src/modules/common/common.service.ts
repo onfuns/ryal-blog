@@ -14,8 +14,8 @@ export class CommonService {
 
   async findDashboardData(token: string): Promise<DashboardDataResDto> {
     const defaultPage = { current: 1, pageSize: 10 }
-    const article = await this.articleService.findAll(defaultPage)
-    const comment = await this.commentService.findAll(defaultPage)
+    const article = await this.articleService.getList(defaultPage)
+    const comment = await this.commentService.getList(defaultPage)
     const tokenInfo = await this.userService.verifyToken(token)
     let user = undefined
     if (tokenInfo) {

@@ -48,7 +48,7 @@ export class UserController {
   })
   @Get()
   async getList(@Query() query: UserListReqDto) {
-    return this.service.findAll(query)
+    return this.service.getList(query)
   }
 
   @ApiResult({
