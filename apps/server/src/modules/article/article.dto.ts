@@ -3,7 +3,7 @@ import { IsNotEmpty, IsOptional } from 'class-validator'
 import { MixinCreateDto, MixinPageListReqDto } from '../../common/model/page.model'
 import { Article } from './article.entity'
 
-export class ArticleCreateReqDto extends MixinCreateDto(Article) {
+export class ArticleCreateReqDto extends MixinCreateDto(Article, []) {
   @ApiProperty({ description: '文章标题' })
   @IsNotEmpty({ message: '标题不能为空' })
   readonly title: string
@@ -11,6 +11,9 @@ export class ArticleCreateReqDto extends MixinCreateDto(Article) {
   @ApiProperty({ description: '文章内容' })
   @IsNotEmpty({ message: '内容不能为空' })
   readonly content: string
+
+  @ApiPropertyOptional({ description: '标签 id' })
+  readonly tagIds: number[]
 }
 
 export class ArticleListReqDto extends MixinPageListReqDto(Article, [

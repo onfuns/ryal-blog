@@ -16,16 +16,15 @@ export class ArticleService {
   ) {}
 
   async create(body: ArticleCreateReqDto): Promise<Article> {
-    return await this.repository.save(body)
+    const { tagIds, ...reset } = body
+    reset.tags = tagIds as any[]
+    return await this.repository.save(reset)
   }
 
   async findById(id: Article['id']): Promise<Article> {
     return await this.repository.findOne({
       where: { id },
-      relations: {
-        category: true,
-        tags: true,
-      },
+      relations: { category: true, tags: true },
     })
   }
 
@@ -42,18 +41,16 @@ export class ArticleService {
       where,
       skip: pageSize * (current - 1),
       take: pageSize,
-      order: {
-        created_at: 'DESC',
-      },
+      order: { created_at: 'DESC' },
       relations: ['category', 'tags'],
     })
     return { data, total }
   }
 
   async update(id: Article['id'], body: ArticleCreateReqDto): Promise<Article> {
-    const { tags, ...others } = body
-    const record = this.repository.create(others)
-    record.tags = tags
+    const { tagIds, ...reset } = body
+    const record = this.repository.create(reset)
+    record.tags = tagIds as any[]
     record.id = id
     return await this.repository.save(record)
   }

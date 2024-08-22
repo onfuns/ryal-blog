@@ -28,7 +28,7 @@ export class ArticleController {
   @ApiResult({ description: '创建文章', type: Article })
   @Post()
   async add(@Body() body: ArticleCreateReqDto) {
-    return this.service.create(body as Article)
+    return this.service.create(body)
   }
 
   @ApiResult({ description: '更新文章', type: Article })

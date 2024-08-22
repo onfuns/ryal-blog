@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout'
+import PageLayout from '@/components/PageLayout'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import 'uno.css'
 import config from './config'
@@ -18,9 +18,9 @@ const App = () => {
 
   return (
     <BrowserRouter basename={config.routeBasename}>
-      <Layout>
+      <PageLayout>
         <Routes>{mapRoutes}</Routes>
-      </Layout>
+      </PageLayout>
     </BrowserRouter>
   )
 }

@@ -68,16 +68,18 @@ export class UserService {
       },
       skip: pageSize * (current - 1),
       take: pageSize,
-      order: {
-        created_at: 'DESC',
-      },
+      order: { created_at: 'DESC' },
     })
 
     return { data, total }
   }
 
   async findById(id: number): Promise<User> {
-    return this.repository.findOne({ where: { id }, relations: ['roles', 'roles.auths'] })
+    const data = await this.repository.findOne({
+      where: { id },
+      relations: ['roles', 'roles.auths'],
+    })
+    return data
   }
 
   async update(id: number, body: UserCreateReqDto): Promise<User> {

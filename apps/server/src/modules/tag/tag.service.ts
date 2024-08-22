@@ -28,9 +28,7 @@ export class TagService {
       where,
       skip: pageSize * (current - 1),
       take: pageSize,
-      order: {
-        created_at: 'DESC',
-      },
+      order: { created_at: 'DESC' },
     })
 
     return { data, total }

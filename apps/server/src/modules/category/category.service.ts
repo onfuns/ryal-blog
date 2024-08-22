@@ -19,9 +19,7 @@ export class CategoryService {
 
   async getList({ isToTree = false }: { isToTree?: boolean }): Promise<Category[]> {
     const data = await this.repository.find({
-      order: {
-        sort: 'DESC',
-      },
+      order: { sort: 'DESC' },
     })
     if (isToTree) {
       return toTree(data)

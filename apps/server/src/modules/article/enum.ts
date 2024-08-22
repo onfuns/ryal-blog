@@ -11,3 +11,10 @@ export enum ArticleCommentStatusEnum {
   /** 关闭 */
   Closed = 'closed',
 }
+
+export enum ArticleEditorTypeEnum {
+  /** markdown */
+  Markdown = 'markdown',
+  /** 富文本 */
+  Text = 'text',
+}

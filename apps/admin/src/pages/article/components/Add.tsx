@@ -1,6 +1,8 @@
 import {
   ArticleCommentStatusEnumType,
+  ArticleEditorTypeEnumType,
   ArticlePassStatusEnumType,
+  ArticleType,
   articleService,
   categoryService,
   tagService,
@@ -17,14 +19,19 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { MarkdownEditor, RichTextEditor, TimeFormt } from '@ryal/ui-kit'
+import { useSetState } from 'ahooks'
 import { message } from 'antd'
+import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { CatetoryIdEnum } from '../../category/enum'
 
 export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetailModalProps) => {
   const [content, setContent] = useState('')
-  const [formInstance] = ProForm.useForm()
+  const [editorValues, setEditorValues] = useSetState({ markdownContet: '', richTextContent: '' })
+  const [formInstance] = ProForm.useForm<
+    Partial<ArticleType> & { categoryIds?: number[]; tagIds: number[] }
+  >()
   const isEditMode = !!detail?.id
 
   const loadData = async () => {
@@ -33,9 +40,9 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
     setContent(content)
     formInstance.setFieldsValue({
       ...article,
-      publish_time: dayjs(publish_time),
-      tags: tags?.map(item => item.id),
-      category_id:
+      publish_time: dayjs(publish_time).toString(),
+      tagIds: tags?.map(item => item.id),
+      categoryIds:
         category?.pid === CatetoryIdEnum.Root ? [category.id] : [category.pid, category.id],
     })
   }
@@ -53,9 +60,12 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
       publish_time: values.publish_time
         ? dayjs(values.publish_time).format(TimeFormt.Time)
         : undefined,
-      category_id: values?.category_id?.pop(),
-      tags: values?.tags?.map((id: number) => ({ id })),
-      content,
+      category_id: values?.categoryIds?.pop(),
+      tagIds: values?.tagIds?.map((id: number) => ({ id })),
+      content:
+        values?.editor_type === ArticleEditorTypeEnumType.Markdown
+          ? editorValues?.markdownContet
+          : editorValues.richTextContent,
     }
 
     if (isEditMode) {
@@ -68,7 +78,7 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
   }
 
   return (
-    <DrawerForm
+    <DrawerForm<ArticleType>
       title="文章信息"
       trigger={trigger}
       drawerProps={{ onClose: onCancel }}
@@ -79,7 +89,7 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
         pass_status: ArticlePassStatusEnumType.Audited,
         comment_status: ArticleCommentStatusEnumType.Closed,
         publish_time: dayjs(),
-        editor_type: 'markdown',
+        editor_type: ArticleEditorTypeEnumType.Markdown,
       }}
     >
       <ProFormText
@@ -99,7 +109,7 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
 
       <ProFormCascader
         label="分类"
-        name="category_id"
+        name="categoryIds"
         rules={[{ required: true }]}
         placeholder="请选择分类"
         request={async () => {
@@ -114,7 +124,7 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
 
       <ProFormSelect
         label="标签"
-        name="tags"
+        name="tagIds"
         rules={[{ required: true }]}
         placeholder="请选择标签"
         mode="multiple"
@@ -163,8 +173,8 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
           label="编辑器类型"
           name="editor_type"
           options={[
-            { label: 'markdown', value: 'markdown' },
-            { label: 'text', value: 'text' },
+            { label: 'markdown', value: ArticleEditorTypeEnumType.Markdown },
+            { label: '富文本', value: ArticleEditorTypeEnumType.Text },
           ]}
         />
 
@@ -173,13 +183,18 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
             return (
               <>
                 <MarkdownEditor
-                  className={editor_type === 'text' ? 'hidden' : ''}
+                  className={classNames({ hidden: editor_type === ArticleEditorTypeEnumType.Text })}
                   value={content}
-                  onChange={value => setContent(value)}
+                  onChange={value => setEditorValues({ markdownContet: value })}
                 />
                 <RichTextEditor
-                  className={editor_type === 'markdown' ? 'hidden' : ''}
-                  editor={{ value: content, onChange: editor => setContent(editor.getHtml()) }}
+                  className={classNames({
+                    hidden: editor_type === ArticleEditorTypeEnumType.Markdown,
+                  })}
+                  editor={{
+                    value: content,
+                    onChange: editor => setEditorValues({ richTextContent: editor.getHtml() }),
+                  }}
                 />
               </>
             )

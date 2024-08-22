@@ -11,7 +11,7 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm'
-import { ArticleCommentStatusEnum, ArticlePassStatusEnum } from './enum'
+import { ArticleCommentStatusEnum, ArticleEditorTypeEnum, ArticlePassStatusEnum } from './enum'
 
 @Entity()
 export class Article extends TimeEntity {
@@ -19,7 +19,7 @@ export class Article extends TimeEntity {
   @PrimaryColumn({ generated: 'uuid', length: 36 })
   id: string
 
-  @ApiProperty({ description: '分类' })
+  @ApiProperty({ description: '分类', type: Category })
   @ManyToOne(() => Category, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
@@ -74,9 +74,18 @@ export class Article extends TimeEntity {
   @Column({ comment: '是否开放评论', default: ArticleCommentStatusEnum.Closed })
   comment_status: string
 
+  @ApiProperty({
+    description: '编辑器类型',
+    default: ArticleEditorTypeEnum.Markdown,
+    enum: ArticleEditorTypeEnum,
+    enumName: 'ArticleEditorTypeEnum',
+  })
+  @Column({ comment: '是否开放评论', default: ArticleEditorTypeEnum.Markdown })
+  editor_type: string
+
   @ApiProperty({ description: '发布时间' })
-  @Column({ comment: '发布时间' })
-  publish_time: string
+  @Column({ comment: '发布时间', type: 'time' })
+  publish_time: Date
 
   @ApiProperty({ description: '作者' })
   @Column({ comment: '作者', nullable: true })

@@ -103,6 +103,15 @@ export enum ArticleCommentStatusEnumType {
   Closed = 'closed',
 }
 
+/**
+ * 编辑器类型
+ * @default "markdown"
+ */
+export enum ArticleEditorTypeEnumType {
+  Markdown = 'markdown',
+  Text = 'text',
+}
+
 export interface ArticleType {
   /** 创建时间 */
   created_at: string
@@ -128,7 +137,12 @@ export interface ArticleType {
   pass_status: ArticlePassStatusEnumType
   /** 是否开放评论 */
   comment_status: ArticleCommentStatusEnumType
-  /** 发布时间 */
+  /** 编辑器类型 */
+  editor_type: ArticleEditorTypeEnumType
+  /**
+   * 发布时间
+   * @format date-time
+   */
   publish_time: string
   /** 作者 */
   author: string
@@ -153,7 +167,12 @@ export interface ArticleCreateReqDtoType {
   pass_status?: ArticlePassStatusEnumType
   /** 是否开放评论 */
   comment_status?: ArticleCommentStatusEnumType
-  /** 发布时间 */
+  /** 编辑器类型 */
+  editor_type?: ArticleEditorTypeEnumType
+  /**
+   * 发布时间
+   * @format date-time
+   */
   publish_time?: string
   /** 作者 */
   author?: string

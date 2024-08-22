@@ -28,9 +28,7 @@ export class FileService {
       where: where,
       skip: pageSize * (current - 1),
       take: pageSize,
-      order: {
-        created_at: 'DESC',
-      },
+      order: { created_at: 'DESC' },
       relations: ['filecategory'],
     })
     return { data, total }
