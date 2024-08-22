@@ -14,10 +14,7 @@ import { UserService } from './user.service'
 export class UserController {
   constructor(@Inject(UserService) private readonly service: UserService) {}
 
-  @ApiResult({
-    description: '登录',
-    type: User,
-  })
+  @ApiResult({ description: '登录', type: User })
   @Post('login')
   @NoPermission()
   async login(
@@ -41,39 +38,26 @@ export class UserController {
     return { userName: name, token }
   }
 
-  @ApiResult({
-    description: '获取用户列表',
-    type: [User],
-    page: true,
-  })
+  @ApiResult({ description: '获取用户列表', type: [User], page: true })
   @Get()
   async getList(@Query() query: UserListReqDto) {
     return this.service.getList(query)
   }
 
-  @ApiResult({
-    description: '新增用户',
-    type: User,
-  })
+  @ApiResult({ description: '新增用户', type: User })
   @Post()
   async add(@Body() body: UserCreateReqDto) {
     return this.service.create(body)
   }
 
-  @ApiResult({
-    description: '更新用户',
-    type: User,
-  })
+  @ApiResult({ description: '更新用户', type: User })
   @ApiParam({ name: 'id', type: 'number' })
   @Put(':id')
   async update(@Param('id') id: User['id'], @Body() body: UserCreateReqDto) {
     return this.service.update(id, body)
   }
 
-  @ApiResult({
-    description: '删除用户',
-    type: User,
-  })
+  @ApiResult({ description: '删除用户', type: User })
   @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
   async delete(@Param('id') id: User['id']) {

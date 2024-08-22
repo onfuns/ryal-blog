@@ -10,38 +10,26 @@ import { TagService } from './tag.service'
 export class TagController {
   constructor(@Inject(TagService) private readonly service: TagService) {}
 
-  @ApiResult({
-    description: '获取标签列表',
-    type: [Tag],
-    page: true,
-  })
+  @ApiResult({ description: '获取标签列表', type: [Tag], page: true })
   @Get()
   async getList(@Query() query: TagListReqDto) {
     return this.service.getList(query)
   }
 
-  @ApiResult({
-    description: '新增标签',
-    type: Tag,
-  })
+  @ApiResult({ description: '新增标签', type: Tag })
   @Post()
   async add(@Body() body: TagCreateReqDto) {
     return this.service.create(body)
   }
 
-  @ApiResult({
-    description: '更新标签',
-    type: Tag,
-  })
+  @ApiResult({ description: '更新标签', type: Tag })
   @ApiParam({ name: 'id', type: 'number' })
   @Put(':id')
   async update(@Param('id') id: Tag['id'], @Body() body: TagCreateReqDto) {
     return this.service.update(id, body)
   }
 
-  @ApiResult({
-    description: '删除标签',
-  })
+  @ApiResult({ description: '删除标签' })
   @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
   async delete(@Param('id') id: Tag['id']) {

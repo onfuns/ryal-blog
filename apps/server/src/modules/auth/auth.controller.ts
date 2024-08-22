@@ -10,37 +10,26 @@ import { AuthService } from './auth.service'
 export class AuthController {
   constructor(@Inject(AuthService) private readonly service: AuthService) {}
 
-  @ApiResult({
-    description: '获取权限列表',
-    type: [Auth],
-  })
+  @ApiResult({ description: '获取权限列表', type: [Auth] })
   @Get()
   async getList() {
     return this.service.getList()
   }
 
-  @ApiResult({
-    description: '创建权限',
-    type: Auth,
-  })
+  @ApiResult({ description: '创建权限', type: Auth })
   @Post()
   async add(@Body() body: AuthCreateReqDto) {
     return this.service.create(body)
   }
 
-  @ApiResult({
-    description: '更新权限',
-    type: Auth,
-  })
+  @ApiResult({ description: '更新权限', type: Auth })
   @ApiParam({ name: 'id', type: 'number' })
   @Put(':id')
   async update(@Param('id') id: Auth['id'], @Body() body: AuthCreateReqDto) {
     return this.service.update(id, body)
   }
 
-  @ApiResult({
-    description: '删除权限',
-  })
+  @ApiResult({ description: '删除权限' })
   @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
   async delete(@Body('id') id: Auth['id']) {
