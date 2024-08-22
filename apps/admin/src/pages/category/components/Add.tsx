@@ -1,4 +1,4 @@
-import { categoryService } from '@/service'
+import { categoryService, CategoryStatusEnumType, CategoryTypeEnumType } from '@/service'
 import {
   ModalForm,
   ProForm,
@@ -8,13 +8,7 @@ import {
 } from '@ant-design/pro-components'
 import { message } from 'antd'
 import { useEffect } from 'react'
-import {
-  CategoryStatusEnum,
-  CategoryStatusMap,
-  CategoryTypeEnum,
-  CategoryTypeMap,
-  CatetoryIdEnum,
-} from '../enum'
+import { CategoryStatusMap, CategoryTypeMap, CatetoryIdEnum } from '../enum'
 
 export const CategoryAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
@@ -36,18 +30,23 @@ export const CategoryAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailMod
     }
     message.success('操作成功')
     onSuccess?.()
+    return true
   }
 
   return (
     <ModalForm
       title="分类信息"
       trigger={trigger}
-      modalProps={{ onOk, onCancel }}
+      modalProps={{ onCancel }}
       form={formInstance}
+      layout="horizontal"
+      colon={false}
+      labelCol={{ span: 3 }}
+      onFinish={onOk}
       initialValues={{
         pid: [CatetoryIdEnum.Root],
-        type: CategoryTypeEnum.List,
-        status: CategoryStatusEnum.Enable,
+        type: CategoryTypeEnumType.List,
+        status: CategoryStatusEnumType.Enable,
       }}
     >
       <ProFormCascader
@@ -82,7 +81,7 @@ export const CategoryAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailMod
         options={CategoryTypeMap}
       />
 
-      {categoryType === CategoryTypeEnum.Url && (
+      {categoryType === CategoryTypeEnumType.Url && (
         <ProFormText
           label="外链地址"
           name="url"

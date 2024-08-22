@@ -28,9 +28,9 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    */
   getList = (
     query?: {
-      /** 当前页码 */
+      /** 页码 */
       current?: number
-      /** 当前条数 */
+      /** 条数 */
       pageSize?: number
       /** 分类 id */
       fileCategoryId?: number
@@ -40,7 +40,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
     this.request<
       ResponseResultType & {
         data?: {
-          list?: FileType[]
+          data?: FileType[]
           total?: number
         }
       },

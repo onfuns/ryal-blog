@@ -176,6 +176,8 @@ export interface ArticleCreateReqDtoType {
   publish_time?: string
   /** 作者 */
   author?: string
+  /** 标签 id */
+  tagIds?: string[]
 }
 
 export interface TagCreateReqDtoType {

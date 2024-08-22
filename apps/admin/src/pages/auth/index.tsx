@@ -47,7 +47,6 @@ const AuthPage = () => {
     <Table<AuthType>
       actionRef={actionRef}
       columns={columns}
-      headerTitle="权限列表"
       search={false}
       expandable={{
         expandedRowKeys: expandKeys,

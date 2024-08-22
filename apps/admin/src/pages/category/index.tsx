@@ -8,7 +8,7 @@ import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, Tag, message } from 'antd'
 import { useRef, useState } from 'react'
 import { CategoryAdd } from './components/Add'
-import { CategoryStatusMap, CategoryTypeMap } from './enum'
+import { CategoryStatusMap, CategoryTypeMap, CatetoryIdEnum } from './enum'
 
 const CategoryPage = () => {
   const actionRef = useRef<TableActionType>()
@@ -46,11 +46,13 @@ const CategoryPage = () => {
       dataIndex: 'type',
       render: (_, { type, url }) => {
         const { label } = CategoryTypeMap.find(item => item.value === type) || {}
-        return (
+        return label ? (
           <Tag color="green">
             {label}
             {type === CategoryTypeEnumType.Url && `（${url}）`}
           </Tag>
+        ) : (
+          '-'
         )
       },
     },
@@ -68,7 +70,7 @@ const CategoryPage = () => {
       width: 120,
       render: (_, record) => [
         <CategoryAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
-        record.pid === 0 && record?.children?.length ? null : (
+        record.pid === CatetoryIdEnum.Root && record?.children?.length ? null : (
           <TableDelete key="delete" onDelete={() => onAction('delete', record)} />
         ),
       ],
@@ -79,7 +81,6 @@ const CategoryPage = () => {
     <Table<CategoryListItemDtoType>
       actionRef={actionRef}
       columns={columns}
-      headerTitle="栏目列表"
       search={false}
       expandable={{
         expandedRowKeys: expandKeys,
@@ -94,8 +95,11 @@ const CategoryPage = () => {
         },
       }}
       rowKey="id"
-      onDataSourceChange={data => setExpandKeys(data.map(({ id }) => id))}
-      request={() => categoryService.getList()}
+      request={async () => {
+        const { success, data } = await categoryService.getList()
+        setExpandKeys(data.map(({ id }) => id))
+        return { success, data }
+      }}
       pagination={false}
       toolBarRender={() => [
         <CategoryAdd

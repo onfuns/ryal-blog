@@ -82,7 +82,6 @@ const FilePage = () => {
     <Table<FileType>
       actionRef={actionRef}
       columns={columns}
-      headerTitle="附件列表"
       rowKey="id"
       request={async (params = {}) => {
         const { success, data } = await fileService.getList({ ...params })

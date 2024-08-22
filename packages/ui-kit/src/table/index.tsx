@@ -60,6 +60,7 @@ export const Table = <
     if (!request) return EMPTY_DATA
     try {
       const pageNum = params.current || 1
+      const pageSize = (params.pageSize = 20)
       setTableMixData({
         loading: true,
         data: tableMixData.data,
@@ -67,8 +68,8 @@ export const Table = <
       const res: any = await runAsync?.(
         {
           ...params,
-          current: pageNum,
-          pageNo: pageNum,
+          current: Number(pageNum),
+          pageSize: Number(pageSize),
         } as any,
         sort,
         filter,
@@ -93,11 +94,11 @@ export const Table = <
 
   const commonProps: TableProps<DataSource, Params, ValueType> = {
     ...props,
-    search: {
+    search: props.search ?? {
       labelWidth: 'auto',
       searchText: '搜索',
       searchGutter: 12,
-      ...props.search,
+      ...(props.search || {}),
     },
     className: classNames(prefixCls, props.className),
     tableClassName: classNames(`${prefixCls}-table`, props.tableClassName),

@@ -109,7 +109,7 @@ const ArticlePage = () => {
 
   const requestTableData = async (params = {}) => {
     const { success, data } = await articleService.getList({ ...params })
-    return { success, data: data?.list, total: data?.total }
+    return { success, ...data }
   }
 
   return (

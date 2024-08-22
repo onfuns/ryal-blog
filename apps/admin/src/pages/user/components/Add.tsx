@@ -35,15 +35,20 @@ export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
     }
     message.success('操作成功')
     onSuccess?.()
+    return true
   }
 
   return (
     <ModalForm
       title="用户信息"
       trigger={trigger}
-      modalProps={{ onOk, onCancel }}
-      initialValues={{ enable: UserStatusEnumType.Enable }}
+      modalProps={{ onCancel }}
       form={formInstance}
+      layout="horizontal"
+      colon={false}
+      labelCol={{ span: 3 }}
+      onFinish={onOk}
+      initialValues={{ enable: UserStatusEnumType.Enable }}
     >
       <ProFormText
         label="用户名"
@@ -70,7 +75,7 @@ export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
         convertValue={(value: { id: number }[]) => value?.map(role => role.id)}
         request={async () => {
           const { data } = await roleService.getList({ current: 1, pageSize: 100 })
-          return (data?.list || [])?.map(item => ({ label: item.name, value: item.id }))
+          return (data?.data || [])?.map(item => ({ label: item.name, value: item.id }))
         }}
       />
 

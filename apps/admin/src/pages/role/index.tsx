@@ -39,12 +39,11 @@ const RolePage = () => {
     <Table<RoleType>
       actionRef={actionRef}
       columns={columns}
-      headerTitle="角色列表"
       search={false}
       rowKey="id"
       request={async params => {
         const { success, data } = await roleService.getList({ ...params })
-        return { success, data: data?.list || [], total: data?.total }
+        return { success, ...data }
       }}
       pagination={false}
       toolBarRender={() => [

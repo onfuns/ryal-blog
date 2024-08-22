@@ -93,11 +93,10 @@ const CommentPage = () => {
     <Table<CommentType>
       actionRef={actionRef}
       columns={columns}
-      headerTitle="评论列表"
       rowKey="id"
       request={async params => {
         const { success, data } = await commentService.getList(params)
-        return { success, data: data?.list || [], total: data?.total }
+        return { success, ...data }
       }}
     />
   )

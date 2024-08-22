@@ -27,9 +27,9 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    */
   getList = (
     query?: {
-      /** 当前页码 */
+      /** 页码 */
       current?: number
-      /** 当前条数 */
+      /** 条数 */
       pageSize?: number
       /** 标题 */
       title?: string
@@ -45,7 +45,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
     this.request<
       ResponseResultType & {
         data?: {
-          list?: ArticleType[]
+          data?: ArticleType[]
           total?: number
         }
       },
@@ -87,9 +87,9 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    */
   getClientList = (
     query?: {
-      /** 当前页码 */
+      /** 页码 */
       current?: number
-      /** 当前条数 */
+      /** 条数 */
       pageSize?: number
       /** 标题 */
       title?: string

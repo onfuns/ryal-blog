@@ -22,9 +22,9 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    */
   getList = (
     query?: {
-      /** 当前页码 */
+      /** 页码 */
       current?: number
-      /** 当前条数 */
+      /** 条数 */
       pageSize?: number
       /** 文章标题 */
       title?: string
@@ -34,7 +34,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
     this.request<
       ResponseResultType & {
         data?: {
-          list?: CommentType[]
+          data?: CommentType[]
           total?: number
         }
       },

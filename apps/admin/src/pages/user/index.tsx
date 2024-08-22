@@ -88,7 +88,7 @@ const UserPage = () => {
       rowKey="id"
       request={async (params = {}) => {
         const { success, data } = await userService.getList({ ...params })
-        return { success, data: data?.list, total: data?.total }
+        return { success, ...data }
       }}
       toolBarRender={() => [
         <UserAdd

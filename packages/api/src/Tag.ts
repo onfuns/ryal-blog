@@ -22,9 +22,9 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    */
   getList = (
     query?: {
-      /** 当前页码 */
+      /** 页码 */
       current?: number
-      /** 当前条数 */
+      /** 条数 */
       pageSize?: number
       /** 名称 */
       name?: string
@@ -34,7 +34,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
     this.request<
       ResponseResultType & {
         data?: {
-          list?: TagType[]
+          data?: TagType[]
           total?: number
         }
       },

@@ -1,4 +1,4 @@
-import { toTree } from '@/util'
+import { arrayToTree } from '@/util'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -22,7 +22,7 @@ export class CategoryService {
       order: { sort: 'DESC' },
     })
     if (isToTree) {
-      return toTree(data)
+      return arrayToTree(data)
     }
     return data
   }

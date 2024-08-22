@@ -22,15 +22,19 @@ export const TagAdd = ({ trigger, onSuccess, onCancel, detail = {} }: IDetailMod
     }
     message.success('操作成功')
     onSuccess?.()
+    return true
   }
 
   return (
     <ModalForm
       title="标签信息"
       trigger={trigger}
-      modalProps={{ onOk, onCancel }}
-      initialValues={detail}
+      modalProps={{ onCancel }}
       form={formInstance}
+      layout="horizontal"
+      colon={false}
+      labelCol={{ span: 3 }}
+      onFinish={onOk}
     >
       <ProFormText label="名称" name="name" rules={[{ required: true }]} placeholder="请输入名称" />
 

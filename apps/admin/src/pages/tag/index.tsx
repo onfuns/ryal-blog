@@ -39,14 +39,12 @@ const TagPage = () => {
     <Table<TagType>
       actionRef={actionRef}
       columns={columns}
-      headerTitle="标签列表"
       search={false}
       rowKey="id"
       request={async params => {
         const { success, data } = await tagService.getList({ ...params })
-        return { success, data: data?.list || [], total: data?.total }
+        return { success, ...data }
       }}
-      pagination={false}
       toolBarRender={() => [
         <TagAdd key="add" onSuccess={refresh} trigger={<Button type="primary">新增标签</Button>} />,
       ]}

@@ -50,6 +50,7 @@ export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
     }
     message.success('操作成功')
     onSuccess?.()
+    return true
   }
 
   const menuList = [{ id: AuthIdEnum.Root, name: '一级菜单' }].concat(
@@ -60,8 +61,12 @@ export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
     <ModalForm
       title="权限信息"
       trigger={trigger}
-      modalProps={{ onOk, onCancel }}
+      modalProps={{ onCancel }}
       form={formInstance}
+      layout="horizontal"
+      colon={false}
+      labelCol={{ span: 3 }}
+      onFinish={onOk}
       initialValues={{ node_type: AuthNodeTypeEnumType.Menu }}
     >
       <ProFormRadio.Group

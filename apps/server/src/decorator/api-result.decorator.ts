@@ -24,7 +24,7 @@ export const ApiResult = <TModel extends Type<any>>({
       prop = {
         type: 'object',
         properties: {
-          list: { type: 'array', items: { $ref: getSchemaPath(type[0]) } },
+          data: { type: 'array', items: { $ref: getSchemaPath(type[0]) } },
           total: { type: 'number' },
         },
       }

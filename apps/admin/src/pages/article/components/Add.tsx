@@ -23,12 +23,11 @@ import { useSetState } from 'ahooks'
 import { message } from 'antd'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { CatetoryIdEnum } from '../../category/enum'
 
 export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetailModalProps) => {
-  const [content, setContent] = useState('')
-  const [editorValues, setEditorValues] = useSetState({ markdownContet: '', richTextContent: '' })
+  const [editorValues, setEditorValues] = useSetState({ markdownContent: '', richTextContent: '' })
   const [formInstance] = ProForm.useForm<
     Partial<ArticleType> & { categoryIds?: number[]; tagIds: number[] }
   >()
@@ -36,8 +35,13 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
 
   const loadData = async () => {
     const { data: article } = await articleService.info(detail.id)
-    const { publish_time, category, tags, content } = article
-    setContent(content)
+    const { publish_time, category, tags, content, editor_type } = article
+
+    if (editor_type === ArticleEditorTypeEnumType.Markdown) {
+      setEditorValues({ markdownContent: content })
+    } else {
+      setEditorValues({ richTextContent: content })
+    }
     formInstance.setFieldsValue({
       ...article,
       publish_time: dayjs(publish_time).toString(),
@@ -64,7 +68,7 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
       tagIds: values?.tagIds?.map((id: number) => ({ id })),
       content:
         values?.editor_type === ArticleEditorTypeEnumType.Markdown
-          ? editorValues?.markdownContet
+          ? editorValues?.markdownContent
           : editorValues.richTextContent,
     }
 
@@ -83,8 +87,11 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
       trigger={trigger}
       drawerProps={{ onClose: onCancel }}
       onFinish={onFinish}
-      width="80%"
+      width="50%"
       form={formInstance}
+      layout="horizontal"
+      colon={false}
+      labelCol={{ span: 3 }}
       initialValues={{
         pass_status: ArticlePassStatusEnumType.Audited,
         comment_status: ArticleCommentStatusEnumType.Closed,
@@ -130,7 +137,7 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
         mode="multiple"
         request={async () => {
           const { data } = await tagService.getList({ current: 1, pageSize: 100 })
-          return (data?.list || [])?.map(item => ({ label: item.name, value: item.id }))
+          return (data?.data || [])?.map(item => ({ label: item.name, value: item.id }))
         }}
       />
 
@@ -170,7 +177,6 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
 
       <ProForm.Item label="内容">
         <ProFormRadio.Group
-          label="编辑器类型"
           name="editor_type"
           options={[
             { label: 'markdown', value: ArticleEditorTypeEnumType.Markdown },
@@ -184,15 +190,15 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
               <>
                 <MarkdownEditor
                   className={classNames({ hidden: editor_type === ArticleEditorTypeEnumType.Text })}
-                  value={content}
-                  onChange={value => setEditorValues({ markdownContet: value })}
+                  value={editorValues.markdownContent}
+                  onChange={value => setEditorValues({ markdownContent: value })}
                 />
                 <RichTextEditor
                   className={classNames({
                     hidden: editor_type === ArticleEditorTypeEnumType.Markdown,
                   })}
                   editor={{
-                    value: content,
+                    value: editorValues.richTextContent,
                     onChange: editor => setEditorValues({ richTextContent: editor.getHtml() }),
                   }}
                 />
