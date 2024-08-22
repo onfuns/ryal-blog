@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import dayjs from 'dayjs'
-import _ from 'lodash-es'
+import _ from 'lodash'
 import React from 'react'
 import { useConfigContext } from '..'
 import './index.less'

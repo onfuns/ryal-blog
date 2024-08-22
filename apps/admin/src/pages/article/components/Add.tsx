@@ -1,4 +1,3 @@
-import MDEditor from '@/components/Editor/MarkdownEditor'
 import {
   ArticleCommentStatusEnumType,
   ArticlePassStatusEnumType,
@@ -11,12 +10,13 @@ import {
   ProForm,
   ProFormCascader,
   ProFormDatePicker,
+  ProFormDependency,
   ProFormRadio,
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { TimeFormt } from '@ryal/ui-kit'
+import { MarkdownEditor, RichTextEditor, TimeFormt } from '@ryal/ui-kit'
 import { message } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
@@ -79,6 +79,7 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
         pass_status: ArticlePassStatusEnumType.Audited,
         comment_status: ArticleCommentStatusEnumType.Closed,
         publish_time: dayjs(),
+        editor_type: 'markdown',
       }}
     >
       <ProFormText
@@ -158,7 +159,32 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
       />
 
       <ProForm.Item label="内容">
-        <MDEditor value={content} onChange={value => setContent(value)} />
+        <ProFormRadio.Group
+          label="编辑器类型"
+          name="editor_type"
+          options={[
+            { label: 'markdown', value: 'markdown' },
+            { label: 'text', value: 'text' },
+          ]}
+        />
+
+        <ProFormDependency name={['editor_type']}>
+          {({ editor_type }) => {
+            return (
+              <>
+                <MarkdownEditor
+                  className={editor_type === 'text' ? 'hidden' : ''}
+                  value={content}
+                  onChange={value => setContent(value)}
+                />
+                <RichTextEditor
+                  className={editor_type === 'markdown' ? 'hidden' : ''}
+                  editor={{ value: content, onChange: editor => setContent(editor.getHtml()) }}
+                />
+              </>
+            )
+          }}
+        </ProFormDependency>
       </ProForm.Item>
     </DrawerForm>
   )

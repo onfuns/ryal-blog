@@ -7,7 +7,7 @@ import {
 } from '@ant-design/pro-components'
 import { useSetState as useMergeState, useRequest } from 'ahooks'
 import classNames from 'classnames'
-import _ from 'lodash-es'
+import _ from 'lodash'
 import { useConfigContext } from '../config-provider'
 import './index.less'
 
