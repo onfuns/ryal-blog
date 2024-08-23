@@ -1,18 +1,13 @@
 import { categoryService, CategoryStatusEnumType, CategoryTypeEnumType } from '@/service'
-import {
-  ModalForm,
-  ProForm,
-  ProFormCascader,
-  ProFormRadio,
-  ProFormText,
-} from '@ant-design/pro-components'
+import { ProForm, ProFormCascader, ProFormRadio, ProFormText } from '@ant-design/pro-components'
+import { ModalForm } from '@ryal/ui-kit'
 import { message } from 'antd'
 import { useEffect } from 'react'
 import { CategoryStatusMap, CategoryTypeMap, CatetoryIdEnum } from '../enum'
 
 export const CategoryAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
   const [formInstance] = ProForm.useForm()
-  const categoryType = ProForm.useWatch('type', formInstance)
+  const watchCategoryType = ProForm.useWatch('type', formInstance)
   const isEditMode = !!detail?.id
 
   useEffect(() => {
@@ -35,14 +30,10 @@ export const CategoryAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailMod
 
   return (
     <ModalForm
-      title="分类信息"
+      title={`${isEditMode ? '编辑' : '新增'}分类`}
       trigger={trigger}
-      modalProps={{ onCancel }}
+      modalProps={{ onCancel, onOk }}
       form={formInstance}
-      layout="horizontal"
-      colon={false}
-      labelCol={{ span: 3 }}
-      onFinish={onOk}
       initialValues={{
         pid: [CatetoryIdEnum.Root],
         type: CategoryTypeEnumType.List,
@@ -81,7 +72,7 @@ export const CategoryAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailMod
         options={CategoryTypeMap}
       />
 
-      {categoryType === CategoryTypeEnumType.Url && (
+      {watchCategoryType === CategoryTypeEnumType.Url && (
         <ProFormText
           label="外链地址"
           name="url"

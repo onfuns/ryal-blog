@@ -8,8 +8,14 @@ const RolePage = () => {
   const actionRef = useRef<TableActionType>()
   const refresh = () => actionRef?.current?.reload()
 
-  const onDelete = async (id: RoleType['id']) => {
-    await roleService.delete(id)
+  const onAction = async (type: 'delete', { id }: RoleType) => {
+    switch (type) {
+      case 'delete':
+        await roleService.delete(id)
+        break
+      default:
+        break
+    }
     message.success('操作成功')
     refresh()
   }
@@ -30,7 +36,7 @@ const RolePage = () => {
       width: 120,
       render: (_, record) => [
         <RoleAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
-        <TableDelete key="delete" onDelete={() => onDelete(record.id)} />,
+        <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
       ],
     },
   ]
@@ -41,10 +47,7 @@ const RolePage = () => {
       columns={columns}
       search={false}
       rowKey="id"
-      request={async params => {
-        const { success, data } = await roleService.getList({ ...params })
-        return { success, ...data }
-      }}
+      request={roleService.getList}
       pagination={false}
       toolBarRender={() => [
         <RoleAdd

@@ -1,31 +1,21 @@
-import {
-  CategoryListItemDtoType,
-  CategoryStatusEnumType,
-  CategoryTypeEnumType,
-  categoryService,
-} from '@/service'
+import { CategoryListItemDtoType, CategoryTypeEnumType, categoryService } from '@/service'
 import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, Tag, message } from 'antd'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { CategoryAdd } from './components/Add'
 import { CategoryStatusMap, CategoryTypeMap, CatetoryIdEnum } from './enum'
 
 const CategoryPage = () => {
   const actionRef = useRef<TableActionType>()
   const refresh = () => actionRef?.current?.reload()
-  const [expandKeys, setExpandKeys] = useState<number[]>([])
 
-  const onAction = async (type: 'delete' | 'status', { id, status }: CategoryListItemDtoType) => {
-    if (type === 'delete') {
-      await categoryService.delete(id)
-    } else if (type === 'status') {
-      let statusValue = undefined
-      if (status === CategoryStatusEnumType.Enable) {
-        statusValue = CategoryStatusEnumType.Block
-      } else {
-        statusValue = CategoryStatusEnumType.Enable
-      }
-      await categoryService.update(id, { status: statusValue })
+  const onAction = async (type: 'delete', { id }: CategoryListItemDtoType) => {
+    switch (type) {
+      case 'delete':
+        await categoryService.delete(id)
+        break
+      default:
+        break
     }
     message.success('操作成功')
     refresh()
@@ -49,7 +39,7 @@ const CategoryPage = () => {
         return label ? (
           <Tag color="green">
             {label}
-            {type === CategoryTypeEnumType.Url && `（${url}）`}
+            {type === CategoryTypeEnumType.Url && `(${url})`}
           </Tag>
         ) : (
           '-'
@@ -82,24 +72,9 @@ const CategoryPage = () => {
       actionRef={actionRef}
       columns={columns}
       search={false}
-      expandable={{
-        expandedRowKeys: expandKeys,
-        onExpand: (expand, { id }) => {
-          let newKeys = [...expandKeys]
-          if (expand) {
-            newKeys.push(id)
-          } else {
-            newKeys = newKeys.filter(key => key !== id)
-          }
-          setExpandKeys([...newKeys])
-        },
-      }}
       rowKey="id"
-      request={async () => {
-        const { success, data } = await categoryService.getList()
-        setExpandKeys(data.map(({ id }) => id))
-        return { success, data }
-      }}
+      dataFieldName="data"
+      request={categoryService.getList}
       pagination={false}
       toolBarRender={() => [
         <CategoryAdd

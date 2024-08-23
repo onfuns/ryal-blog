@@ -148,6 +148,11 @@ export interface ArticleType {
   author: string
 }
 
+export interface PickTypeClassType {
+  /** id */
+  id: number
+}
+
 export interface ArticleCreateReqDtoType {
   /** 分类 */
   category?: CategoryType
@@ -177,7 +182,7 @@ export interface ArticleCreateReqDtoType {
   /** 作者 */
   author?: string
   /** 标签 id */
-  tagIds?: string[]
+  tagIds?: PickTypeClassType[]
 }
 
 export interface TagCreateReqDtoType {

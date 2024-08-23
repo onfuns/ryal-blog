@@ -9,12 +9,3 @@ export enum AuthIdEnum {
   /** 根节点 id */
   Root = 0,
 }
-
-export enum DataActionType {
-  /** 置顶 */
-  Sort = 'sort',
-  /**  审核 */
-  Pass = 'pass',
-  /** 删除 */
-  Delete = 'delete',
-}

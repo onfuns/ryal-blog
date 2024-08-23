@@ -8,7 +8,6 @@ import {
   tagService,
 } from '@/service'
 import {
-  DrawerForm,
   ProForm,
   ProFormCascader,
   ProFormDatePicker,
@@ -18,7 +17,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { MarkdownEditor, RichTextEditor, TimeFormt } from '@ryal/ui-kit'
+import { DrawerForm, MarkdownEditor, RichTextEditor, TimeFormt } from '@ryal/ui-kit'
 import { useSetState } from 'ahooks'
 import { message } from 'antd'
 import classNames from 'classnames'
@@ -29,11 +28,11 @@ import { CatetoryIdEnum } from '../../category/enum'
 export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetailModalProps) => {
   const [editorValues, setEditorValues] = useSetState({ markdownContent: '', richTextContent: '' })
   const [formInstance] = ProForm.useForm<
-    Partial<ArticleType> & { categoryIds?: number[]; tagIds: number[] }
+    ArticleType & { categoryIds?: number[]; tagIds: number[] }
   >()
   const isEditMode = !!detail?.id
 
-  const loadData = async () => {
+  const setFormData = async () => {
     const { data: article } = await articleService.info(detail.id)
     const { publish_time, category, tags, content, editor_type } = article
 
@@ -53,11 +52,11 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
 
   useEffect(() => {
     if (isEditMode) {
-      loadData()
+      setFormData()
     }
   }, [detail])
 
-  const onFinish = async () => {
+  const onOk = async () => {
     const values = await formInstance.validateFields()
     const params = {
       ...values,
@@ -85,13 +84,9 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
     <DrawerForm<ArticleType>
       title="文章信息"
       trigger={trigger}
-      drawerProps={{ onClose: onCancel }}
-      onFinish={onFinish}
-      width="50%"
+      drawerProps={{ onCancel, onOk }}
+      width="60%"
       form={formInstance}
-      layout="horizontal"
-      colon={false}
-      labelCol={{ span: 3 }}
       initialValues={{
         pass_status: ArticlePassStatusEnumType.Audited,
         comment_status: ArticleCommentStatusEnumType.Closed,
@@ -119,10 +114,7 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
         name="categoryIds"
         rules={[{ required: true }]}
         placeholder="请选择分类"
-        request={async () => {
-          const { data } = await categoryService.getList()
-          return data?.map(item => ({ label: item.name, value: item.id }))
-        }}
+        request={() => categoryService.getList() as Promise<any>}
         fieldProps={{
           fieldNames: { label: 'name', value: 'id', children: 'children' },
           changeOnSelect: true,
@@ -135,10 +127,8 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
         rules={[{ required: true }]}
         placeholder="请选择标签"
         mode="multiple"
-        request={async () => {
-          const { data } = await tagService.getList({ current: 1, pageSize: 100 })
-          return (data?.data || [])?.map(item => ({ label: item.name, value: item.id }))
-        }}
+        request={() => tagService.getList({ current: 1, pageSize: 100 }) as Promise<any>}
+        fieldProps={{ fieldNames: { label: 'name', value: 'id' } }}
       />
 
       <ProFormRadio.Group

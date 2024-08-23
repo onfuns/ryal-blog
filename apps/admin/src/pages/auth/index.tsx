@@ -3,21 +3,28 @@ import { arrayToTree } from '@/utils'
 import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, message } from 'antd'
 import { cloneDeep } from 'lodash'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { AuthAdd } from './components/Add'
-import { AuthIdEnum } from './enum'
 
 const AuthPage = () => {
   const actionRef = useRef<TableActionType>()
   const refresh = () => actionRef?.current?.reload()
-  const [expandKeys, setExpandKeys] = useState<number[]>([])
 
-  const onDelete = async ({ children, id }: AuthType & { children?: AuthType[] }) => {
-    if (children && children?.length > 0) {
-      message.warning('请先删除子节点')
-      return Promise.resolve()
+  const onAction = async (
+    type: 'delete',
+    { id, children }: AuthType & { children?: AuthType[] },
+  ) => {
+    switch (type) {
+      case 'delete':
+        if (children && children?.length > 0) {
+          message.warning('请先删除子节点')
+          return Promise.resolve()
+        }
+        await authService.delete(id)
+        break
+      default:
+        break
     }
-    await authService.delete(id)
     message.success('操作成功')
     refresh()
   }
@@ -26,11 +33,6 @@ const AuthPage = () => {
     {
       title: '名称',
       dataIndex: 'name',
-      render: (_, record) => (
-        <span style={{ fontFamily: '"Source Sans Pro",Calibri,Candara,Arial,sans-serif' }}>
-          {record.pid !== AuthIdEnum.Root ? `   ├─   ${record.name}` : record.name}
-        </span>
-      ),
     },
     {
       title: '操作',
@@ -38,7 +40,7 @@ const AuthPage = () => {
       width: 150,
       render: (_, record) => [
         <AuthAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
-        <TableDelete key="delete" onDelete={() => onDelete(record)} />,
+        <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
       ],
     },
   ]
@@ -48,26 +50,11 @@ const AuthPage = () => {
       actionRef={actionRef}
       columns={columns}
       search={false}
-      expandable={{
-        expandedRowKeys: expandKeys,
-        onExpand: (expand, { id }) => {
-          let newKeys = [...expandKeys]
-          if (expand) {
-            newKeys.push(id)
-          } else {
-            newKeys = newKeys.filter(key => key !== id)
-          }
-          setExpandKeys([...newKeys])
-        },
-      }}
       rowKey="id"
-      onDataSourceChange={data => {
-        const keys = data.map(({ id }) => id)
-        setExpandKeys(keys)
-      }}
       request={async () => {
         const { success, data } = await authService.getList()
-        return { success, data: arrayToTree(cloneDeep(data)) }
+        const list = arrayToTree<AuthType>(cloneDeep(data))
+        return { success, data: list }
       }}
       pagination={false}
       toolBarRender={() => [

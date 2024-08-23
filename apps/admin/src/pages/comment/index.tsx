@@ -1,7 +1,6 @@
 import { CommentStatusEnumType, commentService, type CommentType } from '@/service'
-import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
+import { Table, TableActionType, TableColumns, TableDelete, Time } from '@ryal/ui-kit'
 import { Switch, message } from 'antd'
-import dayjs from 'dayjs'
 import { useRef } from 'react'
 import { CommentAdd } from './components/Add'
 
@@ -10,16 +9,19 @@ const CommentPage = () => {
   const refresh = () => actionRef?.current?.reload()
 
   const onAction = async (type: 'delete' | 'pass', { id, status }: CommentType) => {
-    if (type === 'delete') {
-      await commentService.delete(id)
-    } else if (type === 'pass') {
-      let statusValue = undefined
-      if (status === CommentStatusEnumType.Passed) {
-        statusValue = CommentStatusEnumType.UnAudited
-      } else {
-        statusValue = CommentStatusEnumType.Passed
-      }
-      await commentService.update(id, { status: statusValue })
+    switch (type) {
+      case 'delete':
+        await commentService.delete(id)
+        break
+      case 'pass':
+        const statusValue =
+          status === CommentStatusEnumType.Passed
+            ? CommentStatusEnumType.UnAudited
+            : CommentStatusEnumType.Passed
+        await commentService.update(id, { status: statusValue })
+        break
+      default:
+        break
     }
     message.success('操作成功')
     refresh()
@@ -45,12 +47,12 @@ const CommentPage = () => {
       width: 120,
     },
     {
-      title: '评论人',
+      title: '用户',
       dataIndex: 'name',
       hideInSearch: true,
     },
     {
-      title: '站点',
+      title: '用户站点',
       dataIndex: 'url',
       hideInSearch: true,
     },
@@ -63,7 +65,7 @@ const CommentPage = () => {
       title: '评论时间',
       dataIndex: 'created_at',
       hideInSearch: true,
-      render: (_, { created_at }) => created_at && dayjs(created_at).format('YYYY-MM-DD HH:mm'),
+      render: (_, { created_at }) => <Time value={created_at} type="time" />,
     },
     {
       title: '审核',
@@ -94,10 +96,7 @@ const CommentPage = () => {
       actionRef={actionRef}
       columns={columns}
       rowKey="id"
-      request={async params => {
-        const { success, data } = await commentService.getList(params)
-        return { success, ...data }
-      }}
+      request={commentService.getList}
     />
   )
 }

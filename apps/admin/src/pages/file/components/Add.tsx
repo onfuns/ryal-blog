@@ -1,13 +1,13 @@
 import { fileService } from '@/service'
 import { CloseCircleFilled, InboxOutlined, PlusOutlined } from '@ant-design/icons'
 import {
-  DrawerForm,
   ProForm,
   ProFormItem,
   ProFormSelect,
   ProFormText,
   ProFormUploadDragger,
 } from '@ant-design/pro-components'
+import { DrawerForm } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
 import { Button, Divider, Space, UploadFile, UploadProps, message } from 'antd'
 import { useState } from 'react'
@@ -16,24 +16,8 @@ export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => 
   const [formInstance] = ProForm.useForm()
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [typeName, setTypeName] = useState<string | undefined>()
-  const { data: { data: fileCategoryList = [] } = {}, refresh: refreshfileCategoryList } =
-    useRequest(fileService.getFileCategoryList)
-
-  const onFinish = async () => {
-    if (!fileList.length) {
-      return message.warning('请选择图片')
-    }
-
-    const values = await formInstance.validateFields()
-    const formData = new FormData()
-    formData.append('fileCategoryId', values.fileCategoryId)
-    for (let file of fileList) {
-      formData.append('files[]', file as any)
-    }
-    await fileService.upload(formData as any)
-    message.success('上传成功')
-    onSuccess?.()
-  }
+  const { data, refresh: refreshfileCategoryList } = useRequest(fileService.getFileCategoryList)
+  const fileCategoryList = data?.data
 
   const uploadFile = async (file: UploadFile): Promise<any> => {
     return new Promise(resolve => {
@@ -73,26 +57,61 @@ export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => 
   }
 
   const addItem = async () => {
-    if (typeName) {
-      await fileService.addFileCategory({ name: typeName })
-      setTypeName(undefined)
-      refreshfileCategoryList()
+    if (!typeName) return
+    await fileService.addFileCategory({ name: typeName })
+    setTypeName(undefined)
+    refreshfileCategoryList()
+  }
+
+  const onOk = async () => {
+    if (!fileList.length) {
+      return message.warning('请选择图片')
     }
+    const values = await formInstance.validateFields()
+    const formData = new FormData()
+    formData.append('fileCategoryId', values.fileCategoryId)
+    for (let file of fileList) {
+      formData.append('files[]', file as any)
+    }
+    await fileService.upload(formData as any)
+    message.success('上传成功')
+    onSuccess?.()
+  }
+
+  const renderFileList = () => {
+    const list = fileList.filter(file => !!file.url)
+    return list.map((file, index) => (
+      <div
+        key={file.uid}
+        className="flex items-center relative w-100 h-100 border border-solid border-#ccc mr-10 mb-10 v-mid"
+      >
+        <img src={file.url} style={{ width: '100%' }} />
+        <CloseCircleFilled
+          className="absolute z-5 right-[-5] top-[-5] text-16 "
+          onClick={() => {
+            fileList.splice(index, 1)
+            setFileList([...fileList])
+          }}
+        />
+      </div>
+    ))
   }
 
   return (
     <DrawerForm
       title="上传文件"
       trigger={trigger}
-      drawerProps={{ onClose: onCancel }}
-      onFinish={onFinish}
+      drawerProps={{ onCancel, onOk }}
       form={formInstance}
     >
       <ProFormSelect
         label="分组"
         name="fileCategoryId"
         placeholder="未分组"
-        options={fileCategoryList.map(item => ({ label: item.name, value: item.id }))}
+        options={fileCategoryList?.map(item => ({
+          label: item.name,
+          value: item.id,
+        }))}
         fieldProps={{
           dropdownRender: menu => (
             <>
@@ -123,27 +142,7 @@ export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => 
       </ProFormUploadDragger>
 
       {!!fileList.length && (
-        <ProFormItem colon={false}>
-          <div className="flex flex-wrap">
-            {fileList
-              .filter(file => !!file.url)
-              .map((file, index) => (
-                <div
-                  key={file.uid}
-                  className="flex items-center relative w-100 h-100 border border-solid border-#ccc mr-10 mb-10 v-mid"
-                >
-                  <img src={file.url} style={{ width: '100%' }} />
-                  <CloseCircleFilled
-                    className="absolute z-5 right-[-5] top-[-5] text-16 "
-                    onClick={() => {
-                      fileList.splice(index, 1)
-                      setFileList([...fileList])
-                    }}
-                  />
-                </div>
-              ))}
-          </div>
-        </ProFormItem>
+        <ProFormItem className="flex flex-wrap">{renderFileList()}</ProFormItem>
       )}
     </DrawerForm>
   )

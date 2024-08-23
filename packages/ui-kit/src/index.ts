@@ -1,5 +1,6 @@
 export * from './config-provider'
 export * from './editor'
 export * from './ellipsis'
+export * from './modal'
 export * from './table'
 export * from './time'

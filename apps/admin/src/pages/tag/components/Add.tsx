@@ -1,5 +1,6 @@
 import { tagService } from '@/service'
-import { ModalForm, ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
+import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
+import { ModalForm } from '@ryal/ui-kit'
 import { message } from 'antd'
 import { useEffect } from 'react'
 
@@ -27,14 +28,10 @@ export const TagAdd = ({ trigger, onSuccess, onCancel, detail = {} }: IDetailMod
 
   return (
     <ModalForm
-      title="标签信息"
+      title={`${isEditMode ? '编辑' : '新增'}标签`}
       trigger={trigger}
-      modalProps={{ onCancel }}
+      modalProps={{ onCancel, onOk }}
       form={formInstance}
-      layout="horizontal"
-      colon={false}
-      labelCol={{ span: 3 }}
-      onFinish={onOk}
     >
       <ProFormText label="名称" name="name" rules={[{ required: true }]} placeholder="请输入名称" />
 

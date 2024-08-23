@@ -9,8 +9,14 @@ const UserPage = () => {
   const actionRef = useRef<TableActionType>()
   const refresh = () => actionRef?.current?.reload()
 
-  const onDelete = async (id: UserType['id']) => {
-    await userService.delete(id)
+  const onAction = async (type: 'delete', { id }: UserType) => {
+    switch (type) {
+      case 'delete':
+        await userService.delete(id)
+        break
+      default:
+        break
+    }
     message.success('操作成功')
     refresh()
   }
@@ -38,7 +44,7 @@ const UserPage = () => {
       title: '最后登录IP',
       dataIndex: 'last_login_ip',
       hideInSearch: true,
-      render: (_, { last_login_ip }) => last_login_ip?.replace('::ffff:', ''),
+      render: (_, { last_login_ip }) => last_login_ip?.replace('::ffff:', '') || '-',
     },
     {
       title: '创建时间',
@@ -74,7 +80,7 @@ const UserPage = () => {
         return (
           record.identity !== UserIdentityEnumType.Super && [
             <UserAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
-            <TableDelete key="delete" onDelete={() => onDelete(record.id)} />,
+            <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
           ]
         )
       },
@@ -86,10 +92,7 @@ const UserPage = () => {
       actionRef={actionRef}
       columns={columns}
       rowKey="id"
-      request={async (params = {}) => {
-        const { success, data } = await userService.getList({ ...params })
-        return { success, ...data }
-      }}
+      request={userService.getList}
       toolBarRender={() => [
         <UserAdd
           key="add"

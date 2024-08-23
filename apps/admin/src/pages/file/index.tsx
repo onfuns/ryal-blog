@@ -8,8 +8,14 @@ const FilePage = () => {
   const actionRef = useRef<TableActionType>()
   const refresh = () => actionRef?.current?.reload()
 
-  const onDelete = async (id: FileType['id']) => {
-    await fileService.delete(id)
+  const onAction = async (type: 'delete', { id }: FileType) => {
+    switch (type) {
+      case 'delete':
+        await fileService.delete(id)
+        break
+      default:
+        break
+    }
     message.success('操作成功')
     refresh()
   }
@@ -24,13 +30,6 @@ const FilePage = () => {
     {
       title: '分组',
       dataIndex: 'fileCategoryId',
-      request: async () => {
-        const { data } = await fileService.getFileCategoryList()
-        return data?.map(d => ({
-          label: d.name,
-          value: d.id,
-        }))
-      },
       render: (_, { fileCategory }) => fileCategory?.name,
     },
     {
@@ -69,11 +68,11 @@ const FilePage = () => {
       title: '操作',
       valueType: 'option',
       width: 120,
-      render: (_, { id, url }) => [
-        <a key="download" target="_blank" rel="noreferrer" href={`/${url}`}>
+      render: (_, record) => [
+        <a key="download" target="_blank" rel="noreferrer" href={`/${record?.url}`}>
           下载
         </a>,
-        <TableDelete key="delete" onDelete={() => onDelete(id)} />,
+        <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
       ],
     },
   ]
@@ -83,10 +82,7 @@ const FilePage = () => {
       actionRef={actionRef}
       columns={columns}
       rowKey="id"
-      request={async (params = {}) => {
-        const { success, data } = await fileService.getList({ ...params })
-        return { success, data: data.list, total: data.total }
-      }}
+      request={fileService.getList}
       toolBarRender={() => [
         <FileAdd
           key="add"

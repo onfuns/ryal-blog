@@ -1,11 +1,6 @@
 import { roleService, userService, UserStatusEnumType } from '@/service'
-import {
-  ModalForm,
-  ProForm,
-  ProFormRadio,
-  ProFormSelect,
-  ProFormText,
-} from '@ant-design/pro-components'
+import { ProForm, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-components'
+import { ModalForm } from '@ryal/ui-kit'
 import { message } from 'antd'
 import CryptoJS from 'crypto-js'
 import { useEffect } from 'react'
@@ -17,7 +12,7 @@ export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
 
   useEffect(() => {
     if (isEditMode) {
-      formInstance.setFieldsValue({ ...detail })
+      formInstance.setFieldsValue({ ...detail, roles: detail.roles })
     }
   }, [detail])
 
@@ -42,12 +37,9 @@ export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
     <ModalForm
       title="用户信息"
       trigger={trigger}
-      modalProps={{ onCancel }}
+      modalProps={{ onCancel, onOk }}
       form={formInstance}
       layout="horizontal"
-      colon={false}
-      labelCol={{ span: 3 }}
-      onFinish={onOk}
       initialValues={{ enable: UserStatusEnumType.Enable }}
     >
       <ProFormText
@@ -72,7 +64,6 @@ export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
         rules={[{ required: true }]}
         placeholder="请选择角色"
         mode="multiple"
-        convertValue={(value: { id: number }[]) => value?.map(role => role.id)}
         request={async () => {
           const { data } = await roleService.getList({ current: 1, pageSize: 100 })
           return (data?.data || [])?.map(item => ({ label: item.name, value: item.id }))

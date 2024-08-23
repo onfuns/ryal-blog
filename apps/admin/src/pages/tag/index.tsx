@@ -8,8 +8,14 @@ const TagPage = () => {
   const actionRef = useRef<TableActionType>()
   const refresh = () => actionRef?.current?.reload()
 
-  const onDelete = async (id: TagType['id']) => {
-    await tagService.delete(id)
+  const onAction = async (type: 'delete', { id }: TagType) => {
+    switch (type) {
+      case 'delete':
+        await tagService.delete(id)
+        break
+      default:
+        break
+    }
     message.success('操作成功')
     refresh()
   }
@@ -30,7 +36,7 @@ const TagPage = () => {
       width: 120,
       render: (_, record) => [
         <TagAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
-        <TableDelete key="delete" onDelete={() => onDelete(record.id)} />,
+        <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
       ],
     },
   ]
@@ -41,10 +47,7 @@ const TagPage = () => {
       columns={columns}
       search={false}
       rowKey="id"
-      request={async params => {
-        const { success, data } = await tagService.getList({ ...params })
-        return { success, ...data }
-      }}
+      request={tagService.getList}
       toolBarRender={() => [
         <TagAdd key="add" onSuccess={refresh} trigger={<Button type="primary">新增标签</Button>} />,
       ]}

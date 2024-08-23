@@ -4,30 +4,37 @@ import { Button, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
 import { ArticleAdd } from './components/Add'
-import { DataActionType, SortTypeEnum } from './enum'
+import { SortTypeEnum } from './enum'
 
 const ArticlePage = () => {
   const actionRef = useRef<TableActionType>()
   const refresh = () => actionRef?.current?.reload()
 
-  const onAction = async (type: DataActionType, record: Partial<ArticleType>) => {
-    const { id, sort, pass_status } = record || {}
+  const onAction = async (
+    type: 'delete' | 'sort' | 'pass',
+    { id, sort, pass_status }: Partial<ArticleType>,
+  ) => {
     if (!id) return false
-    if (type === DataActionType.Delete) {
-      await articleService.delete(id)
-    } else if (type === DataActionType.Sort) {
-      // > 0 说明取消置顶
-      const sortValue = Number(sort) > 0 ? 0 : dayjs().valueOf()
-      await articleService.update(id, { sort: sortValue })
-    } else if (type === DataActionType.Pass) {
-      let passStatus = undefined
-      if (pass_status === ArticlePassStatusEnumType.Audited) {
-        passStatus = ArticlePassStatusEnumType.UnAudited
-      } else {
-        passStatus = ArticlePassStatusEnumType.Audited
-      }
-      await articleService.update(id, { pass_status: passStatus })
+    switch (type) {
+      case 'delete':
+        await articleService.delete(id)
+        break
+      case 'sort':
+        // > 0 说明取消置顶
+        const sortValue = Number(sort) > 0 ? 0 : dayjs().valueOf()
+        await articleService.update(id, { sort: sortValue })
+        break
+      case 'pass':
+        const passStatus =
+          pass_status === ArticlePassStatusEnumType.Audited
+            ? ArticlePassStatusEnumType.UnAudited
+            : ArticlePassStatusEnumType.Audited
+        await articleService.update(id, { pass_status: passStatus })
+        break
+      default:
+        break
     }
+
     message.success('操作成功')
     refresh()
   }
@@ -70,11 +77,7 @@ const ArticlePage = () => {
       },
       width: 100,
       render: (_, { id, sort }) => (
-        <Switch
-          checked={sort > 0}
-          onChange={() => onAction(DataActionType.Sort, { id, sort })}
-          size="small"
-        />
+        <Switch checked={sort > 0} onChange={() => onAction('sort', { id, sort })} size="small" />
       ),
     },
     {
@@ -88,7 +91,7 @@ const ArticlePage = () => {
       render: (_, { id, pass_status }) => (
         <Switch
           checked={pass_status === ArticlePassStatusEnumType.Audited}
-          onChange={() => onAction(DataActionType.Pass, { id, pass_status })}
+          onChange={() => onAction('pass', { id, pass_status })}
           size="small"
         />
       ),
@@ -99,25 +102,17 @@ const ArticlePage = () => {
       width: 120,
       render: (_, record) => [
         <ArticleAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
-        <TableDelete
-          key="delete"
-          onDelete={() => onAction(DataActionType.Delete, { id: record.id })}
-        />,
+        <TableDelete key="delete" onDelete={() => onAction('delete', { id: record.id })} />,
       ],
     },
   ]
-
-  const requestTableData = async (params = {}) => {
-    const { success, data } = await articleService.getList({ ...params })
-    return { success, ...data }
-  }
 
   return (
     <Table<ArticleType>
       actionRef={actionRef}
       columns={columns}
       rowKey="id"
-      request={requestTableData}
+      request={articleService.getList}
       scroll={{ x: '100%' }}
       toolBarRender={() => [
         <ArticleAdd

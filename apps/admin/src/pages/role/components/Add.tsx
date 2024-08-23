@@ -1,12 +1,7 @@
-import { authService, roleService, RoleStatusEnumType } from '@/service'
+import { authService, roleService, RoleStatusEnumType, type AuthCreateReqDtoType } from '@/service'
 import { arrayToTree } from '@/utils'
-import {
-  DrawerForm,
-  ProForm,
-  ProFormRadio,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-components'
+import { ProForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
+import { DrawerForm } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
 import { message, Tree } from 'antd'
 import { cloneDeep } from 'lodash'
@@ -26,7 +21,7 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
     }
   }, [detail])
 
-  const onFinish = async () => {
+  const onOk = async () => {
     const values = await formInstance.validateFields()
     //这里有个注意点，因为tree是完全受控的，所以当点击取消勾选子节点时，父级的节点也不会出现在 selectedKeys里
     //比如 勾选状态下二级结构是[30000,30001,30002]，取消勾选30002子节点后直接变成 [30001]，应该是 [30000,30001]
@@ -41,12 +36,11 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
       }
       return result
     }
-
-    selectedKeys.forEach(id => {
+    for (let id of selectedKeys) {
       const ids = findAllParent(id)
       ids.forEach(id => resources.add(id))
-    })
-    const params = {
+    }
+    const params: AuthCreateReqDtoType = {
       ...values,
       auths: [...resources].map(id => ({ id })),
     }
@@ -65,8 +59,7 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
     <DrawerForm
       title="角色信息"
       trigger={trigger}
-      drawerProps={{ onClose: onCancel }}
-      onFinish={onFinish}
+      drawerProps={{ onCancel, onOk }}
       form={formInstance}
       initialValues={{ enable: RoleStatusEnumType.Enable }}
     >
@@ -99,7 +92,7 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
             checkable
             defaultExpandAll
             checkedKeys={selectedKeys}
-            onCheck={(value: any) => setSelectedKeys([...value])}
+            onCheck={value => setSelectedKeys(value as number[])}
             fieldNames={{ title: 'name', key: 'id', children: 'children' }}
             treeData={treeList as any[]}
           />

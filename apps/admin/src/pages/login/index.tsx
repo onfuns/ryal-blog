@@ -41,10 +41,7 @@ const LoginPage = () => {
           form={formInstance}
           submitter={false}
           className="w-350 ml-100"
-          initialValues={{
-            name: 'demo',
-            password: 'a123456',
-          }}
+          initialValues={{ name: 'demo', password: 'a123456' }}
         >
           <h1 className="mb-40 text-30">Ryal Blog</h1>
 
