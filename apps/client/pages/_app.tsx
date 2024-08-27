@@ -5,9 +5,7 @@ import '@/style/uno.css'
 import '@fontsource/jetbrains-mono'
 import App from 'next/app'
 
-export default function CustomApp(props) {
-  return <Layout {...props} />
-}
+const CustomApp = props => <Layout {...props} />
 
 CustomApp.getInitialProps = async function (appContext) {
   const mobxStore = RootStore
@@ -18,3 +16,5 @@ CustomApp.getInitialProps = async function (appContext) {
     initialMobxState: mobxStore,
   }
 }
+
+export default CustomApp

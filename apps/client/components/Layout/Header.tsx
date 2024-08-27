@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Script from 'next/script'
 
-export default function Header() {
+export const Header = () => {
   return (
     <header className="flex items-center h-40">
       <Head>
@@ -21,16 +21,10 @@ export default function Header() {
           <a href="/" className="font-comic">
             首页
           </a>
-          <a
-            href="https://hao.onfuns.com"
-            target="_blank"
-            rel="noreferrer"
-            className="ml-20 font-comic"
-          >
-            前端导航
-          </a>
         </div>
       </div>
     </header>
   )
 }
+
+export default Header

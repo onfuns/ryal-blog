@@ -1,8 +1,8 @@
-import { getCategoryList } from '@/actions/category'
+import { categoryService, type CategoryListItemDtoType } from '@/service'
 import { makeAutoObservable } from 'mobx'
 
 export class CategoryStore {
-  result = []
+  result: CategoryListItemDtoType[] = []
 
   constructor() {
     makeAutoObservable(this)
@@ -13,7 +13,7 @@ export class CategoryStore {
   }
 
   async get() {
-    const { data } = await getCategoryList()
+    const { data } = await categoryService.getClientList()
     this.set('result', data || [])
   }
 }

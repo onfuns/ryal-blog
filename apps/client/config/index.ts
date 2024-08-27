@@ -1,3 +1,1 @@
-export default {
-  baseUrl: '/api',
-}
+export default {}

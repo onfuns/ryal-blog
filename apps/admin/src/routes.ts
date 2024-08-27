@@ -1,6 +1,6 @@
-import { LazyExoticComponent, lazy } from 'react'
+import { ComponentType, LazyExoticComponent, lazy } from 'react'
 
-export type IRouter<T extends React.FunctionComponent<any> = any> = {
+export type IRouter<T extends ComponentType<any> = any> = {
   /** 路由名称 */
   name?: string
   /** 路由路径 */
@@ -8,7 +8,7 @@ export type IRouter<T extends React.FunctionComponent<any> = any> = {
   /** 路由重定向 */
   redirect?: string
   /** 路由组件 */
-  component?: LazyExoticComponent<T> | React.Component
+  component?: LazyExoticComponent<T>
   /** 路由子集 */
   children?: IRouter<T>[]
   /** 图标 */

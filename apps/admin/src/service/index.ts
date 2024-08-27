@@ -1,3 +1,4 @@
+import '@/utils/http-request'
 import { Article, Auth, Category, Comment, Common, File, Role, Tag, Website } from '@ryal/api'
 import { UserMinixService } from './user'
 

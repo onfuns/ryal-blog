@@ -1,5 +1,4 @@
 export const isServer = typeof window === 'undefined'
-export { default as api } from './api'
 
 export const findByValue = (
   array: any[],

@@ -1,9 +1,11 @@
-import { getArticle, getArticleList } from '@/actions/article'
+import { articleService, type ArticleCreateReqDtoType, type ArticleType } from '@/service'
 import { makeAutoObservable } from 'mobx'
 
+export type ArticleListResut = { data: ArticleType[]; total: number }
+
 export class ArticleStore {
-  result = { data: [], count: 0 }
-  info = {}
+  result: ArticleListResut = { data: [], total: 0 }
+  info: ArticleType
 
   constructor() {
     makeAutoObservable(this)
@@ -13,14 +15,14 @@ export class ArticleStore {
     this[key] = value
   }
 
-  async get(params = {}) {
-    const { data } = await getArticleList(params)
+  async get(params: ArticleCreateReqDtoType) {
+    const { data } = await articleService.getClientList(params)
     this.set('result', data || [])
     return this.result
   }
 
-  async getInfoById(id) {
-    const { data } = await getArticle({ id })
+  async getInfoById(id: string) {
+    const { data } = await articleService.info(id)
     this.set('info', data || {})
     return this.info
   }

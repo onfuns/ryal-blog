@@ -1,7 +1,12 @@
 import { ConfigProvider } from 'antd'
 import { type ConfigProviderProps } from 'antd/es/config-provider'
 import classNames from 'classnames'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import React, { createContext, useContext } from 'react'
+dayjs.locale('zh-cn')
+dayjs.extend(relativeTime)
 
 const defaultGetPrefixCls = (suffixCls?: string) => `nest-uikit-${suffixCls}`
 

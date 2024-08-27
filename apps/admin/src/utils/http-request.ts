@@ -14,9 +14,7 @@ axios.interceptors.request.use(
     axiosConfig.headers['X-AUTH-ID-TOKEN'] = token
     return axiosConfig
   },
-  error => {
-    return Promise.reject(error)
-  },
+  error => Promise.reject(error),
 )
 
 axios.interceptors.response.use(

@@ -1,8 +1,8 @@
-import { addComment, getCommentList } from '@/actions/comment'
+import { commentService, type CommentCreateReqDtoType, type CommentType } from '@/service'
 import { makeAutoObservable } from 'mobx'
 
 export class CommentStore {
-  result: { data: any[]; count?: number } | null = { data: [] }
+  result: { data: CommentType[]; total?: number } = { data: [], total: 0 }
 
   constructor() {
     makeAutoObservable(this)
@@ -12,12 +12,12 @@ export class CommentStore {
     this[key] = value
   }
 
-  async get(params = {}) {
-    const { data } = await getCommentList(params)
+  async get(params) {
+    const { data } = await commentService.getClientList(params)
     this.set('result', data || [])
   }
 
-  async add(params = {}) {
-    return await addComment(params)
+  async add(params: CommentCreateReqDtoType) {
+    return await commentService.add(params)
   }
 }

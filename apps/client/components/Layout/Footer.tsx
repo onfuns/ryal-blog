@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-export default function Footer() {
+const Footer = () => {
   return (
     <div className="flex items-center h-40 border-top-1-solid-#b8c5d633]">
       <div className="w-1000-center text-center">
@@ -22,3 +22,5 @@ export default function Footer() {
     </div>
   )
 }
+
+export default Footer

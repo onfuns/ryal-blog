@@ -1,24 +1,16 @@
-import { ArticleAnchor } from '@/components/Article'
+import ArticleAnchor from '@/components/Article/Anchor'
 import Comment from '@/components/Comment'
+import { ArticleCommentStatusEnumType, type ArticleType } from '@/service'
+import { Icon, Time } from '@ryal/ui-kit'
 import classnames from 'classnames'
-import dayjs from 'dayjs'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
 import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
 import styles from './style.module.scss'
 
-export interface IArticleInfoProps {
-  id: string
-  title: string
-  content: string
-  category?: { id: number; name: string }
-  tags?: { id: number; name: string }[]
-  created_at: string
-  comment_status: 0 | 1
-}
-
-export default function ArticleInfo({ article }: { article: IArticleInfoProps }) {
+const ArticleInfo = ({ article }: { article: ArticleType }) => {
+  const content_dom_id = 'article-info-content'
   const spanClass = 'inline-flex items-center mr-12'
   const dividerClass = 'mr-5 text-16 font-not-italic'
 
@@ -31,16 +23,17 @@ export default function ArticleInfo({ article }: { article: IArticleInfoProps })
           </div>
           <div className="color-#666 mt-8">
             <span className={spanClass}>
-              <i className={`iconfont icon-shijian ${dividerClass}`}></i>
-              {dayjs(article.created_at).format('YYYY年MM月DD日')}
+              <Icon name="icon-time" className={dividerClass} />
+              <Time value={article.created_at} format="YYYY年MM月DD日" />
             </span>
             <span className={spanClass}>
-              <i className={`iconfont icon-leimupinleifenleileibie ${dividerClass}`}></i>
+              <Icon name="icon-reads" className={dividerClass} />
               分类：{article.category?.name}
             </span>
             {article?.tags?.length > 0 && (
               <span className={spanClass}>
-                <i className={`iconfont icon-biaoqian1 ${dividerClass}`}></i>标签：
+                <Icon name="icon-a-business-icon-Bigpromotion" className={dividerClass} />
+                标签：
                 {article?.tags.map(({ name }, index) => (
                   <i key={index} className={dividerClass}>
                     {name}
@@ -51,13 +44,19 @@ export default function ArticleInfo({ article }: { article: IArticleInfoProps })
           </div>
           <div
             className={classnames(styles.markdownBody, 'break-words lh-[1.75]')}
-            id="article-info-content"
+            id={content_dom_id}
             dangerouslySetInnerHTML={{ __html: article.content }}
           ></div>
         </div>
-        <ArticleAnchor contentId="article-info-content" />
+        <ArticleAnchor
+          heading={() => {
+            return document.getElementById(content_dom_id)?.querySelectorAll('h2,h3,h4,h5')
+          }}
+        />
       </div>
-      {article.comment_status === 1 && <Comment articeId={article.id} />}
+      {article.comment_status === ArticleCommentStatusEnumType.Opened && (
+        <Comment articeId={article.id} />
+      )}
     </div>
   )
 }
@@ -86,3 +85,5 @@ export const getServerSideProps = async ({ req, params }) => {
     },
   }
 }
+
+export default ArticleInfo

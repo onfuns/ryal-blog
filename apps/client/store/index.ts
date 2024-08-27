@@ -6,6 +6,8 @@ import { CategoryStore } from './category'
 import { CommentStore } from './comment'
 enableStaticRendering(isServer)
 
+export { ArticleStore, CategoryStore, CommentStore }
+
 export const RootStore = {
   articleStore: new ArticleStore(),
   categoryStore: new CategoryStore(),

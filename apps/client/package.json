@@ -13,24 +13,25 @@
     "uno:dev": "yarn uno:build - -w"
   },
   "dependencies": {
+    "@ant-design/pro-components": "^2.7.9",
     "@ryal/api": "^1.0.0",
     "@ryal/ui-kit": "^1.0.0",
-    "next": "^14.2.3"
-  },
-  "devDependencies": {
+    "next": "^14.2.3",
     "@fontsource/jetbrains-mono": "^5.0.0",
     "antd": "^5.18.0",
     "aos": "^2.3.4",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
-    "cross-env": "^7.0.3",
     "dayjs": "^1.11.7",
     "highlight.js": "^11.8.0",
     "lodash": "^4.17.21",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^8.6.7",
     "mobx": "^6.12.3",
-    "mobx-react": "^9.1.1",
+    "mobx-react": "^9.1.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
     "rimraf": "^5.0.1",
     "sass": "^1.62.1",
     "typescript": "^5.0.4"

@@ -1,13 +1,10 @@
+import { ArticleStore } from '@/store'
+import { Icon, Time } from '@ryal/ui-kit'
 import { Pagination } from 'antd'
-import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import { Fragment } from 'react'
 
-export interface IListProps {
-  result: { data: any[]; count: number }
-}
-
-export default function List(props: IListProps) {
+const ArticleList = (props: Pick<ArticleStore, 'result'>) => {
   const { result } = props
   const router = useRouter()
 
@@ -16,7 +13,7 @@ export default function List(props: IListProps) {
       {result?.data?.map((article, index) => (
         <div key={index} className="bg-#fff border-bottom-1-solid-#eee p-20">
           <div className="flex items-center color-#98a6ad">
-            <span>{dayjs(article.publish_time).fromNow()}</span>
+            <Time value={article.publish_time} type="date" />
             <span className="mx-3">{article.author}</span>
           </div>
           <a
@@ -32,18 +29,18 @@ export default function List(props: IListProps) {
           <div className="flex items-center color-#98a6ad">
             {article?.tags?.map((tag, idx) => (
               <Fragment key={idx}>
-                {idx === 0 && <i className="iconfont icon-biaoqian1"></i>}
+                {idx === 0 && <Icon name="icon-a-business-icon-Bigpromotion" />}
                 <span className="mx-5">{tag.name}</span>
               </Fragment>
             ))}
           </div>
         </div>
       ))}
-      {result?.count > 20 && (
+      {result?.total > 20 && (
         <div className="flex-center mt-30">
           <Pagination
             defaultCurrent={(router?.query?.page || 1) as number}
-            total={result.count}
+            total={result.total}
             size="small"
             pageSize={20}
             hideOnSinglePage
@@ -54,3 +51,5 @@ export default function List(props: IListProps) {
     </div>
   )
 }
+
+export default ArticleList

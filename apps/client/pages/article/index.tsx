@@ -1,13 +1,16 @@
-import { ArticleCarousel, ArticleList, ArticleMenu, type IListProps } from '@/components/Article'
+import ArticleCarousel from '@/components/Article/Carousel'
+import ArticleList from '@/components/Article/List'
+import ArticleMenu from '@/components/Article/Menu'
+import { ArticleStore } from '@/store'
 import { findByValue } from '@/utils'
 import markdownIt from 'markdown-it'
 
 export interface IArticlePageProps {
   categoryList: any[]
-  articleData: IListProps['result']
+  articleData: ArticleStore['result']
 }
 
-export default function Article({ categoryList, articleData }: IArticlePageProps) {
+const Article = ({ categoryList, articleData }: IArticlePageProps) => {
   return (
     <div className="w-1000-center flex">
       <ArticleMenu data={categoryList} />
@@ -54,9 +57,8 @@ export const getServerSideProps = async ({ req, query }) => {
   })
 
   return {
-    props: {
-      ...defaultProps,
-      articleData,
-    },
+    props: { ...defaultProps, articleData },
   }
 }
+
+export default Article

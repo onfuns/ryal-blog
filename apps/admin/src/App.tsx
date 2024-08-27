@@ -6,7 +6,10 @@ import { routes, type IRouter } from './routes'
 
 const App = () => {
   const createRoute = ({ path, component: Component }: IRouter) => {
-    return <Route key={path} path={path} element={<Component />} />
+    if (Component) {
+      return <Route key={path} path={path} element={<Component />} />
+    }
+    return null
   }
 
   const mapRoutes = routes.map(route => {
