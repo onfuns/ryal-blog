@@ -11,13 +11,9 @@ const FallbackLoading = () => (
   </div>
 )
 
-const LayoutProvider = (props: React.PropsWithChildren) => {
+const PageProvider = (props: React.PropsWithChildren) => {
   const antdConfig: ConfigConsumerProps['antdConfig'] = {
-    theme: {
-      token: {
-        colorPrimary: '#52c41a',
-      },
-    },
+    theme: { token: { colorPrimary: '#52c41a' } },
     locale: zhCN,
   }
 
@@ -30,4 +26,4 @@ const LayoutProvider = (props: React.PropsWithChildren) => {
   )
 }
 
-export default LayoutProvider
+export default PageProvider

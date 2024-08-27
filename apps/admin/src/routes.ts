@@ -11,6 +11,8 @@ export type IRouter<T extends React.FunctionComponent<any> = any> = {
   component?: LazyExoticComponent<T> | React.Component
   /** 路由子集 */
   children?: IRouter<T>[]
+  /** 图标 */
+  icon?: string
   /** 路由属性 */
   meta?: {
     /** 是否标签化 */
@@ -24,11 +26,13 @@ export const adminRoutes: IRouter[] = [
   {
     name: '工作台',
     path: '/dashboard',
+    icon: 'icon-home',
     component: lazy(() => import('@/pages/dashboard')),
   },
   {
     name: '内容管理',
     path: '/portal',
+    icon: 'icon-application-record',
     children: [
       {
         name: '栏目管理',
@@ -60,6 +64,7 @@ export const adminRoutes: IRouter[] = [
   {
     name: '用户管理',
     path: '/user',
+    icon: 'icon-customer-management',
     children: [
       {
         name: '用户管理',
@@ -81,6 +86,7 @@ export const adminRoutes: IRouter[] = [
   {
     name: '系统管理',
     path: '/setting',
+    icon: 'icon-settings',
     children: [
       {
         name: '站点设置',

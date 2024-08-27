@@ -1,0 +1,42 @@
+.page-layout-tab {
+  position: relative;
+
+  &.ant-tabs {
+    .ant-tabs-nav {
+      padding: 0 10px;
+      margin: 0 !important;
+      border-top-left-radius: 7px;
+      border-top-right-radius: 7px;
+
+      &::before {
+        display: none !important;
+      }
+    }
+
+    .ant-tabs-tab-active {
+      background: #eff6ff !important;
+    }
+
+    div.ant-tabs-tab {
+      height: 40px;
+      padding: 0;
+      border: none;
+      margin: 0 !important;
+      background: #fff;
+      line-height: 40px;
+
+      & > div {
+        padding: 0 28px 0 16px;
+      }
+    }
+
+    div.ant-tabs-ink-bar {
+      display: none;
+    }
+
+    .ant-tabs-tab-remove {
+      position: absolute;
+      right: 5px;
+    }
+  }
+}

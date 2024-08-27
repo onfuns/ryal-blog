@@ -10,15 +10,14 @@ export type TabType = Pick<IRouter, 'name' | 'path' | 'component' | 'meta'> & {
 
 export class TabStore {
   tabs: TabType[] = []
-  currentTabPath: TabType['path'] = ''
+  selectedTabPath: TabType['path'] = ''
 
   constructor() {
     makeAutoObservable(this, undefined, { autoBind: true })
   }
 
-  updateTab(tab: TabType) {
+  onUpdateTab(tab: TabType) {
     if (tab.meta?.tag === false) return false
-    //如果有则更新，否则新增
     const index = this.tabs.findIndex(t => t.path === tab.path)
     if (index > -1) {
       this.tabs[index] = { ...this.tabs[index], ...tab }
@@ -27,11 +26,11 @@ export class TabStore {
     }
   }
 
-  removeTab(path: TabType['path']) {
+  onRemoveTab(path: TabType['path']) {
     this.tabs = [...this.tabs.filter(item => item.path !== path)]
   }
 
-  setCurrentTabPath(path: TabType['path']) {
-    this.currentTabPath = path
+  onSelectedTabPath(path: TabType['path']) {
+    this.selectedTabPath = path
   }
 }

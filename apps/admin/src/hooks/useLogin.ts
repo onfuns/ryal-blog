@@ -1,19 +1,16 @@
 import { userService } from '@/service'
 import { useEffect, useState } from 'react'
 
-const ValidateLogin = (props: React.PropsWithChildren) => {
+export const useLogin = () => {
   const [isLogin, setIsLogin] = useState(false)
   const { token } = userService.getLocalUser()
 
   useEffect(() => {
-    if (token) {
-      setIsLogin(true)
-    } else {
+    setIsLogin(!!token)
+    if (!token) {
       userService.logout()
     }
   }, [token])
 
-  return isLogin && props.children
+  return isLogin
 }
-
-export default ValidateLogin

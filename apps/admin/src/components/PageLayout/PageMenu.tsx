@@ -1,38 +1,36 @@
-import { useHistory } from '@/hooks'
+import { useHistory, useStore } from '@/hooks'
 import LogoImage from '@/public/images/logo.png'
 import { adminRoutes } from '@/routes'
-import { AppstoreOutlined, HomeOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons'
+import { Icon } from '@ryal/ui-kit'
 import { Menu } from 'antd'
 import classnames from 'classnames'
-import { createElement, useState } from 'react'
+import { observer } from 'mobx-react'
+import { useState } from 'react'
 
-const LayoutMenu = ({ menuCollapsed }: { menuCollapsed: boolean }) => {
+const PageMenu = () => {
+  const { headerStore } = useStore()
+  const { menuCollapsed } = headerStore
   const history = useHistory()
   const [currentRoot] = history.location.pathname.slice(1).split('/')
   const [openKeys, setOpenKeys] = useState([`/${currentRoot}`])
 
-  const renderIcon = (icon: string) => {
-    const icons: Record<string, any> = {
-      '/dashboard': HomeOutlined,
-      '/portal': AppstoreOutlined,
-      '/user': UserOutlined,
-      '/setting': SettingOutlined,
-    }
-    return icon && icons[icon] ? createElement(icons[icon]) : null
-  }
-
-  const menuItems = adminRoutes.map(({ name, path, children }) => {
+  const menuItems = adminRoutes.map(({ name, path, children, icon }) => {
     const subRoute = children?.map(child => ({
       label: child.name,
       key: child.path,
     }))
-    return { label: name, key: path, children: subRoute, icon: renderIcon(path) }
+    return {
+      label: name,
+      key: path,
+      children: subRoute,
+      icon: icon && <Icon name={icon} />,
+    }
   })
 
   return (
     <div
       className={classnames('relative w-200 flex-shrink-0 bg-#fff', {
-        'w-auto collapsed-menu': menuCollapsed,
+        'w-auto': menuCollapsed,
       })}
     >
       <div className="flex items-center text-16 py-16 pl-20 color-#001529 border-right-1-solid-#f0f0f0">
@@ -55,4 +53,4 @@ const LayoutMenu = ({ menuCollapsed }: { menuCollapsed: boolean }) => {
   )
 }
 
-export default LayoutMenu
+export default observer(PageMenu)

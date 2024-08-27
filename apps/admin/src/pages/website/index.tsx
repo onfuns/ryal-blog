@@ -44,7 +44,7 @@ const WebsitePage = () => {
   ]
 
   return (
-    <ProForm labelCol={{ span: 4 }} form={formInstance}>
+    <ProForm labelCol={{ span: 4 }} form={formInstance} submitter={false}>
       <Tabs defaultActiveKey={TabKeyEnum.Site} hideAdd items={tabs} />
       <ProFormItem colon={false}>
         <Button type="primary" onClick={onSubmit}>
