@@ -1,12 +1,23 @@
-import { lazy } from 'react'
+import { LazyExoticComponent, lazy } from 'react'
 
-export type IRouter = {
+export type IRouter<T extends React.FunctionComponent<any> = any> = {
+  /** 路由名称 */
   name?: string
+  /** 路由路径 */
   path: string
+  /** 路由重定向 */
   redirect?: string
-  layout?: boolean
-  component?: any
-  children?: IRouter[]
+  /** 路由组件 */
+  component?: LazyExoticComponent<T> | React.Component
+  /** 路由子集 */
+  children?: IRouter<T>[]
+  /** 路由属性 */
+  meta?: {
+    /** 是否标签化 */
+    tag?: boolean
+    /** 是否显示布局 */
+    layout?: boolean
+  }
 }
 
 export const adminRoutes: IRouter[] = [
@@ -80,16 +91,10 @@ export const adminRoutes: IRouter[] = [
   },
 ]
 
-const getFlatRoutes = (data: IRouter[], flatRoutes = []): IRouter[] => {
+const mergeFlatRoutes = (data: IRouter[], flatRoutes: IRouter[] = []): IRouter[] => {
   data.map(({ name, path, component, children, ...other }) => {
-    component &&
-      flatRoutes.push({
-        name,
-        path,
-        component,
-        ...other,
-      })
-    if (children) getFlatRoutes(children, flatRoutes)
+    component && flatRoutes.push({ name, path, component, ...other })
+    if (children) mergeFlatRoutes(children, flatRoutes)
   })
   return flatRoutes
 }
@@ -97,10 +102,10 @@ const getFlatRoutes = (data: IRouter[], flatRoutes = []): IRouter[] => {
 export const routes: IRouter[] = [
   {
     path: '/login',
-    layout: false,
     component: lazy(() => import('@/pages/login')),
+    meta: { layout: false },
   },
-  ...getFlatRoutes(adminRoutes),
+  ...mergeFlatRoutes(adminRoutes),
   {
     path: '*',
     component: lazy(() => import('@/pages/404')),

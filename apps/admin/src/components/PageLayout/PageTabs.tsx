@@ -1,24 +1,27 @@
-import { useHistory } from '@/hooks'
+import { useHistory, useStore } from '@/hooks'
 import { routes } from '@/routes'
-import { HeaderStore } from '@/store'
 import { Tabs } from 'antd'
+import { observer } from 'mobx-react'
 import { useEffect } from 'react'
 import './style.less'
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string
 
-const PageTabs = ({ store }: { store: HeaderStore }) => {
+const PageTabs = () => {
   const history = useHistory()
-  const { removeTab, updateTab, setCurrentTabPath, tabs, currentTabPath } = store
+  const { tabStore } = useStore()
+  const { removeTab, updateTab, setCurrentTabPath, tabs, currentTabPath } = tabStore
   const { pathname, search } = history.location
 
   useEffect(() => {
-    const router = routes?.find((item: any) => item.path === pathname) || {}
-    updateTab({ ...router, search })
-    setCurrentTabPath(pathname)
+    const router = routes?.find((item: any) => item.path === pathname)
+    if (router) {
+      updateTab({ ...router, search })
+      setCurrentTabPath(pathname)
+    }
   }, [pathname])
 
-  const onTabChange = (path: string) => {
+  const onTabChange = (path?: string) => {
     const { search = '' } = tabs?.find(t => t.path === path) || {}
     history.push({ pathname: path, search: history.searchToString(search) })
   }
@@ -52,4 +55,4 @@ const PageTabs = ({ store }: { store: HeaderStore }) => {
   )
 }
 
-export default PageTabs
+export default observer(PageTabs)

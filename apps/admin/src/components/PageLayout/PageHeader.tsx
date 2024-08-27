@@ -1,6 +1,6 @@
+import { useStore } from '@/hooks'
 import AvatarImage from '@/public/images/avatar.png'
 import { userService } from '@/service'
-import { HeaderStore } from '@/store'
 import {
   DownOutlined,
   LogoutOutlined,
@@ -9,10 +9,12 @@ import {
   UpOutlined,
 } from '@ant-design/icons'
 import { Dropdown } from 'antd'
+import { observer } from 'mobx-react'
 import { useState } from 'react'
 
-const PageHeader = ({ store }: { store: HeaderStore }) => {
-  const { menuCollapsed, setMenuCollaps } = store
+const PageHeader = () => {
+  const { headerStore } = useStore()
+  const { menuCollapsed, setMenuCollapsed } = headerStore
   const { userName } = userService.getLocalUser()
   const [userMenuCollapsed, setUserMenuCollapsed] = useState(true)
   const MenuIcon = menuCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined
@@ -20,7 +22,7 @@ const PageHeader = ({ store }: { store: HeaderStore }) => {
 
   return (
     <div className="flex items-center justify-between h-50 px-20 border-bottom-1-solid-#f0f0f0 bg-#fff">
-      <MenuIcon onClick={setMenuCollaps} className="text-16" />
+      <MenuIcon onClick={setMenuCollapsed} className="text-16" />
       <Dropdown
         menu={{
           items: [
@@ -44,4 +46,4 @@ const PageHeader = ({ store }: { store: HeaderStore }) => {
   )
 }
 
-export default PageHeader
+export default observer(PageHeader)
