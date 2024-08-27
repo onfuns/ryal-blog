@@ -3,11 +3,10 @@ import { type CommentType } from '@/service'
 import { ProForm, ProFormItem, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
 import { Time } from '@ryal/ui-kit'
 import { Button, message } from 'antd'
-import classnames from 'classnames'
 import { observer } from 'mobx-react'
 import Image from 'next/image'
 import { useEffect } from 'react'
-import styles from './style.module.scss'
+import './index.less'
 
 const Avatar = () => (
   <Image
@@ -65,7 +64,7 @@ const Comment = ({ articeId }: { articeId: string }) => {
   }
 
   return (
-    <div className={classnames(styles.commentPage, ' w-720 bg-#fff p-20 mt-20 rd-4')}>
+    <div className="component-list w-720 bg-#fff p-20 mt-20 rd-4'">
       <div className="text-18 lh-30 fw-600 color-#252933 mb-10">评论</div>
       <div className="flex items-start">
         <Avatar />

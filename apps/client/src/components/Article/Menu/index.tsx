@@ -3,7 +3,7 @@ import { Icon } from '@ryal/ui-kit'
 import classnames from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import styles from './style.module.scss'
+import './index.less'
 
 export type ArticleMenuItemType = Partial<CategoryType> & {
   children?: ArticleMenuItemType[]
@@ -26,7 +26,7 @@ const ArticleMenu = ({ data = [] }: ArticleMenuProps) => {
     const renderMenuItem = (item, children = []) => (
       <li
         key={item.name}
-        className={classnames(styles.menuItem, 'cursor-pointer relative', {
+        className={classnames('page-menu-item', 'cursor-pointer relative', {
           active: router.asPath === `/category${item.ename}` || router.asPath === item.url,
         })}
       >

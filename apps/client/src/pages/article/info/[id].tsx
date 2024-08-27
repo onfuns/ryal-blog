@@ -2,12 +2,11 @@ import ArticleAnchor from '@/components/Article/Anchor'
 import Comment from '@/components/Comment'
 import { ArticleCommentStatusEnumType, type ArticleType } from '@/service'
 import { Icon, Time } from '@ryal/ui-kit'
-import classnames from 'classnames'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
 import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
-import styles from './style.module.scss'
+import './index.less'
 
 const ArticleInfo = ({ article }: { article: ArticleType }) => {
   const content_dom_id = 'article-info-content'
@@ -43,7 +42,7 @@ const ArticleInfo = ({ article }: { article: ArticleType }) => {
             )}
           </div>
           <div
-            className={classnames(styles.markdownBody, 'break-words lh-[1.75]')}
+            className="article-info-content break-words lh-[1.75]"
             id={content_dom_id}
             dangerouslySetInnerHTML={{ __html: article.content }}
           ></div>

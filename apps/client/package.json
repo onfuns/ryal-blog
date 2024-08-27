@@ -14,10 +14,9 @@
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.7.9",
+    "@fontsource/jetbrains-mono": "^5.0.0",
     "@ryal/api": "^1.0.0",
     "@ryal/ui-kit": "^1.0.0",
-    "next": "^14.2.3",
-    "@fontsource/jetbrains-mono": "^5.0.0",
     "antd": "^5.18.0",
     "aos": "^2.3.4",
     "axios": "^1.4.0",
@@ -28,12 +27,17 @@
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^8.6.7",
     "mobx": "^6.12.3",
-    "mobx-react": "^9.1.1"
+    "mobx-react": "^9.1.1",
+    "next": "^14.2.3"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "css-loader": "^6.8.1",
+    "less": "^4.2.0",
+    "less-loader": "^12.2.0",
     "rimraf": "^5.0.1",
     "sass": "^1.62.1",
+    "style-loader": "^3.3.2",
     "typescript": "^5.0.4"
   }
 }

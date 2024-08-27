@@ -1,6 +1,6 @@
 import classnames from 'classnames'
 import { useEffect, useState } from 'react'
-import styles from './style.module.scss'
+import './index.less'
 
 export type ArticleAnchorProps = {
   heading?: () => NodeListOf<Element>
@@ -60,7 +60,7 @@ const ArticleAnchor = ({ heading }: ArticleAnchorProps) => {
           <li
             key={index}
             data-anchor-index={item.index}
-            className={classnames(styles.anchorItem, `${item.tagName}`, {
+            className={classnames('article-anchor-item', `${item.tagName}`, {
               active: currentHeadingIndex === index,
             })}
           >
