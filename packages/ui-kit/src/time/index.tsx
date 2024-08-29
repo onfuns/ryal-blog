@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import dayjs from 'dayjs'
 import _ from 'lodash'
 import React from 'react'
-import { useConfigContext } from '..'
+import { useConfigContext } from '../config-provider'
 import './index.less'
 
 export enum TimeFormt {

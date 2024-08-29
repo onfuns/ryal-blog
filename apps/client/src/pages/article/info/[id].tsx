@@ -3,7 +3,6 @@ import Comment from '@/components/Comment'
 import { ArticleCommentStatusEnumType, type ArticleType } from '@/service'
 import { Icon, Time } from '@ryal/ui-kit'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/atom-one-dark.css'
 import markdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
 import './index.less'
@@ -17,7 +16,7 @@ const ArticleInfo = ({ article }: { article: ArticleType }) => {
     <div className="w-1000-center py-10">
       <div className="flex w-100%">
         <div className="p-24 bg-#fff rd-4 flex-1">
-          <div className="mb-6 lh-1.4 text-30 fw-700 color-#303030 ml-0 indent-0 break-all">
+          <div className="mb-6 text-30 fw-700 color-#303030 ml-0 indent-0 break-all">
             {article.title}
           </div>
           <div className="color-#666 mt-8">

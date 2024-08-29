@@ -37,11 +37,11 @@ const ArticleMenu = ({ data = [] }: ArticleMenuProps) => {
           {renderIcon(item)}
           {item.name}
         </a>
-        {children.length ? (
+        {!!children?.length && (
           <ul className="block min-w-160 bg-#fff rd-4">
             {children.map(child => renderMenuItem(child, child.children))}
           </ul>
-        ) : null}
+        )}
       </li>
     )
     return data.map(item => renderMenuItem(item, item.children))

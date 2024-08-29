@@ -1,5 +1,9 @@
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import path from 'path'
+import { fileURLToPath } from 'url'
 const __DEV__ = process.env.NODE_ENV === 'development'
 const BACKEND_URL = 'http://localhost:4000'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -8,12 +12,12 @@ const nextConfig = {
     NODE_ENV: process.env.NODE_ENV,
     BACKEND_URL,
   },
+  experimental: {
+    optimizePackageImports: ['@ryal/ui-kit'],
+  },
   transpilePackages: [
     '@ryal/api',
-    '@ryal/ui-kit',
     'antd',
-    '@ant-design/pro-components',
-    '@ant-design/pro-layout',
     '@ant-design/pro-utils',
     '@ant-design/icons',
     '@ant-design/icons-svg',
@@ -21,29 +25,45 @@ const nextConfig = {
     'rc-pagination',
     'rc-picker',
     'rc-util',
+    'rc-tree',
+    'rc-table',
   ],
   webpack: (config, context) => {
     if (context.buildId !== 'development') {
       config.cache = false
     }
+
+    //https://github.com/vercel/next.js/issues/34501#issuecomment-1046655345
+    if (config.module.generator?.asset?.filename) {
+      if (!config.module.generator['asset/resource']) {
+        config.module.generator['asset/resource'] = config.module.generator.asset
+      }
+      delete config.module.generator.asset
+    }
+
     config.module.rules.push({
-      test: /\.css$/i,
-      include: [
-        /node_modules\/bytemd/,
-        /style/,
-        /node_modules\/@fontsource/,
-        /node_modules\/@ryal\/ui-kit/,
+      test: /\.(less|css)$/,
+      // include: [/node_modules\/@ryal\/ui-kit/, /src/],
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        {
+          loader: 'less-loader',
+          options: {
+            lessOptions: {
+              paths: [path.resolve(__dirname, 'node_modules')],
+            },
+          },
+        },
       ],
-      use: ['style-loader', 'css-loader'],
-      type: 'asset/inline',
     })
-    config.module.rules.push({
-      test: /\.less$/i,
-      // test: /\.(less|css)$/,
-      // exclude: [/node_modules\/bytemd/],
-      include: [/node_modules\/@ryal\/ui-kit/, /src/],
-      use: ['style-loader', 'css-loader', 'less-loader'],
-    })
+
+    config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: 'static/css/[name].[contenthash].css',
+      }),
+    )
+
     return config
   },
   rewrites: async () => [

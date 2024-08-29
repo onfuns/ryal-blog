@@ -1,15 +1,21 @@
-import { type ResponseResultType } from '@ryal/api'
+import { axios, type ResponseResultType } from '@ryal/api'
 import { message } from 'antd'
-import axios from 'axios'
+import getConfig from 'next/config'
 import { isServer } from '.'
+const { publicRuntimeConfig = {} } = getConfig()
 
 const noticeError = (data: ResponseResultType) => {
   !isServer && message.error(data?.message || '请求出错，请重试')
   return Promise.reject(data)
 }
+const { BACKEND_URL } = publicRuntimeConfig
+
+axios.defaults.baseURL = isServer ? BACKEND_URL : ''
 
 axios.interceptors.request.use(
-  axiosConfig => axiosConfig,
+  axiosConfig => {
+    return axiosConfig
+  },
   error => Promise.reject(error),
 )
 

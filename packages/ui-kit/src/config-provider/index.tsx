@@ -8,7 +8,7 @@ import React, { createContext, useContext } from 'react'
 dayjs.locale('zh-cn')
 dayjs.extend(relativeTime)
 
-const defaultGetPrefixCls = (suffixCls?: string) => `nest-uikit-${suffixCls}`
+const defaultGetPrefixCls = (suffixCls?: string) => `ryal-ui-kit-${suffixCls}`
 
 type PickPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 /** 用户自定义类型 */

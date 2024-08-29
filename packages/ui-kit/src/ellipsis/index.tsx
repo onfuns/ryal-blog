@@ -1,7 +1,7 @@
 import { Tooltip as AntdTooltip } from 'antd'
 import classNames from 'classnames'
 import { useEffect, useRef, useState } from 'react'
-import { useConfigContext } from '../'
+import { useConfigContext } from '../config-provider'
 import './index.less'
 
 export type EllipsisProps = {

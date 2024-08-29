@@ -1,10 +1,9 @@
 import gfm from '@bytemd/plugin-gfm'
 import highlight from '@bytemd/plugin-highlight'
 import { Editor, EditorProps } from '@bytemd/react'
-import 'bytemd/dist/index.min.css'
 import zh_Hans from 'bytemd/locales/zh_Hans.json'
 import classNames from 'classnames'
-import { useConfigContext } from '../../'
+import { useConfigContext } from '../../config-provider'
 import './index.less'
 
 export type MarkdownEditorType = EditorProps & {

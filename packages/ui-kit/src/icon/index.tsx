@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { type CSSProperties } from 'react'
-import { useConfigContext } from '../'
+import { useConfigContext } from '../config-provider'
 import './index.less'
 
 export type IconProps = Record<string, any> & {

@@ -12,6 +12,8 @@
 import type { AxiosInstance, AxiosRequestConfig, HeadersDefaults, ResponseType } from 'axios'
 import axios from 'axios'
 
+export { axios }
+
 export type QueryParamsType = Record<string | number, any>
 
 export interface FullRequestParams
@@ -61,7 +63,10 @@ export class HttpClient<SecurityDataType = unknown> {
     format,
     ...axiosConfig
   }: ApiConfig<SecurityDataType> = {}) {
-    this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || '' })
+    this.instance = axios.create({
+      ...axiosConfig,
+      baseURL: axiosConfig.baseURL || axios.defaults.baseURL || '',
+    })
     this.secure = secure
     this.format = format
     this.securityWorker = securityWorker

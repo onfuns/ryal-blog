@@ -1,9 +1,9 @@
 import { IDomEditor } from '@wangeditor/editor'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
-import '@wangeditor/editor/dist/css/style.css'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
-import { useConfigContext } from '../../'
+import { useConfigContext } from '../../config-provider'
+import './index.less'
 
 export type RichTextEditorType = {
   className?: string

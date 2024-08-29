@@ -1,8 +1,8 @@
 import Layout from '@/components/Layout'
 import { RootStore } from '@/store'
-// import '@/style/global.css'
-// import '@/style/uno.css'
-// import '@fontsource/jetbrains-mono'
+import '@/style/global.less'
+import '@/utils/http-request'
+import '@fontsource/jetbrains-mono'
 import App from 'next/app'
 
 const CustomApp = props => <Layout {...props} />
