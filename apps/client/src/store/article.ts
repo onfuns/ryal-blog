@@ -1,21 +1,22 @@
-import { articleService, type ArticleCreateReqDtoType, type ArticleType } from '@/service'
+import { articleService, type ArticleListReqDtoType, type ArticleType } from '@/service'
+import { type NonFunctionProperties } from '@/type'
 import { makeAutoObservable } from 'mobx'
 
 export type ArticleListResut = { data: ArticleType[]; total: number }
 
 export class ArticleStore {
   result: ArticleListResut = { data: [], total: 0 }
-  info: ArticleType
+  info: Partial<ArticleType> = {}
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  set(key: keyof NonFunctionProperties<ArticleStore>, value) {
+  set(key: keyof NonFunctionProperties<ArticleStore>, value: any) {
     this[key] = value
   }
 
-  async get(params: ArticleCreateReqDtoType) {
+  async get(params: ArticleListReqDtoType) {
     const { data } = await articleService.getClientList(params)
     this.set('result', data || [])
     return this.result

@@ -84,7 +84,7 @@ export class Article extends TimeEntity {
   editor_type: string
 
   @ApiProperty({ description: '发布时间' })
-  @Column({ comment: '发布时间', type: 'time' })
+  @Column({ comment: '发布时间', nullable: true, type: 'datetime' })
   publish_time: Date
 
   @ApiProperty({ description: '作者' })

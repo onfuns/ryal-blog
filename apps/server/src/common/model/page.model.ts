@@ -2,7 +2,7 @@ import { transformToNumber } from '@/util'
 import { Type } from '@nestjs/common'
 import { ApiProperty, IntersectionType, OmitType, PartialType, PickType } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
-import { IsNumber, IsOptional } from 'class-validator'
+import { IsOptional } from 'class-validator'
 
 export class PageListResModel<TData = any> {
   /** 结果 */
@@ -16,13 +16,11 @@ export class PageListResModel<TData = any> {
 
 export class PageReqDto {
   @ApiProperty({ description: '页码' })
-  @IsNumber()
   @IsOptional()
   @Transform(({ value }) => transformToNumber(value))
   current?: number
 
   @ApiProperty({ description: '条数' })
-  @IsNumber()
   @IsOptional()
   @Transform(({ value }) => transformToNumber(value))
   pageSize?: number

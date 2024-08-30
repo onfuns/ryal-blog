@@ -14,6 +14,8 @@ generateApi({
   templates: path.join(__dirname, './templates'),
   moduleNameFirstTag: true,
   unwrapResponseData: true,
+  extractRequestParams: true,
+  extractRequestBody: true,
   hooks: {
     onFormatRouteName: (routeInfo, templateRouteName) => {
       const name = templateRouteName.split('Controller')?.[1] || templateRouteName

@@ -5,7 +5,10 @@ const Footer = () => {
     <div className="flex items-center h-40 border-top-1-solid-#b8c5d633]">
       <div className="w-1000-center text-center">
         {[
-          { text: `©2018-${dayjs().year()} by onfuns`, href: 'https://github.com/onfuns' },
+          {
+            text: `©2018-${dayjs().year()} by onfuns`,
+            href: 'https://github.com/onfuns/nestjs-blog',
+          },
           { text: '浙ICP备15032255号-1', href: 'https://beian.miit.gov.cn/' },
         ].map(({ text, href }) => (
           <a

@@ -6,8 +6,8 @@ export type ArticleAnchorProps = {
   heading?: () => NodeListOf<Element>
 }
 export type ArticleAnchorItemType = {
-  title: string
-  tagName: string
+  title?: string | null
+  tagName?: string
   index: number
 }
 
@@ -16,19 +16,19 @@ const ArticleAnchor = ({ heading }: ArticleAnchorProps) => {
   const [anchor, setAnchor] = useState<ArticleAnchorItemType[]>([])
 
   useEffect(() => {
-    const headings = heading()
+    const headings = heading?.()
     const scrollToAnchor = (entries: IntersectionObserverEntry[]) => {
       const io = entries[0]
       if (io.isIntersecting === true) {
         const index = Array.prototype.indexOf.call(headings, io.target)
         setCurrentHeadingIndex(index)
         //锚点区域如果高度过出现滚动条则自动滚动到可视区域
-        const anchor: HTMLElement = document.querySelector('.anchor-list')
-        if (anchor.offsetHeight > 600) {
+        const anchor = document.querySelector('.anchor-list') as HTMLElement
+        if (anchor && anchor.offsetHeight > 600) {
           const top = (document.querySelectorAll('[data-anchor-index]')[index] as HTMLElement)
             .offsetTop
           //滚动到距离列表顶部 250 位置
-          anchor.offsetParent.scrollTo({
+          anchor.offsetParent?.scrollTo({
             top: top > 580 ? top - 250 : 0,
             behavior: 'smooth',
           })
@@ -36,21 +36,21 @@ const ArticleAnchor = ({ heading }: ArticleAnchorProps) => {
       }
     }
     const observer = new IntersectionObserver(scrollToAnchor, { threshold: [1] })
-    const data = []
-    headings.forEach((node, index) => {
+    const data: ArticleAnchorItemType[] = []
+    headings?.forEach((node, index) => {
       observer.observe(node)
       data.push({ title: node.textContent, tagName: node.tagName, index })
     })
     setAnchor(data)
     return () => {
-      headings.forEach(node => observer.unobserve(node))
+      headings?.forEach(node => observer.unobserve(node))
     }
   }, [])
 
-  const onChange = ({ index }) => {
-    const headings = heading()
+  const onChange = ({ index }: ArticleAnchorItemType) => {
+    const headings = heading?.()
     setCurrentHeadingIndex(index)
-    headings[index].scrollIntoView({ behavior: 'smooth' })
+    headings?.[index]?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (

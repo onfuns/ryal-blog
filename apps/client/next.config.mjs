@@ -43,7 +43,6 @@ const nextConfig = {
 
     config.module.rules.push({
       test: /\.(less|css)$/,
-      // include: [/node_modules\/@ryal\/ui-kit/, /src/],
       use: [
         MiniCssExtractPlugin.loader,
         'css-loader',

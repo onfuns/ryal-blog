@@ -15,7 +15,7 @@ export interface ArticleMenuProps {
 const ArticleMenu = ({ data = [] }: ArticleMenuProps) => {
   const router = useRouter()
 
-  const renderIcon = ({ icon, icon_color }) => {
+  const renderIcon = ({ icon, icon_color }: ArticleMenuItemType) => {
     if (!icon) return null
     if (/^https?/.test(icon))
       return <Image className="mr-8" src={icon} width={16} height={16} alt="" />
@@ -23,7 +23,7 @@ const ArticleMenu = ({ data = [] }: ArticleMenuProps) => {
   }
 
   const renderMenu = (data: ArticleMenuItemType[]) => {
-    const renderMenuItem = (item, children = []) => (
+    const renderMenuItem = (item: ArticleMenuItemType, children: ArticleMenuItemType[] = []) => (
       <li
         key={item.name}
         className={classnames('page-menu-item', 'cursor-pointer relative', {
@@ -60,7 +60,7 @@ const ArticleMenu = ({ data = [] }: ArticleMenuProps) => {
     {
       name: '前端导航',
       type: CategoryTypeEnumType.Url,
-      url: 'https://hao.onfuns.com',
+      url: 'https://github.com/onfuns/nestjs-blog',
       icon: 'icon-huaban',
       icon_color: '#12b7f5',
     },

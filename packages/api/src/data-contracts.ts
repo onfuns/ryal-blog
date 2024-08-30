@@ -148,6 +148,21 @@ export interface ArticleType {
   author: string
 }
 
+export interface ArticleListReqDtoType {
+  /** 页码 */
+  current?: number
+  /** 条数 */
+  pageSize?: number
+  /** 标题 */
+  title?: string
+  /** 排序 */
+  sort?: number
+  /** 是否审核通过 */
+  pass_status?: ArticlePassStatusEnumType
+  /** 分类 id */
+  cid?: number
+}
+
 export interface PickTypeClassType {
   /** id */
   id: number
@@ -183,6 +198,15 @@ export interface ArticleCreateReqDtoType {
   author?: string
   /** 标签 id */
   tagIds?: PickTypeClassType[]
+}
+
+export interface TagListReqDtoType {
+  /** 页码 */
+  current?: number
+  /** 条数 */
+  pageSize?: number
+  /** 名称 */
+  name?: string
 }
 
 export interface TagCreateReqDtoType {
@@ -357,6 +381,19 @@ export interface UserLoginReqDtoType {
   password: string
 }
 
+export interface UserListReqDtoType {
+  /** 页码 */
+  current?: number
+  /** 条数 */
+  pageSize?: number
+  /** 状态 */
+  status?: UserStatusEnumType
+  /** 用户名 */
+  name?: string
+  /** 角色 id */
+  roleId?: string
+}
+
 export interface UserCreateReqDtoType {
   /** 名称 */
   name?: string
@@ -372,6 +409,17 @@ export interface UserCreateReqDtoType {
   last_login_ip?: string
   /** 上次登录时间 */
   last_login_at?: string
+}
+
+export interface RoleListReqDtoType {
+  /** 页码 */
+  current?: number
+  /** 条数 */
+  pageSize?: number
+  /** 名称 */
+  name?: string
+  /** 状态 */
+  status?: RoleStatusEnumType
 }
 
 export interface RoleCreateReqDtoType {
@@ -429,6 +477,15 @@ export interface CommentType {
   article: ArticleType
   /** 状态 */
   status: CommentStatusEnumType
+}
+
+export interface CommentListReqDtoType {
+  /** 页码 */
+  current?: number
+  /** 条数 */
+  pageSize?: number
+  /** 文章标题 */
+  title?: string
 }
 
 export interface CommentCreateReqDtoType {
@@ -503,6 +560,15 @@ export interface FileType {
   ext: string
 }
 
+export interface FileListReqDtoType {
+  /** 页码 */
+  current?: number
+  /** 条数 */
+  pageSize?: number
+  /** 分类 id */
+  fileCategoryId?: number
+}
+
 export interface FileUploadReqDtoType {
   files: File[]
   /** 文件分类 */
@@ -533,3 +599,5 @@ export interface WebsiteCreateReqDtoType {
   /** 值 */
   value?: string
 }
+
+export type UpdatePayload2Type = WebsiteCreateReqDtoType[]

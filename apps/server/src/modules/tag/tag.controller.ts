@@ -1,5 +1,5 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
 import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { TagCreateReqDto, TagListReqDto } from './tag.dto'
 import { Tag } from './tag.entity'
@@ -12,8 +12,8 @@ export class TagController {
 
   @ApiResult({ description: '获取标签列表', type: [Tag], page: true })
   @Get()
-  async getList(@Query() query: TagListReqDto) {
-    return this.service.getList(query)
+  async getList(@Body() body: TagListReqDto) {
+    return this.service.getList(body)
   }
 
   @ApiResult({ description: '新增标签', type: Tag })

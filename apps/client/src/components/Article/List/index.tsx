@@ -14,7 +14,9 @@ const ArticleList = (props: Pick<ArticleStore, 'result'>) => {
         <div key={index} className="bg-#fff border-bottom-1-solid-#eee p-20">
           <div className="flex items-center color-#98a6ad">
             <Time value={article.publish_time} type="date" />
-            <span className="mx-3">{article.author}</span>
+            <span data-item={article.publish_time} className="mx-3">
+              {article.author}
+            </span>
           </div>
           <a
             href={`/article/${article.id}`}

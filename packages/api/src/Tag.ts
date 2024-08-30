@@ -9,7 +9,12 @@
  * ---------------------------------------------------------------
  */
 
-import { ResponseResultType, TagCreateReqDtoType, TagType } from './data-contracts'
+import {
+  ResponseResultType,
+  TagCreateReqDtoType,
+  TagListReqDtoType,
+  TagType,
+} from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -20,17 +25,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name GetList
    * @request GET:/api/tag
    */
-  getList = (
-    query?: {
-      /** 页码 */
-      current?: number
-      /** 条数 */
-      pageSize?: number
-      /** 名称 */
-      name?: string
-    },
-    params: RequestParams = {},
-  ) =>
+  getList = (data: TagListReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -42,7 +37,8 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
     >({
       path: `/api/tag`,
       method: 'GET',
-      query: query,
+      body: data,
+      type: ContentType.Json,
       format: 'json',
       ...params,
     })

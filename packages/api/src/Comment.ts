@@ -9,7 +9,12 @@
  * ---------------------------------------------------------------
  */
 
-import { CommentCreateReqDtoType, CommentType, ResponseResultType } from './data-contracts'
+import {
+  CommentCreateReqDtoType,
+  CommentListReqDtoType,
+  CommentType,
+  ResponseResultType,
+} from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -20,17 +25,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetList
    * @request GET:/api/comment
    */
-  getList = (
-    query?: {
-      /** 页码 */
-      current?: number
-      /** 条数 */
-      pageSize?: number
-      /** 文章标题 */
-      title?: string
-    },
-    params: RequestParams = {},
-  ) =>
+  getList = (data: CommentListReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -42,7 +37,8 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
     >({
       path: `/api/comment`,
       method: 'GET',
-      query: query,
+      body: data,
+      type: ContentType.Json,
       format: 'json',
       ...params,
     })

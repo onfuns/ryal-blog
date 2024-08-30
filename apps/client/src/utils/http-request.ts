@@ -28,7 +28,7 @@ axios.interceptors.response.use(
     return response
   },
   error => {
-    const { data } = error.response
+    const { data } = error.response || {}
     return noticeError(data)
   },
 )

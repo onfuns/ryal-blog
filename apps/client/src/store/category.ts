@@ -1,4 +1,5 @@
 import { categoryService, type CategoryListItemDtoType } from '@/service'
+import { type NonFunctionProperties } from '@/type'
 import { makeAutoObservable } from 'mobx'
 
 export class CategoryStore {
@@ -8,7 +9,7 @@ export class CategoryStore {
     makeAutoObservable(this)
   }
 
-  set(key: keyof NonFunctionProperties<CategoryStore>, value) {
+  set(key: keyof NonFunctionProperties<CategoryStore>, value: any) {
     this[key] = value
   }
 

@@ -3,13 +3,15 @@ import { RootStore } from '@/store'
 import '@/style/global.less'
 import '@/utils/http-request'
 import '@fontsource/jetbrains-mono'
-import App from 'next/app'
+import App, { type AppContext, type AppProps } from 'next/app'
 
-const CustomApp = props => <Layout {...props} />
+const CustomApp = (props: AppProps & { initialMobxState: any }) => <Layout {...props} />
 
-CustomApp.getInitialProps = async function (appContext) {
+CustomApp.getInitialProps = async function (appContext: AppContext) {
   const mobxStore = RootStore
-  appContext.ctx.req.mobxStore = RootStore
+  if (appContext.ctx.req) {
+    ;(appContext.ctx.req as any).mobxStore = RootStore
+  }
   const appProps = await App.getInitialProps(appContext)
   return {
     ...appProps,

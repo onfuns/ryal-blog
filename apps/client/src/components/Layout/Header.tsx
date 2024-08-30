@@ -17,9 +17,12 @@ export const Header = () => {
         <a href="/" className="text-18 font-comic">
           Ryal Blog
         </a>
-        <div>
+        <div className="flex gap-12">
           <a href="/" className="font-comic">
             首页
+          </a>
+          <a href="https://github.com/onfuns/nestjs-blog" className="font-comic">
+            项目地址
           </a>
         </div>
       </div>

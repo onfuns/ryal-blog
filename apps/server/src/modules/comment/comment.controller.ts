@@ -1,6 +1,6 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
 import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { CommentCreateReqDto, CommentListReqDto } from './comment.dto'
 import { Comment } from './comment.entity'
@@ -14,14 +14,14 @@ export class CommentController {
 
   @ApiResult({ description: '获取留言列表', type: [Comment], page: true })
   @Get()
-  async getList(@Query() query: CommentListReqDto) {
-    return this.service.getList(query)
+  async getList(@Body() body: CommentListReqDto) {
+    return this.service.getList(body)
   }
 
   @ApiResult({ description: '客户端-获取留言列表', type: Comment, page: true })
   @Get('list')
   @NoPermission()
-  async getClientList(@Query('aid') aid: Comment['aid']) {
+  async getClientList(@Body('aid') aid: Comment['aid']) {
     return this.service.getList({ aid, status: CommentStatusEnum.Passed, pageSize: 100 })
   }
 

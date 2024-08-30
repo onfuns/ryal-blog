@@ -3,10 +3,15 @@ import { isServer } from '@/utils'
 import { ConfigContextProvider, type ConfigConsumerProps } from '@ryal/ui-kit'
 import zhCN from 'antd/lib/locale/zh_CN'
 import { Provider } from 'mobx-react'
+import { type AppProps } from 'next/app'
 import Footer from './Footer'
 import Header from './Header'
 
-const Layout = ({ Component, pageProps = {}, initialMobxState }) => {
+const Layout = ({
+  Component,
+  pageProps = {},
+  initialMobxState,
+}: AppProps & { initialMobxState: any }) => {
   const stores = isServer ? initialMobxState : useStore()
   const antdConfig: ConfigConsumerProps['antdConfig'] = {
     theme: { token: { colorPrimary: '#ff502c' } },

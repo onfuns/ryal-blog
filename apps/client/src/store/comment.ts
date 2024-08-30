@@ -1,4 +1,5 @@
 import { commentService, type CommentCreateReqDtoType, type CommentType } from '@/service'
+import { type NonFunctionProperties } from '@/type'
 import { makeAutoObservable } from 'mobx'
 
 export class CommentStore {
@@ -8,12 +9,12 @@ export class CommentStore {
     makeAutoObservable(this)
   }
 
-  set(key: keyof NonFunctionProperties<CommentStore>, value) {
+  set(key: keyof NonFunctionProperties<CommentStore>, value: any) {
     this[key] = value
   }
 
-  async get(params) {
-    const { data } = await commentService.getClientList(params)
+  async get() {
+    const { data } = await commentService.getClientList()
     this.set('result', data || [])
   }
 

@@ -4,8 +4,8 @@ import Image from 'next/image'
 const ArticleCarousel = () => {
   const data = [
     {
-      url: 'https://hao.onfuns.com/',
-      img: '/images/demo-1.png',
+      url: 'https://github.com/onfuns/nestjs-blog',
+      img: '/images/carousel-demo.png',
     },
   ]
   return (

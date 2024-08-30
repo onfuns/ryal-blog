@@ -54,13 +54,13 @@ yarn dev:client
 
 ```
 
-如果服务端新增接口，需要启动服务端断后，在对应包`@ryal/api`生成接口及接口类型
+如果服务端新增接口，需要启动服务端后，根目录执行命令在对应包`@ryal/api`生成接口及接口类型，会自动同步到管理端和客户端。
 
 ```bash
 yarn build:api
 ```
 
-同理，基础组件库`@ryal/ui-kit`如果改动也需要同步到项目里
+同理，基础组件库`@ryal/ui-kit`如果改动也需要同步到管理端和客户端：
 
 ```bash
 yarn build:ui-kit
@@ -68,16 +68,17 @@ yarn build:ui-kit
 
 ## 构建
 
-可全部构建也可分包构建。
+可全部构建也可单包构建。
 
 ```bash
-# 全部
+# 全部构建
 yarn build
-# 服务端
+
+# 单包构建-服务端
 yarn build:server
-# 管理端
+# 单包构建-管理端
 yarn build:admin
-# 客户端
+# 单包构建-客户端
 yarn build:client
 
 ```

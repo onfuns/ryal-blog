@@ -2,6 +2,7 @@ import ArticleCarousel from '@/components/Article/Carousel'
 import ArticleList from '@/components/Article/List'
 import ArticleMenu from '@/components/Article/Menu'
 import { ArticleStore } from '@/store'
+import { type GetServerSidePropsContextProps } from '@/type'
 import { findByValue } from '@/utils'
 import markdownIt from 'markdown-it'
 
@@ -22,7 +23,10 @@ const Article = ({ categoryList, articleData }: IArticlePageProps) => {
   )
 }
 
-export const getServerSideProps = async ({ req, query }) => {
+export const getServerSideProps = async ({
+  req,
+  query,
+}: GetServerSidePropsContextProps<any, any>) => {
   const { articleStore, categoryStore } = req.mobxStore
   await categoryStore.get()
   const ename = query?.ename

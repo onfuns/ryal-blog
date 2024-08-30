@@ -11,7 +11,7 @@
 
 import {
   ArticleCreateReqDtoType,
-  ArticlePassStatusEnumType,
+  ArticleListReqDtoType,
   ArticleType,
   ResponseResultType,
 } from './data-contracts'
@@ -25,23 +25,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetList
    * @request GET:/api/article
    */
-  getList = (
-    query?: {
-      /** 页码 */
-      current?: number
-      /** 条数 */
-      pageSize?: number
-      /** 标题 */
-      title?: string
-      /** 排序 */
-      sort?: number
-      /** 是否审核通过 */
-      pass_status?: ArticlePassStatusEnumType
-      /** 分类 id */
-      cid?: number
-    },
-    params: RequestParams = {},
-  ) =>
+  getList = (data: ArticleListReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -53,7 +37,8 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
     >({
       path: `/api/article`,
       method: 'GET',
-      query: query,
+      body: data,
+      type: ContentType.Json,
       format: 'json',
       ...params,
     })
@@ -85,23 +70,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetClientList
    * @request GET:/api/article/list
    */
-  getClientList = (
-    query?: {
-      /** 页码 */
-      current?: number
-      /** 条数 */
-      pageSize?: number
-      /** 标题 */
-      title?: string
-      /** 排序 */
-      sort?: number
-      /** 是否审核通过 */
-      pass_status?: ArticlePassStatusEnumType
-      /** 分类 id */
-      cid?: number
-    },
-    params: RequestParams = {},
-  ) =>
+  getClientList = (data: ArticleListReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: ArticleType
@@ -110,7 +79,8 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
     >({
       path: `/api/article/list`,
       method: 'GET',
-      query: query,
+      body: data,
+      type: ContentType.Json,
       format: 'json',
       ...params,
     })
