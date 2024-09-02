@@ -10,6 +10,7 @@ export default defineConfig({
         find: '@',
         replacement: join(__dirname, './src'),
       },
+      { find: /^~/, replacement: '' },
     ],
   },
   server: {
