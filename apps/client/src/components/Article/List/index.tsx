@@ -3,18 +3,21 @@ import { Icon, Time } from '@ryal/ui-kit'
 import { Empty, Pagination, Space } from 'antd'
 import { useRouter } from 'next/router'
 
-const ArticleList = (props: Pick<ArticleStore, 'listData'>) => {
-  const { listData } = props
-  const router = useRouter()
-  const isEmpty = !listData?.data?.length
+export type ArticleListPropsType = {
+  data: ArticleStore['listData']
+}
 
-  if (isEmpty) {
+const ArticleList = ({ data }: ArticleListPropsType) => {
+  const router = useRouter()
+  const { data: listData, total = 0 } = data || {}
+
+  if (!listData?.length) {
     return <Empty description={<span className="color-#999">暂无数据</span>} />
   }
 
   return (
     <div className="rd-4 overflow-hidden">
-      {listData?.data?.map((article, index) => (
+      {listData?.map((article, index) => (
         <div key={index} className="bg-#fff border-bottom-1-solid-#eee p-20">
           <Space size={5} className=" color-#999">
             {article.publish_time && <Time value={article.publish_time} type="date" />}
@@ -37,11 +40,11 @@ const ArticleList = (props: Pick<ArticleStore, 'listData'>) => {
           </div>
         </div>
       ))}
-      {!!listData?.total && listData.total > 20 && (
+      {total > 20 && (
         <div className="flex-center mt-30">
           <Pagination
             defaultCurrent={(router?.query?.page || 1) as number}
-            total={listData.total}
+            total={total}
             size="small"
             pageSize={20}
             hideOnSinglePage

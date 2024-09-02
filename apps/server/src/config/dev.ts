@@ -7,7 +7,7 @@ export const DevConfig: IConfig = {
     port: 3306,
     username: 'root',
     password: 'a123456',
-    database: 'nest_blog',
+    database: 'ryal_blog',
     entities: ['dist/**/*.entity.js'],
     entityPrefix: 'rs_',
     synchronize: true, //自动创建数据库结构，生产环境谨慎使用！

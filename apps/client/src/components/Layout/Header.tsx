@@ -1,3 +1,4 @@
+import config from '@/config'
 import Head from 'next/head'
 import Script from 'next/script'
 
@@ -21,7 +22,7 @@ export const Header = () => {
           <a href="/" className="font-comic">
             首页
           </a>
-          <a href="https://github.com/onfuns/nestjs-blog" className="font-comic">
+          <a href={config.gitUrl} className="font-comic">
             项目地址
           </a>
         </div>

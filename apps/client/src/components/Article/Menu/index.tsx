@@ -1,3 +1,4 @@
+import config from '@/config'
 import { CategoryTypeEnumType, type CategoryType } from '@/service'
 import { Icon } from '@ryal/ui-kit'
 import classnames from 'classnames'
@@ -8,11 +9,11 @@ import './index.less'
 export type ArticleMenuItemType = Partial<CategoryType> & {
   children?: ArticleMenuItemType[]
 }
-export interface ArticleMenuProps {
+export type ArticleMenuPropsType = {
   data: ArticleMenuItemType[]
 }
 
-const ArticleMenu = ({ data = [] }: ArticleMenuProps) => {
+const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
   const router = useRouter()
 
   const renderIcon = ({ icon, icon_color }: ArticleMenuItemType) => {
@@ -60,7 +61,7 @@ const ArticleMenu = ({ data = [] }: ArticleMenuProps) => {
     {
       name: '前端导航',
       type: CategoryTypeEnumType.Url,
-      url: 'https://github.com/onfuns/nestjs-blog',
+      url: config.gitUrl,
       icon: 'icon-huaban',
       icon_color: '#12b7f5',
     },

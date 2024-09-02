@@ -1,3 +1,4 @@
+import config from '@/config'
 import dayjs from 'dayjs'
 
 const Footer = () => {
@@ -7,7 +8,7 @@ const Footer = () => {
         {[
           {
             text: `©2018-${dayjs().year()} by onfuns`,
-            href: 'https://github.com/onfuns/nestjs-blog',
+            href: config.gitUrl,
           },
           { text: '浙ICP备15032255号-1', href: 'https://beian.miit.gov.cn/' },
         ].map(({ text, href }) => (

@@ -21,9 +21,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/onfuns/nestjs-blog.git"
+    "url": "git+https://github.com/onfuns/ryal-blog.git"
   },
-  "homepage": "https://github.com/onfuns/nestjs-blog#readme",
+  "homepage": "https://github.com/onfuns/ryal-blog#readme",
   "author": "onfuns",
   "license": "MIT",
   "devDependencies": {

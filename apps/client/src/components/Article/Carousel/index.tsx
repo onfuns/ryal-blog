@@ -1,10 +1,11 @@
+import config from '@/config'
 import { Carousel as AntdCarousel } from 'antd'
 import Image from 'next/image'
 
 const ArticleCarousel = () => {
   const data = [
     {
-      url: 'https://github.com/onfuns/nestjs-blog',
+      url: config.gitUrl,
       img: '/images/carousel-demo.png',
     },
   ]

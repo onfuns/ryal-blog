@@ -9,7 +9,7 @@ import './index.less'
 
 const Avatar = () => (
   <Image
-    className="mr-16  border-r-50%"
+    className="mr-16 border-r-50%"
     src="/images/avatar.png"
     width={40}
     height={40}

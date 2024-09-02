@@ -1,10 +1,10 @@
-基于 NextJS + NestJS + Mysql 开发的博客系统，支持文章、分类、标签、评论、角色权限等功能，适合搭建博客或学习使用。
+基于 NestJS + Mysql + Next.js 开发的博客系统，支持文章、分类、标签、评论、角色权限等功能，适合搭建博客或学习使用。
 
 ## 技术栈
 
 - **Server**： `NestJS` + `TypeORM` + `Mysql` + `TypeScript`
-- **Client**： `NextJS` + `Antd` + `Mobx` + `TypeScript`
-- **Admin**： `Vite` + `React` + `Antd` + `Mobx` + `TypeScript`
+- **Client**： `Next.js` + `Antd` + `Mobx` + `TypeScript`
+- **Admin** ： `Vite` + `Antd` + `Mobx` + `TypeScript`
 
 > V2 版本使用 Swagger 自动生成 API 接口及类型，避免手动定义接口冗余。
 
@@ -85,7 +85,7 @@ yarn build:client
 
 ## 部署
 
-新建数据库`nest_blog`，本地可以导入 `server` 中的初始化数据 `init.sql`，生产环境可以使用 `Navicat`数据迁移。
+新建数据库`ryal_blog`，本地可以导入 `server` 中的初始化数据 `init.sql`，生产环境可以使用 `Navicat`数据迁移。
 
 新建配置文件：
 

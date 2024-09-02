@@ -1,14 +1,13 @@
 import ArticleCarousel from '@/components/Article/Carousel'
-import ArticleList from '@/components/Article/List'
-import ArticleMenu from '@/components/Article/Menu'
-import { ArticleStore } from '@/store'
+import ArticleList, { type ArticleListPropsType } from '@/components/Article/List'
+import ArticleMenu, { type ArticleMenuPropsType } from '@/components/Article/Menu'
 import { type GetServerSidePropsContextProps } from '@/type'
 import { findByValue } from '@/utils'
 import markdownIt from 'markdown-it'
 
-export interface IArticlePageProps {
-  categoryList: any[]
-  articleData: ArticleStore['listData']
+export type IArticlePageProps = {
+  categoryList: ArticleMenuPropsType['data']
+  articleData: ArticleListPropsType['data']
 }
 
 const Article = ({ categoryList, articleData }: IArticlePageProps) => {
@@ -17,7 +16,7 @@ const Article = ({ categoryList, articleData }: IArticlePageProps) => {
       <ArticleMenu data={categoryList} />
       <div className="w-1000 overflow-hidden">
         <ArticleCarousel />
-        <ArticleList listData={articleData} />
+        <ArticleList data={articleData} />
       </div>
     </div>
   )
