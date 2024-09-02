@@ -28,8 +28,8 @@ export class ArticleService {
     })
   }
 
-  async getList(query?: ArticleListReqDto): Promise<PageListResModel<Article>> {
-    const { current = 1, pageSize = 20, sort, title, cid: category_id, pass_status } = query ?? {}
+  async getList(body?: ArticleListReqDto): Promise<PageListResModel<Article>> {
+    const { current = 1, pageSize = 20, sort, title, cid: category_id, pass_status } = body ?? {}
     const where = pickBy({
       title: title ? Like(`%${title}%`) : undefined,
       sort: sort > 0 ? MoreThan(sort) : sort === 0 ? Equal(0) : undefined,

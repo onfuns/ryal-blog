@@ -8,16 +8,16 @@ import markdownIt from 'markdown-it'
 
 export interface IArticlePageProps {
   categoryList: any[]
-  articleData: ArticleStore['result']
+  articleData: ArticleStore['listData']
 }
 
 const Article = ({ categoryList, articleData }: IArticlePageProps) => {
   return (
-    <div className="w-1000-center flex">
+    <div className="width-center-1000 flex">
       <ArticleMenu data={categoryList} />
       <div className="w-1000 overflow-hidden">
         <ArticleCarousel />
-        <ArticleList result={articleData} />
+        <ArticleList listData={articleData} />
       </div>
     </div>
   )
@@ -30,12 +30,13 @@ export const getServerSideProps = async ({
   const { articleStore, categoryStore } = req.mobxStore
   await categoryStore.get()
   const ename = query?.ename
-  const params: { current: number; pageSize: number; cid?: string } = {
+  const params = {
     current: req.query?.page || 1,
     pageSize: 20,
+    cid: undefined,
   }
 
-  const categoryList = categoryStore.result
+  const categoryList = categoryStore.listData
   const defaultProps = {
     categoryList,
     articleData: {},

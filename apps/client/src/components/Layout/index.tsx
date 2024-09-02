@@ -14,7 +14,7 @@ const Layout = ({
 }: AppProps & { initialMobxState: any }) => {
   const stores = isServer ? initialMobxState : useStore()
   const antdConfig: ConfigConsumerProps['antdConfig'] = {
-    theme: { token: { colorPrimary: '#ff502c' } },
+    theme: { token: { colorPrimary: '#ff502c' }, hashed: false },
     locale: zhCN,
   }
 

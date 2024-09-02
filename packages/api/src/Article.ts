@@ -73,7 +73,10 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
   getClientList = (data: ArticleListReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: ArticleType
+        data?: {
+          data?: ArticleType[]
+          total?: number
+        }
       },
       any
     >({

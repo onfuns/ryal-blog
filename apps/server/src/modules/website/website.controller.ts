@@ -1,7 +1,7 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common'
-import { ApiBody, ApiTags } from '@nestjs/swagger'
+import { ApiTags } from '@nestjs/swagger'
 import { WebsiteCreateReqDto } from './website.dto'
 import { Website } from './website.entity'
 import { WebsiteService } from './website.service'
@@ -18,16 +18,15 @@ export class WebsiteController {
   }
 
   @ApiResult({ description: '客户端-获取配置列表', type: Website })
-  @Get('info')
+  @Get('list')
   @NoPermission()
   async getClientList() {
     return this.service.getList()
   }
 
   @ApiResult({ description: '更新配置', type: [Website] })
-  @ApiBody({ type: [WebsiteCreateReqDto] })
   @Post()
-  async update(@Body() body: WebsiteCreateReqDto[]) {
-    return this.service.update(body)
+  async update(@Body() body: WebsiteCreateReqDto) {
+    return this.service.update(body.list)
   }
 }

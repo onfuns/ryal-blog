@@ -5,6 +5,7 @@ import { pickBy } from 'lodash'
 import { Like, Repository } from 'typeorm'
 import { CommentCreateReqDto, CommentListReqDto } from './comment.dto'
 import { Comment } from './comment.entity'
+import { CommentStatusEnum } from './enum'
 
 @Injectable()
 export class CommentService {
@@ -18,8 +19,8 @@ export class CommentService {
   }
 
   async getList(query?: CommentListReqDto): Promise<PageListResModel<Comment>> {
-    const { current = 1, pageSize = 20, aid, status, title = '' } = query || {}
-    const where = pickBy({ aid, status })
+    const { current = 1, pageSize = 20, aid, title = '' } = query || {}
+    const where = pickBy({ aid, status: CommentStatusEnum.Passed })
     const [data = [], total = 0] = await this.repository.findAndCount({
       where: {
         ...where,

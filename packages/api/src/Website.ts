@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { ResponseResultType, UpdatePayload2Type, WebsiteType } from './data-contracts'
+import { ResponseResultType, WebsiteCreateReqDtoType, WebsiteType } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Website<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -39,7 +39,7 @@ export class Website<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Update
    * @request POST:/api/website
    */
-  update = (data: UpdatePayload2Type, params: RequestParams = {}) =>
+  update = (data: WebsiteCreateReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: WebsiteType[]
@@ -58,7 +58,7 @@ export class Website<SecurityDataType = unknown> extends HttpClient<SecurityData
    *
    * @tags website
    * @name GetClientList
-   * @request GET:/api/website/info
+   * @request GET:/api/website/list
    */
   getClientList = (params: RequestParams = {}) =>
     this.request<
@@ -67,7 +67,7 @@ export class Website<SecurityDataType = unknown> extends HttpClient<SecurityData
       },
       any
     >({
-      path: `/api/website/info`,
+      path: `/api/website/list`,
       method: 'GET',
       format: 'json',
       ...params,

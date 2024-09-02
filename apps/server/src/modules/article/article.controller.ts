@@ -18,7 +18,7 @@ export class ArticleController {
     return this.service.getList(body)
   }
 
-  @ApiResult({ description: '客户端-获取文章列表', type: Article, page: true })
+  @ApiResult({ description: '客户端-获取文章列表', type: [Article], page: true })
   @Get('list')
   @NoPermission()
   async getClientList(@Body() body: ArticleListReqDto) {

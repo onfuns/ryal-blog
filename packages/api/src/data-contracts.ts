@@ -484,6 +484,8 @@ export interface CommentListReqDtoType {
   current?: number
   /** 条数 */
   pageSize?: number
+  /** 关联文章 id */
+  aid?: string
   /** 文章标题 */
   title?: string
 }
@@ -593,11 +595,14 @@ export interface WebsiteType {
   value: string
 }
 
-export interface WebsiteCreateReqDtoType {
+export interface WebsiteCreateItemDtoType {
   /** 名称 */
   name?: string
   /** 值 */
   value?: string
 }
 
-export type UpdatePayload2Type = WebsiteCreateReqDtoType[]
+export interface WebsiteCreateReqDtoType {
+  /** 全局配置列表 */
+  list: WebsiteCreateItemDtoType[]
+}

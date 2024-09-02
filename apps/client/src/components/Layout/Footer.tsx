@@ -2,8 +2,8 @@ import dayjs from 'dayjs'
 
 const Footer = () => {
   return (
-    <div className="flex items-center h-40 border-top-1-solid-#b8c5d633]">
-      <div className="w-1000-center text-center">
+    <div className="flex items-center h-40">
+      <div className="width-center-1000 text-center">
         {[
           {
             text: `©2018-${dayjs().year()} by onfuns`,
@@ -16,7 +16,7 @@ const Footer = () => {
             href={href}
             target="_blank"
             rel="noreferrer"
-            className="color-#a2a09e mr-10 text-12"
+            className="color-#999 mr-10 text-12"
           >
             {text}
           </a>

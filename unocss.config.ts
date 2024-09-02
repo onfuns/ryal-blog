@@ -13,9 +13,7 @@ export default defineConfig({
   shortcuts: [
     ['wh-full', 'w-full h-full'],
     ['flex-center', 'flex justify-center items-center'],
-    ['text-ellipsis', 'truncate'],
     ['absolute-center', 'absolute left-0 right-0 top-0 bottom-0'],
-    ['w-1000-center', 'w-1000 mx-auto'],
     ['a-danger', 'color-#FA2929 hover:color-#FF4D4D'],
   ],
   rules: [
@@ -27,6 +25,23 @@ export default defineConfig({
         display: '-webkit-box',
         ' -webkit-box-orient': 'vertical',
         '-webkit-line-clamp': `${c}`,
+      }),
+    ],
+    [
+      /^text-ellipsis-line-(.*)$/,
+      ([, c]) => ({
+        display: '-webkit-box',
+        '-webkit-box-orient': 'vertical',
+        '-webkit-line-clamp': `${c}`,
+        'text-overflow': 'ellipsis',
+        'white-space': 'normal',
+      }),
+    ],
+    [
+      /^width-center-(.*)$/,
+      ([, c]) => ({
+        width: `${c}px`,
+        margin: '0 auto',
       }),
     ],
   ],

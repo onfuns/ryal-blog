@@ -13,7 +13,7 @@ export const Header = () => {
         <title>Ryal Blog演示系统</title>
       </Head>
       <Script src="/plugins/analysis.js" defer />
-      <div className="w-1000-center flex items-center justify-between">
+      <div className="width-center-1000 flex items-center justify-between">
         <a href="/" className="text-18 font-comic">
           Ryal Blog
         </a>

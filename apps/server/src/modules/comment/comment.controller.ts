@@ -5,7 +5,6 @@ import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { CommentCreateReqDto, CommentListReqDto } from './comment.dto'
 import { Comment } from './comment.entity'
 import { CommentService } from './comment.service'
-import { CommentStatusEnum } from './enum'
 
 @ApiTags('comment')
 @Controller('/comment')
@@ -18,11 +17,11 @@ export class CommentController {
     return this.service.getList(body)
   }
 
-  @ApiResult({ description: '客户端-获取留言列表', type: Comment, page: true })
+  @ApiResult({ description: '客户端-获取留言列表', type: [Comment], page: true })
   @Get('list')
   @NoPermission()
-  async getClientList(@Body('aid') aid: Comment['aid']) {
-    return this.service.getList({ aid, status: CommentStatusEnum.Passed, pageSize: 100 })
+  async getClientList(@Body() body: CommentListReqDto) {
+    return this.service.getList({ aid: body.aid, pageSize: 100 })
   }
 
   @ApiResult({ description: '新增留言', type: Comment })

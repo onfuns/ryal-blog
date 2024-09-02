@@ -1,20 +1,17 @@
 import { categoryService, type CategoryListItemDtoType } from '@/service'
-import { type NonFunctionProperties } from '@/type'
-import { makeAutoObservable } from 'mobx'
+import { makeObservable } from 'mobx'
+import { Base, type ResultListData } from './base'
 
-export class CategoryStore {
-  result: CategoryListItemDtoType[] = []
+export class CategoryStore extends Base<CategoryStore> {
+  listData: ResultListData<CategoryListItemDtoType>['data'] = []
 
   constructor() {
-    makeAutoObservable(this)
-  }
-
-  set(key: keyof NonFunctionProperties<CategoryStore>, value: any) {
-    this[key] = value
+    super()
+    makeObservable(this, {}, { autoBind: true })
   }
 
   async get() {
     const { data } = await categoryService.getClientList()
-    this.set('result', data || [])
+    this.setData('listData', data)
   }
 }

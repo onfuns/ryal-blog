@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import './index.less'
 
 export type ArticleAnchorProps = {
-  heading?: () => NodeListOf<Element>
+  heading?: () => NodeListOf<Element> | undefined
 }
 export type ArticleAnchorItemType = {
   title?: string | null
@@ -64,10 +64,7 @@ const ArticleAnchor = ({ heading }: ArticleAnchorProps) => {
               active: currentHeadingIndex === index,
             })}
           >
-            <a
-              onClick={() => onChange(item)}
-              className="color-inherit relative block p-[4px_0_4px_15px]"
-            >
+            <a onClick={() => onChange(item)} className="relative block py-4 pl-15">
               {item.title}
             </a>
           </li>

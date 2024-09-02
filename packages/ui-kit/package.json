@@ -22,7 +22,6 @@
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-react": "^1.0.6",
     "ahooks": "^3.7.7",
-    "antd": "^5.18.0",
     "bytemd": "^1.21.0",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.10",
@@ -30,5 +29,8 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.17.7"
+  },
+  "peerDependencies": {
+    "antd": "5.x"
   }
 }

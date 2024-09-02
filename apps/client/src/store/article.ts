@@ -1,30 +1,25 @@
 import { articleService, type ArticleListReqDtoType, type ArticleType } from '@/service'
-import { type NonFunctionProperties } from '@/type'
-import { makeAutoObservable } from 'mobx'
+import { makeObservable } from 'mobx'
+import { Base, ResultItemData, type ResultListData } from './base'
 
-export type ArticleListResut = { data: ArticleType[]; total: number }
-
-export class ArticleStore {
-  result: ArticleListResut = { data: [], total: 0 }
-  info: Partial<ArticleType> = {}
+export class ArticleStore extends Base<ArticleStore> {
+  listData: ResultListData<ArticleType> = { data: [], total: 0 }
+  itemData: ResultItemData<ArticleType> = {}
 
   constructor() {
-    makeAutoObservable(this)
-  }
-
-  set(key: keyof NonFunctionProperties<ArticleStore>, value: any) {
-    this[key] = value
+    super()
+    makeObservable(this, {}, { autoBind: true })
   }
 
   async get(params: ArticleListReqDtoType) {
     const { data } = await articleService.getClientList(params)
-    this.set('result', data || [])
-    return this.result
+    this.setData('listData', data)
+    return this.listData
   }
 
   async getInfoById(id: string) {
     const { data } = await articleService.info(id)
-    this.set('info', data || {})
-    return this.info
+    this.setData('itemData', data || {})
+    return this.itemData
   }
 }

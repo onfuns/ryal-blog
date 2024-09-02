@@ -17,11 +17,8 @@ const nextConfig = {
   },
   transpilePackages: [
     '@ryal/api',
-    'antd',
-    '@ant-design/pro-utils',
     '@ant-design/icons',
     '@ant-design/icons-svg',
-    '@ant-design/pro-provider',
     'rc-pagination',
     'rc-picker',
     'rc-util',

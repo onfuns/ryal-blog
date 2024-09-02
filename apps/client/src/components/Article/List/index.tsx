@@ -1,48 +1,47 @@
 import { ArticleStore } from '@/store'
 import { Icon, Time } from '@ryal/ui-kit'
-import { Pagination } from 'antd'
+import { Empty, Pagination, Space } from 'antd'
 import { useRouter } from 'next/router'
-import { Fragment } from 'react'
 
-const ArticleList = (props: Pick<ArticleStore, 'result'>) => {
-  const { result } = props
+const ArticleList = (props: Pick<ArticleStore, 'listData'>) => {
+  const { listData } = props
   const router = useRouter()
+  const isEmpty = !listData?.data?.length
+
+  if (isEmpty) {
+    return <Empty description={<span className="color-#999">暂无数据</span>} />
+  }
 
   return (
     <div className="rd-4 overflow-hidden">
-      {result?.data?.map((article, index) => (
+      {listData?.data?.map((article, index) => (
         <div key={index} className="bg-#fff border-bottom-1-solid-#eee p-20">
-          <div className="flex items-center color-#98a6ad">
-            <Time value={article.publish_time} type="date" />
-            <span data-item={article.publish_time} className="mx-3">
-              {article.author}
-            </span>
-          </div>
-          <a
-            href={`/article/${article.id}`}
-            className="inline-block color-#303030 text-18 fw-700 pt-8 pb-4 lh-24 "
-          >
+          <Space size={5} className=" color-#999">
+            {article.publish_time && <Time value={article.publish_time} type="date" />}
+            <span data-item={article.publish_time}>{article.author}</span>
+          </Space>
+          <a href={`/article/${article.id}`} className="block text-16 mt-8 mb-4">
             {article.title}
           </a>
           <div
-            className="relative mb-6 color-#98a6ad max-h-90 overflow-hidden webkit-clamp-4  text-ellipsis break-all"
+            className="relative mb-6 color-#999 max-h-90 text-ellipsis-line-4 break-all"
             dangerouslySetInnerHTML={{ __html: article.description }}
-          ></div>
-          <div className="flex items-center color-#98a6ad">
+          />
+          <div className="color-#999">
             {article?.tags?.map((tag, idx) => (
-              <Fragment key={idx}>
+              <Space size={5} key={idx}>
                 {idx === 0 && <Icon name="icon-a-business-icon-Bigpromotion" />}
-                <span className="mx-5">{tag.name}</span>
-              </Fragment>
+                <span>{tag.name}</span>
+              </Space>
             ))}
           </div>
         </div>
       ))}
-      {result?.total > 20 && (
+      {!!listData?.total && listData.total > 20 && (
         <div className="flex-center mt-30">
           <Pagination
             defaultCurrent={(router?.query?.page || 1) as number}
-            total={result.total}
+            total={listData.total}
             size="small"
             pageSize={20}
             hideOnSinglePage

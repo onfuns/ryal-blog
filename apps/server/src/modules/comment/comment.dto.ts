@@ -13,7 +13,7 @@ export class CommentCreateReqDto extends MixinCreateDto(Comment) {
   readonly content: string
 }
 
-export class CommentListReqDto extends MixinPageListReqDto(Comment) {
+export class CommentListReqDto extends MixinPageListReqDto(Comment, ['aid']) {
   @ApiPropertyOptional({ description: '文章标题' })
   readonly title?: string
 }

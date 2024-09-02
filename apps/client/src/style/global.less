@@ -1,3 +1,11 @@
+:root {
+  --primary-color: #ff502c;
+}
+
+body {
+  font-family: 'JetBrains Mono';
+}
+
 html,
 body,
 ul,
@@ -12,6 +20,10 @@ a {
   color: inherit;
   outline: none;
   text-decoration: none;
+
+  &:hover {
+    color: var(--primary-color);
+  }
 }
 
 ul li {
@@ -23,9 +35,6 @@ ul li {
   font-size: 14px;
 }
 
-:root {
-  --primary-color: #ff502c;
-}
-
 @import url('~@ryal/ui-kit/src/style/index.less');
+@import url('~@fontsource/jetbrains-mono/index.css');
 @import url('./uno.css');

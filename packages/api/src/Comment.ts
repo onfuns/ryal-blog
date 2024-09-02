@@ -70,15 +70,20 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetClientList
    * @request GET:/api/comment/list
    */
-  getClientList = (params: RequestParams = {}) =>
+  getClientList = (data: CommentListReqDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: CommentType
+        data?: {
+          data?: CommentType[]
+          total?: number
+        }
       },
       any
     >({
       path: `/api/comment/list`,
       method: 'GET',
+      body: data,
+      type: ContentType.Json,
       format: 'json',
       ...params,
     })

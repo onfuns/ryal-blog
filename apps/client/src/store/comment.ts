@@ -1,21 +1,23 @@
-import { commentService, type CommentCreateReqDtoType, type CommentType } from '@/service'
-import { type NonFunctionProperties } from '@/type'
-import { makeAutoObservable } from 'mobx'
+import {
+  commentService,
+  type CommentCreateReqDtoType,
+  type CommentListReqDtoType,
+  type CommentType,
+} from '@/service'
+import { makeObservable } from 'mobx'
+import { Base, type ResultListData } from './base'
 
-export class CommentStore {
-  result: { data: CommentType[]; total?: number } = { data: [], total: 0 }
+export class CommentStore extends Base<CommentStore> {
+  listData: ResultListData<CommentType> = { data: [], total: 0 }
 
   constructor() {
-    makeAutoObservable(this)
+    super()
+    makeObservable(this, {}, { autoBind: true })
   }
 
-  set(key: keyof NonFunctionProperties<CommentStore>, value: any) {
-    this[key] = value
-  }
-
-  async get() {
-    const { data } = await commentService.getClientList()
-    this.set('result', data || [])
+  async get(params: CommentListReqDtoType) {
+    const { data } = await commentService.getClientList(params)
+    this.setData('listData', data)
   }
 
   async add(params: CommentCreateReqDtoType) {

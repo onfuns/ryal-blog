@@ -32,7 +32,7 @@ export class AuthController {
   @ApiResult({ description: '删除权限' })
   @ApiParam({ name: 'id', type: 'number' })
   @Delete(':id')
-  async delete(@Body('id') id: Auth['id']) {
+  async delete(@Param('id') id: Auth['id']) {
     return this.service.delete(id)
   }
 }
