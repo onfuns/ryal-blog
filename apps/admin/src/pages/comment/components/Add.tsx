@@ -1,10 +1,15 @@
-import { commentService } from '@/service'
+import { commentService, type CommentType } from '@/service'
 import { ProForm, ProFormTextArea } from '@ant-design/pro-components'
 import { ModalForm } from '@ryal/ui-kit'
 import { message } from 'antd'
 import { useEffect } from 'react'
 
-export const CommentAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
+export const CommentAdd = ({
+  trigger,
+  onSuccess,
+  onCancel,
+  detail,
+}: IDetailModalProps<CommentType>) => {
   const [formInstance] = ProForm.useForm()
   const isEditMode = !!detail?.id
 

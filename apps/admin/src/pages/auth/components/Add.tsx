@@ -1,4 +1,4 @@
-import { AuthNodeTypeEnumType, authService } from '@/service'
+import { AuthNodeTypeEnumType, authService, type AuthType } from '@/service'
 import { arrayToTree } from '@/utils'
 import { ProForm, ProFormCascader, ProFormRadio, ProFormText } from '@ant-design/pro-components'
 import { ModalForm } from '@ryal/ui-kit'
@@ -7,7 +7,7 @@ import { message } from 'antd'
 import { useEffect } from 'react'
 import { AuthIdEnum, AuthNodeTypeMap } from '../enum'
 
-export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
+export const AuthAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps<AuthType>) => {
   const [formInstance] = ProForm.useForm()
   const { data } = useRequest(authService.getList)
   const authList = data?.data || []

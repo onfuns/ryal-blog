@@ -1,4 +1,4 @@
-import { roleService, userService, UserStatusEnumType } from '@/service'
+import { roleService, userService, UserStatusEnumType, type UserType } from '@/service'
 import { ProForm, ProFormRadio, ProFormSelect, ProFormText } from '@ant-design/pro-components'
 import { ModalForm } from '@ryal/ui-kit'
 import { message } from 'antd'
@@ -6,7 +6,7 @@ import CryptoJS from 'crypto-js'
 import { useEffect } from 'react'
 import { UserStatusMap } from '../enum'
 
-export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
+export const UserAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps<UserType>) => {
   const [formInstance] = ProForm.useForm()
   const isEditMode = !!detail?.id
 

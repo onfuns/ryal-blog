@@ -3,6 +3,7 @@ import {
   roleService,
   RoleStatusEnumType,
   type AuthCreateParamsDtoType,
+  type RoleType,
 } from '@/service'
 import { arrayToTree } from '@/utils'
 import { ProForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
@@ -13,7 +14,7 @@ import { cloneDeep } from 'lodash'
 import { useEffect, useState } from 'react'
 import { RoleStatusMap } from '../enum'
 
-export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
+export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps<RoleType>) => {
   const [formInstance] = ProForm.useForm()
   const [selectedKeys, setSelectedKeys] = useState<number[]>([])
   const { data } = useRequest(() => authService.getList())

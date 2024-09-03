@@ -1,4 +1,4 @@
-import { fileService } from '@/service'
+import { fileService, type FileType } from '@/service'
 import { CloseCircleFilled, InboxOutlined, PlusOutlined } from '@ant-design/icons'
 import {
   ProForm,
@@ -12,7 +12,7 @@ import { useRequest } from 'ahooks'
 import { Button, Divider, Space, UploadFile, UploadProps, message } from 'antd'
 import { useState } from 'react'
 
-export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps) => {
+export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps<FileType>) => {
   const [formInstance] = ProForm.useForm()
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [typeName, setTypeName] = useState<string | undefined>()

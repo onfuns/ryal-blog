@@ -1,10 +1,10 @@
-import { tagService } from '@/service'
+import { tagService, type TagType } from '@/service'
 import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
 import { ModalForm } from '@ryal/ui-kit'
 import { message } from 'antd'
 import { useEffect } from 'react'
 
-export const TagAdd = ({ trigger, onSuccess, onCancel, detail = {} }: IDetailModalProps) => {
+export const TagAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps<TagType>) => {
   const [formInstance] = ProForm.useForm()
   const isEditMode = !!detail?.id
 

@@ -4,15 +4,15 @@ type NonFunctionPropertyNames<T> = {
 
 type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>
 
-type IDetailModalProps = {
+type IDetailModalProps<DataType = any> = {
   /** 触发节点 dom */
-  trigger?: any
+  trigger?: React.ReactElement
   /** 取消事件 */
-  onCancel?: () => void
+  onCancel?: (args?: any) => void
   /** 成功回调 */
   onSuccess?: (args?: any) => void
   /** 详情信息 */
-  detail?: Record<string, any>
+  detail?: Record<string, any> & DataType
 }
 
 /** 拿出数组对象 */

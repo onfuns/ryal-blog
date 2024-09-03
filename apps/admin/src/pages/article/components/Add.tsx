@@ -25,7 +25,12 @@ import dayjs from 'dayjs'
 import { useEffect } from 'react'
 import { CatetoryIdEnum } from '../../category/enum'
 
-export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetailModalProps) => {
+export const ArticleAdd = ({
+  trigger,
+  onCancel,
+  onSuccess,
+  detail,
+}: IDetailModalProps<ArticleType>) => {
   const [editorValues, setEditorValues] = useSetState({ markdownContent: '', richTextContent: '' })
   const [formInstance] = ProForm.useForm<
     ArticleType & { categoryIds?: number[]; tagIds: number[] }
@@ -33,6 +38,7 @@ export const ArticleAdd = ({ trigger, onCancel, onSuccess, detail = {} }: IDetai
   const isEditMode = !!detail?.id
 
   const setFormData = async () => {
+    if (!detail?.id) return false
     const { data: article } = await articleService.info(detail.id)
     const { publish_time, category, tags, content, editor_type } = article
 

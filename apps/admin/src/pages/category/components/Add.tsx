@@ -1,11 +1,21 @@
-import { categoryService, CategoryStatusEnumType, CategoryTypeEnumType } from '@/service'
+import {
+  categoryService,
+  CategoryStatusEnumType,
+  CategoryTypeEnumType,
+  type CategoryType,
+} from '@/service'
 import { ProForm, ProFormCascader, ProFormRadio, ProFormText } from '@ant-design/pro-components'
 import { ModalForm } from '@ryal/ui-kit'
 import { message } from 'antd'
 import { useEffect } from 'react'
 import { CategoryStatusMap, CategoryTypeMap, CatetoryIdEnum } from '../enum'
 
-export const CategoryAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps) => {
+export const CategoryAdd = ({
+  trigger,
+  onSuccess,
+  onCancel,
+  detail,
+}: IDetailModalProps<CategoryType>) => {
   const [formInstance] = ProForm.useForm()
   const watchCategoryType = ProForm.useWatch('type', formInstance)
   const isEditMode = !!detail?.id
