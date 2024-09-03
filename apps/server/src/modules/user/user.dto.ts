@@ -1,9 +1,9 @@
-import { MixinCreateDto, MixinPageListReqDto } from '@/common/model/page.model'
+import { CreateParamsDto, PageListParamsDto } from '@/common/model/page.model'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { User } from './user.entity'
 
-export class UserCreateReqDto extends MixinCreateDto(User) {
+export class UserCreateReqDto extends CreateParamsDto(User) {
   @ApiProperty({ description: '名称' })
   @IsNotEmpty({ message: '名称不能为空' })
   readonly name: string
@@ -27,7 +27,7 @@ export class UserLoginResDto {
   readonly token: string
 }
 
-export class UserListReqDto extends MixinPageListReqDto(User, ['status']) {
+export class UserListReqDto extends PageListParamsDto(User, ['status']) {
   @ApiPropertyOptional({ description: '用户名' })
   readonly name?: string
 

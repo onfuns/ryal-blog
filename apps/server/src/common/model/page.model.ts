@@ -26,11 +26,11 @@ export class PageReqDto {
   pageSize?: number
 }
 
-export function MixinPageListReqDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
+export function PageListParamsDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
   return IntersectionType(PartialType(PageReqDto), PartialType(PickType(entity, keys || [])))
 }
 
-export function MixinCreateDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
+export function CreateParamsDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
   const defaultKeys = ['id', 'created_at', 'updated_at']
   return PartialType(OmitType(entity, [...(keys || []), ...defaultKeys] as []))
 }

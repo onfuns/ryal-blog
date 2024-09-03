@@ -1,10 +1,10 @@
 import { ApiProperty, ApiPropertyOptional, PickType } from '@nestjs/swagger'
 import { IsNotEmpty, IsOptional } from 'class-validator'
-import { MixinCreateDto, MixinPageListReqDto } from '../../common/model/page.model'
+import { CreateParamsDto, PageListParamsDto } from '../../common/model/page.model'
 import { Tag } from '../tag/tag.entity'
 import { Article } from './article.entity'
 
-export class ArticleCreateReqDto extends MixinCreateDto(Article, []) {
+export class ArticleCreateReqDto extends CreateParamsDto(Article, []) {
   @ApiProperty({ description: '文章标题' })
   @IsNotEmpty({ message: '标题不能为空' })
   readonly title: string
@@ -17,7 +17,7 @@ export class ArticleCreateReqDto extends MixinCreateDto(Article, []) {
   readonly tagIds: Pick<Tag, 'id'>[]
 }
 
-export class ArticleListReqDto extends MixinPageListReqDto(Article, [
+export class ArticleListReqDto extends PageListParamsDto(Article, [
   'sort',
   'title',
   'pass_status',
