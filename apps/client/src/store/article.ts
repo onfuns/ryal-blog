@@ -1,4 +1,4 @@
-import { articleService, type ArticleListReqDtoType, type ArticleType } from '@/service'
+import { articleService, type ArticleGetListParamsDtoType, type ArticleType } from '@/service'
 import { makeObservable } from 'mobx'
 import { Base, ResultItemData, type ResultListData } from './base'
 
@@ -11,7 +11,7 @@ export class ArticleStore extends Base<ArticleStore> {
     makeObservable(this, {}, { autoBind: true })
   }
 
-  async get(params: ArticleListReqDtoType) {
+  async get(params: ArticleGetListParamsDtoType) {
     const { data } = await articleService.getClientList(params)
     this.setData('listData', data)
     return this.listData

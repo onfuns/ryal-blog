@@ -4,7 +4,7 @@ import { ApiProperty, IntersectionType, OmitType, PartialType, PickType } from '
 import { Transform } from 'class-transformer'
 import { IsOptional } from 'class-validator'
 
-export class PageListResModel<TData = any> {
+export class PageListResultModel<TData = any> {
   /** 结果 */
   @ApiProperty({ description: '结果' })
   data: TData[]
@@ -14,7 +14,7 @@ export class PageListResModel<TData = any> {
   total: number
 }
 
-export class PageReqDto {
+export class PageParamsDto {
   @ApiProperty({ description: '页码' })
   @IsOptional()
   @Transform(({ value }) => transformToNumber(value))
@@ -27,7 +27,7 @@ export class PageReqDto {
 }
 
 export function PageListParamsDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
-  return IntersectionType(PartialType(PageReqDto), PartialType(PickType(entity, keys || [])))
+  return IntersectionType(PartialType(PageParamsDto), PartialType(PickType(entity, keys || [])))
 }
 
 export function CreateParamsDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {

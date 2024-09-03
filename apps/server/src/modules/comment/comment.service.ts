@@ -1,9 +1,9 @@
-import { PageListResModel } from '@/common/model/page.model'
+import { PageListResultModel } from '@/common/model/page.model'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { pickBy } from 'lodash'
 import { Like, Repository } from 'typeorm'
-import { CommentCreateReqDto, CommentListReqDto } from './comment.dto'
+import { CommentCreateParamsDto, CommentGetListParamsDto } from './comment.dto'
 import { Comment } from './comment.entity'
 import { CommentStatusEnum } from './enum'
 
@@ -14,11 +14,11 @@ export class CommentService {
     private readonly repository: Repository<Comment>,
   ) {}
 
-  async create(data: CommentCreateReqDto): Promise<Comment> {
+  async create(data: CommentCreateParamsDto): Promise<Comment> {
     return await this.repository.save(data)
   }
 
-  async getList(query?: CommentListReqDto): Promise<PageListResModel<Comment>> {
+  async getList(query?: CommentGetListParamsDto): Promise<PageListResultModel<Comment>> {
     const { current = 1, pageSize = 20, aid, title = '' } = query || {}
     const where = pickBy({ aid, status: CommentStatusEnum.Passed })
     const [data = [], total = 0] = await this.repository.findAndCount({
@@ -42,7 +42,7 @@ export class CommentService {
     return { data, total }
   }
 
-  async update(id: Comment['id'], body: CommentCreateReqDto): Promise<Comment> {
+  async update(id: Comment['id'], body: CommentCreateParamsDto): Promise<Comment> {
     const { raw } = await this.repository.update(id, body)
     return raw
   }

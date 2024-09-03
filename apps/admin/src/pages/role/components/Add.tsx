@@ -1,4 +1,9 @@
-import { authService, roleService, RoleStatusEnumType, type AuthCreateReqDtoType } from '@/service'
+import {
+  authService,
+  roleService,
+  RoleStatusEnumType,
+  type AuthCreateParamsDtoType,
+} from '@/service'
 import { arrayToTree } from '@/utils'
 import { ProForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
 import { DrawerForm } from '@ryal/ui-kit'
@@ -40,7 +45,7 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
       const ids = findAllParent(id)
       ids.forEach(id => resources.add(id))
     }
-    const params: AuthCreateReqDtoType = {
+    const params: AuthCreateParamsDtoType = {
       ...values,
       auths: [...resources].map(id => ({ id })),
     }

@@ -1,10 +1,10 @@
-import { PageListResModel } from '@/common/model/page.model'
+import { PageListResultModel } from '@/common/model/page.model'
 import { LoggerService } from '@/shared/logger/logger.service'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { pickBy } from 'lodash'
 import { Equal, Like, MoreThan, Repository } from 'typeorm'
-import { ArticleCreateReqDto, ArticleListReqDto } from './article.dto'
+import { ArticleCreateParamsDto, ArticleGetListParamsDto } from './article.dto'
 import { Article } from './article.entity'
 
 @Injectable()
@@ -15,7 +15,7 @@ export class ArticleService {
     private readonly repository: Repository<Article>,
   ) {}
 
-  async create(body: ArticleCreateReqDto): Promise<Article> {
+  async create(body: ArticleCreateParamsDto): Promise<Article> {
     const { tagIds, ...reset } = body
     reset.tags = tagIds as any[]
     return await this.repository.save(reset)
@@ -28,7 +28,7 @@ export class ArticleService {
     })
   }
 
-  async getList(body?: ArticleListReqDto): Promise<PageListResModel<Article>> {
+  async getList(body?: ArticleGetListParamsDto): Promise<PageListResultModel<Article>> {
     const { current = 1, pageSize = 20, sort, title, cid: category_id, pass_status } = body ?? {}
     const where = pickBy({
       title: title ? Like(`%${title}%`) : undefined,
@@ -47,7 +47,7 @@ export class ArticleService {
     return { data, total }
   }
 
-  async update(id: Article['id'], body: ArticleCreateReqDto): Promise<Article> {
+  async update(id: Article['id'], body: ArticleCreateParamsDto): Promise<Article> {
     const { tagIds, ...reset } = body
     const record = this.repository.create(reset)
     record.tags = tagIds as any[]

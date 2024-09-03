@@ -3,7 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { File } from './file.entity'
 
-export class FileCreateReqDto extends CreateParamsDto(File) {
+export class FileCreateParamsDto extends CreateParamsDto(File) {
   @ApiProperty({ description: '原名称' })
   @IsNotEmpty({ message: '原名称不能为空' })
   readonly originalname: string
@@ -17,7 +17,7 @@ export class FileCreateReqDto extends CreateParamsDto(File) {
   readonly buffer: Buffer
 }
 
-export class FileUploadReqDto {
+export class FileUploadParamsDto {
   @ApiProperty({ type: 'array', items: { type: 'string', format: 'binary' } })
   files: any[]
 
@@ -25,12 +25,12 @@ export class FileUploadReqDto {
   fileCategoryId: number
 }
 
-export class FileListReqDto extends PageListParamsDto(File) {
+export class FileGetListParamsDto extends PageListParamsDto(File) {
   @ApiPropertyOptional({ description: '分类 id' })
   fileCategoryId?: number
 }
 
-export class FileCategoryCreateReqDto {
+export class FileCategoryCreateParamsDto {
   @ApiProperty({ description: '名称' })
   @IsNotEmpty({ message: '名称不能为空' })
   readonly name: string

@@ -1,9 +1,9 @@
-import { PageListResModel } from '@/common/model/page.model'
+import { PageListResultModel } from '@/common/model/page.model'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { pickBy } from 'lodash'
 import { Like, Repository } from 'typeorm'
-import { TagCreateReqDto, TagListReqDto } from './tag.dto'
+import { TagCreateParamsDto, TagGetListParamsDto } from './tag.dto'
 import { Tag } from './tag.entity'
 
 @Injectable()
@@ -13,11 +13,11 @@ export class TagService {
     private readonly repository: Repository<Tag>,
   ) {}
 
-  async create(data: TagCreateReqDto): Promise<Tag> {
+  async create(data: TagCreateParamsDto): Promise<Tag> {
     return await this.repository.save(data)
   }
 
-  async getList(query?: TagListReqDto): Promise<PageListResModel<Tag>> {
+  async getList(query?: TagGetListParamsDto): Promise<PageListResultModel<Tag>> {
     const { current = 1, pageSize = 20, name } = query || {}
 
     const where = pickBy({
@@ -34,7 +34,7 @@ export class TagService {
     return { data, total }
   }
 
-  async update(id: Tag['id'], body: TagCreateReqDto): Promise<Tag> {
+  async update(id: Tag['id'], body: TagCreateParamsDto): Promise<Tag> {
     const { raw } = await this.repository.update(id, body)
     return raw
   }

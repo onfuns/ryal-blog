@@ -10,8 +10,8 @@
  */
 
 import {
-  CommentCreateReqDtoType,
-  CommentListReqDtoType,
+  CommentCreateParamsDtoType,
+  CommentGetListParamsDtoType,
   CommentType,
   ResponseResultType,
 } from './data-contracts'
@@ -25,7 +25,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetList
    * @request GET:/api/comment
    */
-  getList = (data: CommentListReqDtoType, params: RequestParams = {}) =>
+  getList = (data: CommentGetListParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -49,7 +49,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Add
    * @request POST:/api/comment
    */
-  add = (data: CommentCreateReqDtoType, params: RequestParams = {}) =>
+  add = (data: CommentCreateParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CommentType
@@ -70,7 +70,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetClientList
    * @request GET:/api/comment/list
    */
-  getClientList = (data: CommentListReqDtoType, params: RequestParams = {}) =>
+  getClientList = (data: CommentGetListParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -94,7 +94,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name AddForClient
    * @request POST:/api/comment/add
    */
-  addForClient = (data: CommentCreateReqDtoType, params: RequestParams = {}) =>
+  addForClient = (data: CommentCreateParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CommentType
@@ -115,7 +115,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Update
    * @request PUT:/api/comment/{id}
    */
-  update = (id: number, data: CommentCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: CommentCreateParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CommentType

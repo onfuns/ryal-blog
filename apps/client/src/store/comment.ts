@@ -1,7 +1,7 @@
 import {
   commentService,
-  type CommentCreateReqDtoType,
-  type CommentListReqDtoType,
+  type CommentCreateParamsDtoType,
+  type CommentGetListParamsDtoType,
   type CommentType,
 } from '@/service'
 import { makeObservable } from 'mobx'
@@ -15,12 +15,12 @@ export class CommentStore extends Base<CommentStore> {
     makeObservable(this, {}, { autoBind: true })
   }
 
-  async get(params: CommentListReqDtoType) {
+  async get(params: CommentGetListParamsDtoType) {
     const { data } = await commentService.getClientList(params)
     this.setData('listData', data)
   }
 
-  async add(params: CommentCreateReqDtoType) {
+  async add(params: CommentCreateParamsDtoType) {
     return await commentService.add(params)
   }
 }

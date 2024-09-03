@@ -3,13 +3,13 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { User } from './user.entity'
 
-export class UserCreateReqDto extends CreateParamsDto(User) {
+export class UserCreateParamsDto extends CreateParamsDto(User) {
   @ApiProperty({ description: '名称' })
   @IsNotEmpty({ message: '名称不能为空' })
   readonly name: string
 }
 
-export class UserLoginReqDto {
+export class UserLoginParamsDto {
   @ApiProperty({ description: '用户名' })
   @IsNotEmpty({ message: '用户名不能为空' })
   readonly name: string
@@ -19,7 +19,7 @@ export class UserLoginReqDto {
   readonly password: string
 }
 
-export class UserLoginResDto {
+export class UserLoginResultDto {
   @ApiProperty({ description: '用户名' })
   readonly userName: string
 
@@ -27,7 +27,7 @@ export class UserLoginResDto {
   readonly token: string
 }
 
-export class UserListReqDto extends PageListParamsDto(User, ['status']) {
+export class UserGetListParamsDto extends PageListParamsDto(User, ['status']) {
   @ApiPropertyOptional({ description: '用户名' })
   readonly name?: string
 

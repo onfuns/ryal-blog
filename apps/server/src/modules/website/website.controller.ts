@@ -2,7 +2,7 @@ import { ApiResult } from '@/decorator/api-result.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
 import { Body, Controller, Get, Inject, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { WebsiteCreateReqDto } from './website.dto'
+import { WebsiteCreateParamsDto } from './website.dto'
 import { Website } from './website.entity'
 import { WebsiteService } from './website.service'
 
@@ -26,7 +26,7 @@ export class WebsiteController {
 
   @ApiResult({ description: '更新配置', type: [Website] })
   @Post()
-  async update(@Body() body: WebsiteCreateReqDto) {
+  async update(@Body() body: WebsiteCreateParamsDto) {
     return this.service.update(body.list)
   }
 }

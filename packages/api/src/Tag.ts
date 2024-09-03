@@ -11,8 +11,8 @@
 
 import {
   ResponseResultType,
-  TagCreateReqDtoType,
-  TagListReqDtoType,
+  TagCreateParamsDtoType,
+  TagGetListParamsDtoType,
   TagType,
 } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
@@ -25,7 +25,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name GetList
    * @request GET:/api/tag
    */
-  getList = (data: TagListReqDtoType, params: RequestParams = {}) =>
+  getList = (data: TagGetListParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -49,7 +49,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name Add
    * @request POST:/api/tag
    */
-  add = (data: TagCreateReqDtoType, params: RequestParams = {}) =>
+  add = (data: TagCreateParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: TagType
@@ -70,7 +70,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name Update
    * @request PUT:/api/tag/{id}
    */
-  update = (id: number, data: TagCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: TagCreateParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: TagType

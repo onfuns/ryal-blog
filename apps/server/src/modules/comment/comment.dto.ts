@@ -3,7 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { Comment } from './comment.entity'
 
-export class CommentCreateReqDto extends CreateParamsDto(Comment) {
+export class CommentCreateParamsDto extends CreateParamsDto(Comment) {
   @ApiProperty({ description: '昵称' })
   @IsNotEmpty({ message: '昵称不能为空' })
   readonly name: string
@@ -13,7 +13,7 @@ export class CommentCreateReqDto extends CreateParamsDto(Comment) {
   readonly content: string
 }
 
-export class CommentListReqDto extends PageListParamsDto(Comment, ['aid']) {
+export class CommentGetListParamsDto extends PageListParamsDto(Comment, ['aid']) {
   @ApiPropertyOptional({ description: '文章标题' })
   readonly title?: string
 }

@@ -10,7 +10,7 @@
  */
 
 import {
-  CategoryCreateReqDtoType,
+  CategoryCreateParamsDtoType,
   CategoryListItemDtoType,
   CategoryType,
   ResponseResultType,
@@ -44,7 +44,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
    * @name Add
    * @request POST:/api/category
    */
-  add = (data: CategoryCreateReqDtoType, params: RequestParams = {}) =>
+  add = (data: CategoryCreateParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CategoryType
@@ -84,7 +84,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
    * @name Update
    * @request PUT:/api/category/{id}
    */
-  update = (id: number, data: CategoryCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: CategoryCreateParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CategoryType

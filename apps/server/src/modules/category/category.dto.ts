@@ -3,7 +3,7 @@ import { IsNotEmpty } from 'class-validator'
 import { CreateParamsDto } from '../../common/model/page.model'
 import { Category } from './category.entity'
 
-export class CategoryCreateReqDto extends CreateParamsDto(Category) {
+export class CategoryCreateParamsDto extends CreateParamsDto(Category) {
   @ApiProperty({ description: '分类名称' })
   @IsNotEmpty({ message: '名称不能为空' })
   readonly name: string

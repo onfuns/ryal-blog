@@ -5,7 +5,12 @@ import { IP } from '@/decorator/ip.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
 import { ApiParam, ApiTags } from '@nestjs/swagger'
-import { UserCreateReqDto, UserListReqDto, UserLoginReqDto, UserLoginResDto } from './user.dto'
+import {
+  UserCreateParamsDto,
+  UserGetListParamsDto,
+  UserLoginParamsDto,
+  UserLoginResultDto,
+} from './user.dto'
 import { User } from './user.entity'
 import { UserService } from './user.service'
 
@@ -18,9 +23,9 @@ export class UserController {
   @Post('login')
   @NoPermission()
   async login(
-    @Body() body: UserLoginReqDto,
+    @Body() body: UserLoginParamsDto,
     @IP() cleintIp: string,
-  ): Promise<UserLoginResDto | ResponseResult> {
+  ): Promise<UserLoginResultDto | ResponseResult> {
     const { name, password } = body
     const data: User = await this.service.login({ name, password })
     if (!data) {
@@ -40,20 +45,20 @@ export class UserController {
 
   @ApiResult({ description: '获取用户列表', type: [User], page: true })
   @Get()
-  async getList(@Body() body: UserListReqDto) {
+  async getList(@Body() body: UserGetListParamsDto) {
     return this.service.getList(body)
   }
 
   @ApiResult({ description: '新增用户', type: User })
   @Post()
-  async add(@Body() body: UserCreateReqDto) {
+  async add(@Body() body: UserCreateParamsDto) {
     return this.service.create(body)
   }
 
   @ApiResult({ description: '更新用户', type: User })
   @ApiParam({ name: 'id', type: 'number' })
   @Put(':id')
-  async update(@Param('id') id: User['id'], @Body() body: UserCreateReqDto) {
+  async update(@Param('id') id: User['id'], @Body() body: UserCreateParamsDto) {
     return this.service.update(id, body)
   }
 

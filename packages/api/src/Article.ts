@@ -10,8 +10,8 @@
  */
 
 import {
-  ArticleCreateReqDtoType,
-  ArticleListReqDtoType,
+  ArticleCreateParamsDtoType,
+  ArticleGetListParamsDtoType,
   ArticleType,
   ResponseResultType,
 } from './data-contracts'
@@ -25,7 +25,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetList
    * @request GET:/api/article
    */
-  getList = (data: ArticleListReqDtoType, params: RequestParams = {}) =>
+  getList = (data: ArticleGetListParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -49,7 +49,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Add
    * @request POST:/api/article
    */
-  add = (data: ArticleCreateReqDtoType, params: RequestParams = {}) =>
+  add = (data: ArticleCreateParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: ArticleType
@@ -70,7 +70,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetClientList
    * @request GET:/api/article/list
    */
-  getClientList = (data: ArticleListReqDtoType, params: RequestParams = {}) =>
+  getClientList = (data: ArticleGetListParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -94,7 +94,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Update
    * @request PUT:/api/article/{id}
    */
-  update = (id: string, data: ArticleCreateReqDtoType, params: RequestParams = {}) =>
+  update = (id: string, data: ArticleCreateParamsDtoType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: ArticleType
