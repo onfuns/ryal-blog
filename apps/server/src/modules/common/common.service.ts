@@ -2,7 +2,7 @@ import { ArticleService } from '@/modules/article/article.service'
 import { CommentService } from '@/modules/comment/comment.service'
 import { UserService } from '@/modules/user/user.service'
 import { Injectable } from '@nestjs/common'
-import { DashboardDataResultDto } from './common.dto'
+import { DashboardDataResult } from './common.dto'
 
 @Injectable()
 export class CommonService {
@@ -12,7 +12,7 @@ export class CommonService {
     private readonly userService: UserService,
   ) {}
 
-  async findDashboardData(token: string): Promise<DashboardDataResultDto> {
+  async findDashboardData(token: string): Promise<DashboardDataResult> {
     const defaultPage = { current: 1, pageSize: 10 }
     const article = await this.articleService.getList(defaultPage)
     const comment = await this.commentService.getList(defaultPage)

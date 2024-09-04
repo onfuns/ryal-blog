@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import * as jwt from 'jsonwebtoken'
 import { pickBy } from 'lodash'
 import { Like, Repository } from 'typeorm'
-import { UserCreateParamsDto, UserGetListParamsDto, UserLoginParamsDto } from './user.dto'
+import { UserCreateParams, UserGetListParams, UserLoginParams } from './user.dto'
 import { User } from './user.entity'
 
 @Injectable()
@@ -13,7 +13,7 @@ export class UserService {
   @InjectRepository(User) private readonly repository: Repository<User>
   constructor() {}
 
-  async login({ name, password }: UserLoginParamsDto) {
+  async login({ name, password }: UserLoginParams) {
     return await this.repository.findOne({
       where: { name, password },
     })
@@ -42,14 +42,14 @@ export class UserService {
     return false
   }
 
-  async create(body: UserCreateParamsDto): Promise<User> {
+  async create(body: UserCreateParams): Promise<User> {
     const { roles, ...others } = body
     const record = this.repository.create(others)
     record.roles = roles
     return await this.repository.save(record)
   }
 
-  async getList(query?: UserGetListParamsDto): Promise<PageListResultModel<User>> {
+  async getList(query?: UserGetListParams): Promise<PageListResultModel<User>> {
     const { current = 1, pageSize = 20, name, roleId, status } = query || {}
 
     const where = pickBy({
@@ -82,7 +82,7 @@ export class UserService {
     return data
   }
 
-  async update(id: number, body: UserCreateParamsDto): Promise<User> {
+  async update(id: number, body: UserCreateParams): Promise<User> {
     const record = this.repository.create(body)
     record.id = id
     return await this.repository.save(record)

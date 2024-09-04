@@ -1,7 +1,7 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
 import { ApiParam, ApiTags } from '@nestjs/swagger'
-import { AuthCreateParamsDto } from './auth.dto'
+import { AuthCreateParams } from './auth.dto'
 import { Auth } from './auth.entity'
 import { AuthService } from './auth.service'
 
@@ -18,14 +18,14 @@ export class AuthController {
 
   @ApiResult({ description: '创建权限', type: Auth })
   @Post()
-  async add(@Body() body: AuthCreateParamsDto) {
+  async add(@Body() body: AuthCreateParams) {
     return this.service.create(body)
   }
 
   @ApiResult({ description: '更新权限', type: Auth })
   @ApiParam({ name: 'id', type: 'number' })
   @Put(':id')
-  async update(@Param('id') id: Auth['id'], @Body() body: AuthCreateParamsDto) {
+  async update(@Param('id') id: Auth['id'], @Body() body: AuthCreateParams) {
     return this.service.update(id, body)
   }
 

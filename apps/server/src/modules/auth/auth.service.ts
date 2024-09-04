@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { AuthCreateParamsDto } from './auth.dto'
+import { AuthCreateParams } from './auth.dto'
 import { Auth } from './auth.entity'
 
 @Injectable()
@@ -11,7 +11,7 @@ export class AuthService {
     private readonly repository: Repository<Auth>,
   ) {}
 
-  async create(data: AuthCreateParamsDto): Promise<Auth> {
+  async create(data: AuthCreateParams): Promise<Auth> {
     return await this.repository.save(data)
   }
 
@@ -23,7 +23,7 @@ export class AuthService {
     })
   }
 
-  async update(id: Auth['id'], body: AuthCreateParamsDto): Promise<Auth> {
+  async update(id: Auth['id'], body: AuthCreateParams): Promise<Auth> {
     const { raw } = await this.repository.update(id, body)
     return raw
   }

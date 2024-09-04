@@ -11,7 +11,7 @@
 
 import {
   ResponseResultType,
-  RoleCreateParamsDtoType,
+  RoleCreateParamsType,
   RoleStatusEnumType,
   RoleType,
 } from './data-contracts'
@@ -60,7 +60,7 @@ export class Role<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Add
    * @request POST:/api/role
    */
-  add = (data: RoleCreateParamsDtoType, params: RequestParams = {}) =>
+  add = (data: RoleCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: RoleType
@@ -81,7 +81,7 @@ export class Role<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Update
    * @request PUT:/api/role/{id}
    */
-  update = (id: number, data: RoleCreateParamsDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: RoleCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: RoleType

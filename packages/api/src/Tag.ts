@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { ResponseResultType, TagCreateParamsDtoType, TagType } from './data-contracts'
+import { ResponseResultType, TagCreateParamsType, TagType } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -53,7 +53,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name Add
    * @request POST:/api/tag
    */
-  add = (data: TagCreateParamsDtoType, params: RequestParams = {}) =>
+  add = (data: TagCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: TagType
@@ -74,7 +74,7 @@ export class Tag<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @name Update
    * @request PUT:/api/tag/{id}
    */
-  update = (id: number, data: TagCreateParamsDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: TagCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: TagType

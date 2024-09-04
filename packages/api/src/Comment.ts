@@ -10,8 +10,8 @@
  */
 
 import {
-  CommentCreateParamsDtoType,
-  CommentGetListParamsDtoType,
+  CommentCreateParamsType,
+  CommentGetListParamsType,
   CommentType,
   ResponseResultType,
 } from './data-contracts'
@@ -60,7 +60,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Add
    * @request POST:/api/comment
    */
-  add = (data: CommentCreateParamsDtoType, params: RequestParams = {}) =>
+  add = (data: CommentCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CommentType
@@ -81,7 +81,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetClientList
    * @request GET:/api/comment/list
    */
-  getClientList = (data: CommentGetListParamsDtoType, params: RequestParams = {}) =>
+  getClientList = (data: CommentGetListParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -105,7 +105,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name AddForClient
    * @request POST:/api/comment/add
    */
-  addForClient = (data: CommentCreateParamsDtoType, params: RequestParams = {}) =>
+  addForClient = (data: CommentCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CommentType
@@ -126,7 +126,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Update
    * @request PUT:/api/comment/{id}
    */
-  update = (id: number, data: CommentCreateParamsDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: CommentCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CommentType

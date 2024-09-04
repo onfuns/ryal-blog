@@ -7,7 +7,7 @@ import { pickBy } from 'lodash'
 import { join } from 'path'
 import { Like, Repository } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
-import { FileCreateParamsDto, FileGetListParamsDto } from './file.dto'
+import { FileCreateParams, FileGetListParams } from './file.dto'
 import { File, FileCategory } from './file.entity'
 
 @Injectable()
@@ -17,7 +17,7 @@ export class FileService {
   @InjectRepository(FileCategory)
   private readonly fileCategoryRepository: Repository<FileCategory>
 
-  async getList(query: FileGetListParamsDto): Promise<PageListResultModel<File>> {
+  async getList(query: FileGetListParams): Promise<PageListResultModel<File>> {
     const { current = 1, pageSize = 20, fileCategoryId, originalname } = query ?? {}
 
     const where: Partial<File> = pickBy({
@@ -47,10 +47,7 @@ export class FileService {
     return this.fileCategoryRepository.save({ name })
   }
 
-  async upload(
-    files: FileCreateParamsDto[],
-    fileCategoryId?: FileCategory['id'],
-  ): Promise<boolean> {
+  async upload(files: FileCreateParams[], fileCategoryId?: FileCategory['id']): Promise<boolean> {
     const date = dayjs().format('YYYYMMDD')
     const filePath = join('uploads', date)
     const dir = join(__dirname, '../../../', filePath)

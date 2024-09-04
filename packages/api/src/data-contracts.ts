@@ -153,7 +153,7 @@ export interface PickTypeClassType {
   id: number
 }
 
-export interface ArticleCreateParamsDtoType {
+export interface ArticleCreateParamsType {
   /** 分类 */
   category?: CategoryType
   /** 分类ID */
@@ -185,14 +185,14 @@ export interface ArticleCreateParamsDtoType {
   tagIds?: PickTypeClassType[]
 }
 
-export interface TagCreateParamsDtoType {
+export interface TagCreateParamsType {
   /** 名称 */
   name?: string
   /** 描述 */
   description?: string
 }
 
-export interface CategoryListItemDtoType {
+export interface CategoryListItemType {
   /** 创建时间 */
   created_at: string
   /** 更新时间 */
@@ -227,7 +227,7 @@ export interface CategoryListItemDtoType {
   children: string[]
 }
 
-export interface CategoryCreateParamsDtoType {
+export interface CategoryCreateParamsType {
   /** 分类名称 */
   name?: string
   /** 分类路由 */
@@ -350,14 +350,14 @@ export interface UserType {
   last_login_at: string
 }
 
-export interface UserLoginParamsDtoType {
+export interface UserLoginParamsType {
   /** 用户名 */
   name: string
   /** 密码 */
   password: string
 }
 
-export interface UserCreateParamsDtoType {
+export interface UserCreateParamsType {
   /** 名称 */
   name?: string
   /** 密码 */
@@ -374,7 +374,7 @@ export interface UserCreateParamsDtoType {
   last_login_at?: string
 }
 
-export interface RoleCreateParamsDtoType {
+export interface RoleCreateParamsType {
   /** 名称 */
   name?: string
   /** 描述 */
@@ -385,7 +385,7 @@ export interface RoleCreateParamsDtoType {
   status?: RoleStatusEnumType
 }
 
-export interface AuthCreateParamsDtoType {
+export interface AuthCreateParamsType {
   /** 权限名称 */
   name?: string
   /** 权限编码 */
@@ -431,7 +431,7 @@ export interface CommentType {
   status: CommentStatusEnumType
 }
 
-export interface CommentGetListParamsDtoType {
+export interface CommentGetListParamsType {
   /** 页码 */
   current?: number
   /** 条数 */
@@ -442,7 +442,7 @@ export interface CommentGetListParamsDtoType {
   title?: string
 }
 
-export interface CommentCreateParamsDtoType {
+export interface CommentCreateParamsType {
   /** 昵称 */
   name?: string
   /** 内容 */
@@ -473,7 +473,7 @@ export interface DashboardDataCommentListResultType {
   total: number
 }
 
-export interface DashboardDataResultDtoType {
+export interface DashboardDataResultType {
   /** 文章列表 */
   article: DashboardDataArticleListResultType
   /** 评论列表 */
@@ -514,13 +514,13 @@ export interface FileType {
   ext: string
 }
 
-export interface FileUploadParamsDtoType {
+export interface FileUploadParamsType {
   files: File[]
   /** 文件分类 */
   fileCategoryId?: number
 }
 
-export interface FileCategoryCreateParamsDtoType {
+export interface FileCategoryCreateParamsType {
   /** 名称 */
   name: string
 }
@@ -538,14 +538,14 @@ export interface WebsiteType {
   value: string
 }
 
-export interface WebsiteCreateItemDtoType {
+export interface WebsiteCreateItemType {
   /** 名称 */
   name?: string
   /** 值 */
   value?: string
 }
 
-export interface WebsiteCreateParamsDtoType {
+export interface WebsiteCreateParamsType {
   /** 全局配置列表 */
-  list: WebsiteCreateItemDtoType[]
+  list: WebsiteCreateItemType[]
 }

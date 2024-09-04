@@ -14,7 +14,7 @@ class DashboardDataCommentListResult extends PageListResultModel {
   data: Comment[]
 }
 
-export class DashboardDataResultDto {
+export class DashboardDataResult {
   @ApiProperty({ description: '文章列表', type: DashboardDataArticleListResult })
   readonly article: PageListResultModel<Article>
 

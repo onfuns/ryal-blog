@@ -1,4 +1,4 @@
-import { commentService, type CommentCreateParamsDtoType, type CommentType } from '@/service'
+import { commentService, type CommentCreateParamsType, type CommentType } from '@/service'
 import { makeObservable } from 'mobx'
 import { Base, type ResultListData } from './base'
 
@@ -15,7 +15,7 @@ export class CommentStore extends Base<CommentStore> {
     this.setData('listData', data)
   }
 
-  async add(params: CommentCreateParamsDtoType) {
+  async add(params: CommentCreateParamsType) {
     return await commentService.add(params)
   }
 }

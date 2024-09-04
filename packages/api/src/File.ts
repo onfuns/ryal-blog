@@ -10,10 +10,10 @@
  */
 
 import {
-  FileCategoryCreateParamsDtoType,
+  FileCategoryCreateParamsType,
   FileCategoryType,
   FileType,
-  FileUploadParamsDtoType,
+  FileUploadParamsType,
   ResponseResultType,
 } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
@@ -79,7 +79,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Upload
    * @request POST:/api/file/upload
    */
-  upload = (data: FileUploadParamsDtoType, params: RequestParams = {}) =>
+  upload = (data: FileUploadParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         /** @default null */
@@ -120,7 +120,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name AddFileCategory
    * @request POST:/api/file/category
    */
-  addFileCategory = (data: FileCategoryCreateParamsDtoType, params: RequestParams = {}) =>
+  addFileCategory = (data: FileCategoryCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: FileCategoryType

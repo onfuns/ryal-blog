@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { ResponseResultType, WebsiteCreateParamsDtoType, WebsiteType } from './data-contracts'
+import { ResponseResultType, WebsiteCreateParamsType, WebsiteType } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Website<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -39,7 +39,7 @@ export class Website<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Update
    * @request POST:/api/website
    */
-  update = (data: WebsiteCreateParamsDtoType, params: RequestParams = {}) =>
+  update = (data: WebsiteCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: WebsiteType[]

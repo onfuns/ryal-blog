@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { WebsiteCreateItemDto } from './website.dto'
+import { WebsiteCreateItem } from './website.dto'
 import { Website } from './website.entity'
 
 @Injectable()
@@ -13,7 +13,7 @@ export class WebsiteService {
     return this.repository.find()
   }
 
-  async update(data: WebsiteCreateItemDto[]) {
+  async update(data: WebsiteCreateItem[]) {
     return this.repository.save(data)
   }
 }

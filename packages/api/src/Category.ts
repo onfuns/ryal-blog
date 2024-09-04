@@ -10,8 +10,8 @@
  */
 
 import {
-  CategoryCreateParamsDtoType,
-  CategoryListItemDtoType,
+  CategoryCreateParamsType,
+  CategoryListItemType,
   CategoryType,
   ResponseResultType,
 } from './data-contracts'
@@ -28,7 +28,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
   getList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: CategoryListItemDtoType[]
+        data?: CategoryListItemType[]
       },
       any
     >({
@@ -44,7 +44,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
    * @name Add
    * @request POST:/api/category
    */
-  add = (data: CategoryCreateParamsDtoType, params: RequestParams = {}) =>
+  add = (data: CategoryCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CategoryType
@@ -68,7 +68,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
   getClientList = (params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
-        data?: CategoryListItemDtoType[]
+        data?: CategoryListItemType[]
       },
       any
     >({
@@ -84,7 +84,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
    * @name Update
    * @request PUT:/api/category/{id}
    */
-  update = (id: number, data: CategoryCreateParamsDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: CategoryCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: CategoryType

@@ -1,9 +1,9 @@
-import { categoryService, type CategoryListItemDtoType } from '@/service'
+import { categoryService, type CategoryListItemType } from '@/service'
 import { makeObservable } from 'mobx'
 import { Base, type ResultListData } from './base'
 
 export class CategoryStore extends Base<CategoryStore> {
-  listData: ResultListData<CategoryListItemDtoType>['data'] = []
+  listData: ResultListData<CategoryListItemType>['data'] = []
 
   constructor() {
     super()

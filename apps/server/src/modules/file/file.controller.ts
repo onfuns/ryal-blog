@@ -15,10 +15,10 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express'
 import { ApiBody, ApiConsumes, ApiParam, ApiTags } from '@nestjs/swagger'
 import {
-  FileCategoryCreateParamsDto,
-  FileCreateParamsDto,
-  FileGetListParamsDto,
-  FileUploadParamsDto,
+  FileCategoryCreateParams,
+  FileCreateParams,
+  FileGetListParams,
+  FileUploadParams,
 } from './file.dto'
 import { File, FileCategory } from './file.entity'
 import { FileService } from './file.service'
@@ -30,7 +30,7 @@ export class FileController {
 
   @ApiResult({ description: '获取文件列表', type: [File], page: true })
   @Get()
-  async getList(@Query() query: FileGetListParamsDto) {
+  async getList(@Query() query: FileGetListParams) {
     return this.service.getList(query)
   }
 
@@ -47,9 +47,9 @@ export class FileController {
   @UseInterceptors(FilesInterceptor('files'))
   @ApiBody({
     description: '上传文件参数',
-    type: FileUploadParamsDto,
+    type: FileUploadParams,
   })
-  upload(@UploadedFiles() files: FileCreateParamsDto[], @Body() body: FileUploadParamsDto) {
+  upload(@UploadedFiles() files: FileCreateParams[], @Body() body: FileUploadParams) {
     const { fileCategoryId } = body
     if (files.length > 5) {
       return new ResponseResult(false, null, '一次最多上传5张图片')
@@ -67,7 +67,7 @@ export class FileController {
 
   @ApiResult({ description: '新增文件分类', type: FileCategory })
   @Post('category')
-  async addFileCategory(@Body() body: FileCategoryCreateParamsDto) {
+  async addFileCategory(@Body() body: FileCategoryCreateParams) {
     return this.service.addFileCategory(body.name)
   }
 }

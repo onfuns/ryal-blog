@@ -11,8 +11,8 @@
 
 import {
   ResponseResultType,
-  UserCreateParamsDtoType,
-  UserLoginParamsDtoType,
+  UserCreateParamsType,
+  UserLoginParamsType,
   UserStatusEnumType,
   UserType,
 } from './data-contracts'
@@ -26,7 +26,7 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Login
    * @request POST:/api/user/login
    */
-  login = (data: UserLoginParamsDtoType, params: RequestParams = {}) =>
+  login = (data: UserLoginParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: UserType
@@ -84,7 +84,7 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Add
    * @request POST:/api/user
    */
-  add = (data: UserCreateParamsDtoType, params: RequestParams = {}) =>
+  add = (data: UserCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: UserType
@@ -105,7 +105,7 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Update
    * @request PUT:/api/user/{id}
    */
-  update = (id: number, data: UserCreateParamsDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: UserCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: UserType

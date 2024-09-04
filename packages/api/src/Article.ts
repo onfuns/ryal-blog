@@ -10,7 +10,7 @@
  */
 
 import {
-  ArticleCreateParamsDtoType,
+  ArticleCreateParamsType,
   ArticlePassStatusEnumType,
   ArticleType,
   ResponseResultType,
@@ -64,7 +64,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Add
    * @request POST:/api/article
    */
-  add = (data: ArticleCreateParamsDtoType, params: RequestParams = {}) =>
+  add = (data: ArticleCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: ArticleType
@@ -124,7 +124,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name Update
    * @request PUT:/api/article/{id}
    */
-  update = (id: string, data: ArticleCreateParamsDtoType, params: RequestParams = {}) =>
+  update = (id: string, data: ArticleCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: ArticleType

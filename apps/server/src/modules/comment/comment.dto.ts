@@ -1,9 +1,9 @@
-import { CreateParamsDto, PageListParamsDto } from '@/common/model/page.model'
+import { CreateParams, PageListParams } from '@/common/model/page.model'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { Comment } from './comment.entity'
 
-export class CommentCreateParamsDto extends CreateParamsDto(Comment) {
+export class CommentCreateParams extends CreateParams(Comment) {
   @ApiProperty({ description: '昵称' })
   @IsNotEmpty({ message: '昵称不能为空' })
   readonly name: string
@@ -13,7 +13,7 @@ export class CommentCreateParamsDto extends CreateParamsDto(Comment) {
   readonly content: string
 }
 
-export class CommentGetListParamsDto extends PageListParamsDto(Comment, ['aid']) {
+export class CommentGetListParams extends PageListParams(Comment, ['aid']) {
   @ApiPropertyOptional({ description: '文章标题' })
   readonly title?: string
 }

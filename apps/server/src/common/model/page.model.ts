@@ -14,7 +14,7 @@ export class PageListResultModel<TData = any> {
   total: number
 }
 
-export class PageParamsDto {
+export class PageParams {
   @ApiProperty({ description: '页码' })
   @IsOptional()
   @Transform(({ value }) => transformToNumber(value))
@@ -26,11 +26,11 @@ export class PageParamsDto {
   pageSize?: number
 }
 
-export function PageListParamsDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
-  return IntersectionType(PartialType(PageParamsDto), PartialType(PickType(entity, keys || [])))
+export function PageListParams<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
+  return IntersectionType(PartialType(PageParams), PartialType(PickType(entity, keys || [])))
 }
 
-export function CreateParamsDto<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
+export function CreateParams<T, K extends keyof T>(entity: Type<T>, keys?: K[]) {
   const defaultKeys = ['id', 'created_at', 'updated_at']
   return PartialType(OmitType(entity, [...(keys || []), ...defaultKeys] as []))
 }

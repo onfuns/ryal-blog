@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { pickBy } from 'lodash'
 import { Like, Repository } from 'typeorm'
-import { RoleCreateParamsDto, RoleGetListParamsDto } from './role.dto'
+import { RoleCreateParams, RoleGetListParams } from './role.dto'
 import { Role } from './role.entity'
 
 @Injectable()
@@ -13,12 +13,12 @@ export class RoleService {
     private readonly repository: Repository<Role>,
   ) {}
 
-  async create(body: RoleCreateParamsDto): Promise<Role> {
+  async create(body: RoleCreateParams): Promise<Role> {
     const record = this.repository.create(body)
     return await this.repository.save(record)
   }
 
-  async getList(query?: RoleGetListParamsDto): Promise<PageListResultModel<Role>> {
+  async getList(query?: RoleGetListParams): Promise<PageListResultModel<Role>> {
     const { current = 1, pageSize = 20, name, status } = query || {}
 
     const where = pickBy({
@@ -42,7 +42,7 @@ export class RoleService {
     return { data, total }
   }
 
-  async update(id: Role['id'], body: RoleCreateParamsDto): Promise<Role> {
+  async update(id: Role['id'], body: RoleCreateParams): Promise<Role> {
     const record = this.repository.create(body)
     record.id = id
     return await this.repository.save(record)

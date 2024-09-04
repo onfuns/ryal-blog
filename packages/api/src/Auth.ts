@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { AuthCreateParamsDtoType, AuthType, ResponseResultType } from './data-contracts'
+import { AuthCreateParamsType, AuthType, ResponseResultType } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
 
 export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -39,7 +39,7 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Add
    * @request POST:/api/auth
    */
-  add = (data: AuthCreateParamsDtoType, params: RequestParams = {}) =>
+  add = (data: AuthCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: AuthType
@@ -60,7 +60,7 @@ export class Auth<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name Update
    * @request PUT:/api/auth/{id}
    */
-  update = (id: number, data: AuthCreateParamsDtoType, params: RequestParams = {}) =>
+  update = (id: number, data: AuthCreateParamsType, params: RequestParams = {}) =>
     this.request<
       ResponseResultType & {
         data?: AuthType

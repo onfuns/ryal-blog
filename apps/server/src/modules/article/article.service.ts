@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { pickBy } from 'lodash'
 import { Equal, Like, MoreThan, Repository } from 'typeorm'
-import { ArticleCreateParamsDto, ArticleGetListParamsDto } from './article.dto'
+import { ArticleCreateParams, ArticleGetListParams } from './article.dto'
 import { Article } from './article.entity'
 
 @Injectable()
@@ -15,7 +15,7 @@ export class ArticleService {
     private readonly repository: Repository<Article>,
   ) {}
 
-  async create(body: ArticleCreateParamsDto): Promise<Article> {
+  async create(body: ArticleCreateParams): Promise<Article> {
     const { tagIds, ...reset } = body
     reset.tags = tagIds as any[]
     return await this.repository.save(reset)
@@ -28,7 +28,7 @@ export class ArticleService {
     })
   }
 
-  async getList(query?: ArticleGetListParamsDto): Promise<PageListResultModel<Article>> {
+  async getList(query?: ArticleGetListParams): Promise<PageListResultModel<Article>> {
     const { current = 1, pageSize = 20, sort, title, cid: category_id, pass_status } = query ?? {}
     const where = pickBy({
       title: title ? Like(`%${title}%`) : undefined,
@@ -47,7 +47,7 @@ export class ArticleService {
     return { data, total }
   }
 
-  async update(id: Article['id'], body: ArticleCreateParamsDto): Promise<Article> {
+  async update(id: Article['id'], body: ArticleCreateParams): Promise<Article> {
     const { tagIds, ...reset } = body
     const record = this.repository.create(reset)
     record.tags = tagIds as any[]

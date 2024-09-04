@@ -1,4 +1,4 @@
-import { CategoryListItemDtoType, CategoryTypeEnumType, categoryService } from '@/service'
+import { CategoryListItemType, CategoryTypeEnumType, categoryService } from '@/service'
 import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, Tag, message } from 'antd'
 import { useRef } from 'react'
@@ -9,7 +9,7 @@ const CategoryPage = () => {
   const actionRef = useRef<TableActionType>()
   const refresh = () => actionRef?.current?.reload()
 
-  const onAction = async (type: 'delete', { id }: CategoryListItemDtoType) => {
+  const onAction = async (type: 'delete', { id }: CategoryListItemType) => {
     switch (type) {
       case 'delete':
         await categoryService.delete(id)
@@ -21,7 +21,7 @@ const CategoryPage = () => {
     refresh()
   }
 
-  const columns: TableColumns<CategoryListItemDtoType>[] = [
+  const columns: TableColumns<CategoryListItemType>[] = [
     {
       title: '名称',
       dataIndex: 'name',
@@ -68,7 +68,7 @@ const CategoryPage = () => {
   ]
 
   return (
-    <Table<CategoryListItemDtoType>
+    <Table<CategoryListItemType>
       actionRef={actionRef}
       columns={columns}
       search={false}

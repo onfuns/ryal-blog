@@ -2,7 +2,7 @@ import {
   authService,
   roleService,
   RoleStatusEnumType,
-  type AuthCreateParamsDtoType,
+  type AuthCreateParamsType,
   type RoleType,
 } from '@/service'
 import { arrayToTree } from '@/utils'
@@ -46,7 +46,7 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
       const ids = findAllParent(id)
       ids.forEach(id => resources.add(id))
     }
-    const params: AuthCreateParamsDtoType = {
+    const params: AuthCreateParamsType = {
       ...values,
       auths: [...resources].map(id => ({ id })),
     }
