@@ -4,18 +4,14 @@ import {
   CategoryTypeEnumType,
   type CategoryType,
 } from '@/service'
+import { IDetailModalProps } from '@/type'
 import { ProForm, ProFormCascader, ProFormRadio, ProFormText } from '@ant-design/pro-components'
-import { ModalForm } from '@ryal/ui-kit'
+import { ModalForm, TriggerModal } from '@ryal/ui-kit'
 import { message } from 'antd'
 import { useEffect } from 'react'
 import { CategoryStatusMap, CategoryTypeMap, CatetoryIdEnum } from '../enum'
 
-export const CategoryAdd = ({
-  trigger,
-  onSuccess,
-  onCancel,
-  detail,
-}: IDetailModalProps<CategoryType>) => {
+export const CategoryAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<CategoryType>) => {
   const [formInstance] = ProForm.useForm()
   const watchCategoryType = ProForm.useWatch('type', formInstance)
   const isEditMode = !!detail?.id
@@ -41,7 +37,7 @@ export const CategoryAdd = ({
   return (
     <ModalForm
       title={`${isEditMode ? '编辑' : '新增'}分类`}
-      trigger={trigger}
+      open={true}
       modalProps={{ onCancel, onOk }}
       form={formInstance}
       initialValues={{
@@ -104,3 +100,22 @@ export const CategoryAdd = ({
     </ModalForm>
   )
 }
+
+export const TriggerAddModal = (props: IDetailModalProps<CategoryType>) => (
+  <TriggerModal
+    trigger={props?.trigger}
+    component={({ setOpen }) => (
+      <CategoryAdd
+        detail={props?.detail}
+        onSuccess={() => {
+          props?.onSuccess?.()
+          setOpen(false)
+        }}
+        onCancel={() => {
+          props?.onCancel?.()
+          setOpen(false)
+        }}
+      />
+    )}
+  />
+)

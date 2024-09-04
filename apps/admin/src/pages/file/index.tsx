@@ -2,7 +2,7 @@ import { fileService, type FileType } from '@/service'
 import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, Popover, message } from 'antd'
 import { useRef } from 'react'
-import { FileAdd } from './components/Add'
+import { TriggerAddModal } from './components/Add'
 
 const FilePage = () => {
   const actionRef = useRef<TableActionType>()
@@ -84,7 +84,7 @@ const FilePage = () => {
       rowKey="id"
       request={fileService.getList}
       toolBarRender={() => [
-        <FileAdd
+        <TriggerAddModal
           key="add"
           onSuccess={refresh}
           trigger={<Button type="primary">上传文件</Button>}

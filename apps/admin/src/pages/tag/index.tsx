@@ -2,7 +2,7 @@ import { tagService, type TagType } from '@/service'
 import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, message } from 'antd'
 import { useRef } from 'react'
-import { TagAdd } from './components/Add'
+import { TriggerAddModal } from './components/Add'
 
 const TagPage = () => {
   const actionRef = useRef<TableActionType>()
@@ -35,7 +35,7 @@ const TagPage = () => {
       valueType: 'option',
       width: 120,
       render: (_, record) => [
-        <TagAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+        <TriggerAddModal key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
         <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
       ],
     },
@@ -49,7 +49,11 @@ const TagPage = () => {
       rowKey="id"
       request={tagService.getList}
       toolBarRender={() => [
-        <TagAdd key="add" onSuccess={refresh} trigger={<Button type="primary">新增标签</Button>} />,
+        <TriggerAddModal
+          key="add"
+          onSuccess={refresh}
+          trigger={<Button type="primary">新增标签</Button>}
+        />,
       ]}
     />
   )

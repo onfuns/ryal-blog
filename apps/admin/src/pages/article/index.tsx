@@ -3,7 +3,7 @@ import { Table, TableDelete, Time, type TableActionType, type TableColumns } fro
 import { Button, Switch, message } from 'antd'
 import dayjs from 'dayjs'
 import { useRef } from 'react'
-import { ArticleAdd } from './components/Add'
+import { TriggerAddModal } from './components/Add'
 import { SortTypeEnum } from './enum'
 
 const ArticlePage = () => {
@@ -101,7 +101,7 @@ const ArticlePage = () => {
       valueType: 'option',
       width: 120,
       render: (_, record) => [
-        <ArticleAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+        <TriggerAddModal key="edit" trigger={<a>编辑</a>} detail={record} />,
         <TableDelete key="delete" onDelete={() => onAction('delete', { id: record.id })} />,
       ],
     },
@@ -115,15 +115,7 @@ const ArticlePage = () => {
       request={articleService.getList}
       scroll={{ x: '100%' }}
       toolBarRender={() => [
-        <ArticleAdd
-          key="add"
-          onSuccess={refresh}
-          trigger={
-            <Button key="add" type="primary">
-              新增文章
-            </Button>
-          }
-        />,
+        <TriggerAddModal key="add" trigger={<Button type="primary">新增文章</Button>} />,
       ]}
     />
   )

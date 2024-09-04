@@ -6,17 +6,17 @@ import {
   type DrawerProps as AntdDrawerProps,
   type ModalProps as AntdModalProps,
 } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-export type ModalFormProps<T> = {
+export type ModalFormProps<T> = ProFormProps<T> & {
+  type?: 'modal' | 'drawer'
+  width?: string | number
+  title?: React.ReactNode
+  trigger?: React.ReactElement
+  modalProps?: AntdModalProps
   children: React.ReactNode | React.ReactNode[]
-} & ProFormProps<T> & {
-    type?: 'modal' | 'drawer'
-    title?: React.ReactNode
-    trigger?: React.ReactElement
-    modalProps?: AntdModalProps
-    open?: boolean
-  }
+  open?: boolean
+}
 
 export const FormComponent = <T extends Record<string, any>>({
   children,
@@ -35,60 +35,31 @@ export const FormComponent = <T extends Record<string, any>>({
   </ProForm>
 )
 
-const useTriggerHooks = (trigger?: React.ReactElement, open?: boolean) => {
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    setVisible(open ?? false)
-  }, [open])
-
-  const onTrigger = () => {
-    setVisible(true)
-  }
-
-  const triggerDom = trigger ? React.cloneElement(trigger, { onClick: onTrigger }) : null
-  return { open: visible, triggerDom, setOpen: setVisible }
-}
-
 export const ModalForm = <T extends Record<string, any>>({
+  width = 480,
   children,
   trigger,
   title,
-  open: defaultOpen,
+  open,
   modalProps,
   ...formProps
 }: ModalFormProps<T>) => {
-  const { open, triggerDom, setOpen } = useTriggerHooks(trigger, defaultOpen)
-
   const mixinProps: AntdModalProps = {
-    width: 480,
-    destroyOnClose: true,
-    ...modalProps,
     title,
+    width,
+    destroyOnClose: true,
     open,
-
-    onCancel: e => {
-      modalProps?.onCancel?.(e)
-      setOpen(false)
-    },
-    onOk: async e => {
-      const done = await (modalProps?.onOk?.(e) ?? true)
-      if (done) setOpen(false)
-    },
+    ...modalProps,
   }
 
   return (
-    <>
-      {triggerDom}
-      <AntdModal {...mixinProps}>
-        <FormComponent<T> {...formProps}>{children}</FormComponent>
-      </AntdModal>
-    </>
+    <AntdModal {...mixinProps}>
+      <FormComponent<T> {...formProps}>{children}</FormComponent>
+    </AntdModal>
   )
 }
 
 export type DrawerFormProps<T> = Omit<ModalFormProps<T>, 'modalProps'> & {
-  width?: string | number
   drawerProps?: AntdDrawerProps
 }
 
@@ -97,8 +68,8 @@ export const DrawerForm = <T extends Record<string, any>>({
   children,
   trigger,
   title,
-  open: defaultOpen,
   drawerProps,
+  open,
   ...formProps
 }: DrawerFormProps<T> & {
   drawerProps?: AntdDrawerProps & {
@@ -106,28 +77,17 @@ export const DrawerForm = <T extends Record<string, any>>({
     onCancel?: (e: React.MouseEvent | React.KeyboardEvent) => void
   }
 }) => {
-  const { open, triggerDom, setOpen } = useTriggerHooks(trigger, defaultOpen)
-
   const mixinProps: AntdDrawerProps = {
     title,
     width,
     destroyOnClose: true,
-    ...drawerProps,
     open,
-    onClose: e => {
-      drawerProps?.onCancel?.(e)
-      setOpen(false)
-    },
+    ...drawerProps,
+    onClose: drawerProps?.onCancel,
     footer: drawerProps?.footer ?? [
       <div className="flex justify-end gap-12">
-        <Button onClick={e => mixinProps?.onClose?.(e)}>取消</Button>
-        <Button
-          type="primary"
-          onClick={async e => {
-            const done = await (drawerProps?.onOk?.(e) ?? true)
-            if (done) setOpen(false)
-          }}
-        >
+        <Button onClick={drawerProps?.onCancel}>取消</Button>
+        <Button type="primary" onClick={drawerProps?.onOk}>
           确定
         </Button>
       </div>,
@@ -135,11 +95,8 @@ export const DrawerForm = <T extends Record<string, any>>({
   }
 
   return (
-    <>
-      {triggerDom}
-      <AntdDrawer {...mixinProps}>
-        <FormComponent<T> {...formProps}>{children}</FormComponent>
-      </AntdDrawer>
-    </>
+    <AntdDrawer {...mixinProps}>
+      <FormComponent<T> {...formProps}>{children}</FormComponent>
+    </AntdDrawer>
   )
 }

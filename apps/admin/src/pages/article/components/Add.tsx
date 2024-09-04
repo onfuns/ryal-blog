@@ -7,6 +7,7 @@ import {
   categoryService,
   tagService,
 } from '@/service'
+import { type IDetailModalProps } from '@/type'
 import {
   ProForm,
   ProFormCascader,
@@ -17,7 +18,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { DrawerForm, MarkdownEditor, RichTextEditor, TimeFormt } from '@ryal/ui-kit'
+import { DrawerForm, MarkdownEditor, RichTextEditor, TimeFormt, TriggerModal } from '@ryal/ui-kit'
 import { useSetState } from 'ahooks'
 import { message } from 'antd'
 import classNames from 'classnames'
@@ -25,12 +26,7 @@ import dayjs from 'dayjs'
 import { useEffect } from 'react'
 import { CatetoryIdEnum } from '../../category/enum'
 
-export const ArticleAdd = ({
-  trigger,
-  onCancel,
-  onSuccess,
-  detail,
-}: IDetailModalProps<ArticleType>) => {
+export const ArticleAdd = ({ onCancel, onSuccess, detail }: IDetailModalProps<ArticleType>) => {
   const [editorValues, setEditorValues] = useSetState({ markdownContent: '', richTextContent: '' })
   const [formInstance] = ProForm.useForm<
     ArticleType & { categoryIds?: number[]; tagIds: number[] }
@@ -84,13 +80,12 @@ export const ArticleAdd = ({
     }
     message.success('操作成功')
     onSuccess?.()
-    return true
   }
 
   return (
     <DrawerForm<ArticleType>
       title="文章信息"
-      trigger={trigger}
+      open={true}
       drawerProps={{ onCancel, onOk }}
       width="60%"
       form={formInstance}
@@ -213,3 +208,22 @@ export const ArticleAdd = ({
     </DrawerForm>
   )
 }
+
+export const TriggerAddModal = (props: IDetailModalProps<ArticleType>) => (
+  <TriggerModal
+    trigger={props?.trigger}
+    component={({ setOpen }) => (
+      <ArticleAdd
+        detail={props?.detail}
+        onSuccess={() => {
+          props?.onSuccess?.()
+          setOpen(false)
+        }}
+        onCancel={() => {
+          props?.onCancel?.()
+          setOpen(false)
+        }}
+      />
+    )}
+  />
+)

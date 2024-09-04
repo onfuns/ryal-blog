@@ -4,7 +4,7 @@ import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, message } from 'antd'
 import { cloneDeep } from 'lodash'
 import { useRef } from 'react'
-import { AuthAdd } from './components/Add'
+import { TriggerAddModal } from './components/Add'
 
 const AuthPage = () => {
   const actionRef = useRef<TableActionType>()
@@ -39,7 +39,7 @@ const AuthPage = () => {
       valueType: 'option',
       width: 150,
       render: (_, record) => [
-        <AuthAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+        <TriggerAddModal key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
         <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
       ],
     },
@@ -58,10 +58,10 @@ const AuthPage = () => {
       }}
       pagination={false}
       toolBarRender={() => [
-        <AuthAdd
-          onSuccess={refresh}
+        <TriggerAddModal
           key="add"
           trigger={<Button type="primary">新增权限</Button>}
+          onSuccess={refresh}
         />,
       ]}
     />

@@ -2,7 +2,7 @@ import { CommentStatusEnumType, commentService, type CommentType } from '@/servi
 import { Table, TableActionType, TableColumns, TableDelete, Time } from '@ryal/ui-kit'
 import { Switch, message } from 'antd'
 import { useRef } from 'react'
-import { CommentAdd } from './components/Add'
+import { TriggerAddModal } from './components/Add'
 
 const CommentPage = () => {
   const actionRef = useRef<TableActionType>()
@@ -85,7 +85,7 @@ const CommentPage = () => {
       valueType: 'option',
       width: 120,
       render: (_, record) => [
-        <CommentAdd key="add" detail={record} trigger={<a>回复</a>} />,
+        <TriggerAddModal key="add" detail={record} trigger={<a>回复</a>} />,
         <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
       ],
     },

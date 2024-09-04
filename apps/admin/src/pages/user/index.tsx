@@ -2,7 +2,7 @@ import { UserIdentityEnumType, userService, type UserType } from '@/service'
 import { Table, TableDelete, Time, type TableActionType, type TableColumns } from '@ryal/ui-kit'
 import { Button, Tag, message } from 'antd'
 import { useRef } from 'react'
-import { UserAdd } from './components/Add'
+import { TriggerAddModal } from './components/Add'
 import { UserStatusMap } from './enum'
 
 const UserPage = () => {
@@ -79,7 +79,7 @@ const UserPage = () => {
       render: (_, record) => {
         return (
           record.identity !== UserIdentityEnumType.Super && [
-            <UserAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+            <TriggerAddModal key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
             <TableDelete key="delete" onDelete={() => onAction('delete', record)} />,
           ]
         )
@@ -94,7 +94,7 @@ const UserPage = () => {
       rowKey="id"
       request={userService.getList}
       toolBarRender={() => [
-        <UserAdd
+        <TriggerAddModal
           key="add"
           onSuccess={refresh}
           trigger={<Button type="primary">新增用户</Button>}

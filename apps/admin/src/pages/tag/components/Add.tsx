@@ -1,10 +1,11 @@
 import { tagService, type TagType } from '@/service'
+import { IDetailModalProps } from '@/type'
 import { ProForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
-import { ModalForm } from '@ryal/ui-kit'
+import { ModalForm, TriggerModal } from '@ryal/ui-kit'
 import { message } from 'antd'
 import { useEffect } from 'react'
 
-export const TagAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps<TagType>) => {
+export const TagAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<TagType>) => {
   const [formInstance] = ProForm.useForm()
   const isEditMode = !!detail?.id
 
@@ -29,7 +30,7 @@ export const TagAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPro
   return (
     <ModalForm
       title={`${isEditMode ? '编辑' : '新增'}标签`}
-      trigger={trigger}
+      open={true}
       modalProps={{ onCancel, onOk }}
       form={formInstance}
     >
@@ -45,3 +46,22 @@ export const TagAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPro
     </ModalForm>
   )
 }
+
+export const TriggerAddModal = (props: IDetailModalProps<TagType>) => (
+  <TriggerModal
+    trigger={props?.trigger}
+    component={({ setOpen }) => (
+      <TagAdd
+        detail={props?.detail}
+        onSuccess={() => {
+          props?.onSuccess?.()
+          setOpen(false)
+        }}
+        onCancel={() => {
+          props?.onCancel?.()
+          setOpen(false)
+        }}
+      />
+    )}
+  />
+)

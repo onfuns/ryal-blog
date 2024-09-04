@@ -5,16 +5,17 @@ import {
   type AuthCreateParamsType,
   type RoleType,
 } from '@/service'
+import { IDetailModalProps } from '@/type'
 import { arrayToTree } from '@/utils'
 import { ProForm, ProFormRadio, ProFormText, ProFormTextArea } from '@ant-design/pro-components'
-import { DrawerForm } from '@ryal/ui-kit'
+import { DrawerForm, TriggerModal } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
 import { message, Tree } from 'antd'
 import { cloneDeep } from 'lodash'
 import { useEffect, useState } from 'react'
 import { RoleStatusMap } from '../enum'
 
-export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalProps<RoleType>) => {
+export const RoleAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<RoleType>) => {
   const [formInstance] = ProForm.useForm()
   const [selectedKeys, setSelectedKeys] = useState<number[]>([])
   const { data } = useRequest(() => authService.getList())
@@ -64,7 +65,7 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
   return (
     <DrawerForm
       title="角色信息"
-      trigger={trigger}
+      open={true}
       drawerProps={{ onCancel, onOk }}
       form={formInstance}
       initialValues={{ enable: RoleStatusEnumType.Enable }}
@@ -107,3 +108,22 @@ export const RoleAdd = ({ trigger, onSuccess, onCancel, detail }: IDetailModalPr
     </DrawerForm>
   )
 }
+
+export const TriggerAddModal = (props: IDetailModalProps<RoleType>) => (
+  <TriggerModal
+    trigger={props?.trigger}
+    component={({ setOpen }) => (
+      <RoleAdd
+        detail={props?.detail}
+        onSuccess={() => {
+          props?.onSuccess?.()
+          setOpen(false)
+        }}
+        onCancel={() => {
+          props?.onCancel?.()
+          setOpen(false)
+        }}
+      />
+    )}
+  />
+)

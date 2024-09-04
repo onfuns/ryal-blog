@@ -1,15 +1,11 @@
 import { commentService, type CommentType } from '@/service'
+import { IDetailModalProps } from '@/type'
 import { ProForm, ProFormTextArea } from '@ant-design/pro-components'
-import { ModalForm } from '@ryal/ui-kit'
+import { ModalForm, TriggerModal } from '@ryal/ui-kit'
 import { message } from 'antd'
 import { useEffect } from 'react'
 
-export const CommentAdd = ({
-  trigger,
-  onSuccess,
-  onCancel,
-  detail,
-}: IDetailModalProps<CommentType>) => {
+export const CommentAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<CommentType>) => {
   const [formInstance] = ProForm.useForm()
   const isEditMode = !!detail?.id
 
@@ -30,12 +26,7 @@ export const CommentAdd = ({
   }
 
   return (
-    <ModalForm
-      title="评论信息"
-      trigger={trigger}
-      modalProps={{ onCancel, onOk }}
-      form={formInstance}
-    >
+    <ModalForm title="评论信息" open={true} modalProps={{ onCancel, onOk }} form={formInstance}>
       <ProFormTextArea
         label="回复内容"
         name="reply"
@@ -45,3 +36,22 @@ export const CommentAdd = ({
     </ModalForm>
   )
 }
+
+export const TriggerAddModal = (props: IDetailModalProps<CommentType>) => (
+  <TriggerModal
+    trigger={props?.trigger}
+    component={({ setOpen }) => (
+      <CommentAdd
+        detail={props?.detail}
+        onSuccess={() => {
+          props?.onSuccess?.()
+          setOpen(false)
+        }}
+        onCancel={() => {
+          props?.onCancel?.()
+          setOpen(false)
+        }}
+      />
+    )}
+  />
+)

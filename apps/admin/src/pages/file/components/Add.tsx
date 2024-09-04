@@ -1,4 +1,5 @@
 import { fileService, type FileType } from '@/service'
+import { IDetailModalProps } from '@/type'
 import { CloseCircleFilled, InboxOutlined, PlusOutlined } from '@ant-design/icons'
 import {
   ProForm,
@@ -7,12 +8,12 @@ import {
   ProFormText,
   ProFormUploadDragger,
 } from '@ant-design/pro-components'
-import { DrawerForm } from '@ryal/ui-kit'
+import { DrawerForm, TriggerModal } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
 import { Button, Divider, Space, UploadFile, UploadProps, message } from 'antd'
 import { useState } from 'react'
 
-export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps<FileType>) => {
+export const FileAdd = ({ onSuccess, onCancel }: IDetailModalProps<FileType>) => {
   const [formInstance] = ProForm.useForm()
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [typeName, setTypeName] = useState<string | undefined>()
@@ -98,12 +99,7 @@ export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps<File
   }
 
   return (
-    <DrawerForm
-      title="上传文件"
-      trigger={trigger}
-      drawerProps={{ onCancel, onOk }}
-      form={formInstance}
-    >
+    <DrawerForm title="上传文件" open={true} drawerProps={{ onCancel, onOk }} form={formInstance}>
       <ProFormSelect
         label="分组"
         name="fileCategoryId"
@@ -147,3 +143,22 @@ export const FileAdd = ({ trigger, onSuccess, onCancel }: IDetailModalProps<File
     </DrawerForm>
   )
 }
+
+export const TriggerAddModal = (props: IDetailModalProps<FileType>) => (
+  <TriggerModal
+    trigger={props?.trigger}
+    component={({ setOpen }) => (
+      <FileAdd
+        detail={props?.detail}
+        onSuccess={() => {
+          props?.onSuccess?.()
+          setOpen(false)
+        }}
+        onCancel={() => {
+          props?.onCancel?.()
+          setOpen(false)
+        }}
+      />
+    )}
+  />
+)

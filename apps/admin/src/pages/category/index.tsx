@@ -2,7 +2,7 @@ import { CategoryListItemType, CategoryTypeEnumType, categoryService } from '@/s
 import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
 import { Button, Tag, message } from 'antd'
 import { useRef } from 'react'
-import { CategoryAdd } from './components/Add'
+import { TriggerAddModal } from './components/Add'
 import { CategoryStatusMap, CategoryTypeMap, CatetoryIdEnum } from './enum'
 
 const CategoryPage = () => {
@@ -59,7 +59,7 @@ const CategoryPage = () => {
       valueType: 'option',
       width: 120,
       render: (_, record) => [
-        <CategoryAdd key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
+        <TriggerAddModal key="add" detail={record} onSuccess={refresh} trigger={<a>编辑</a>} />,
         record.pid === CatetoryIdEnum.Root && record?.children?.length ? null : (
           <TableDelete key="delete" onDelete={() => onAction('delete', record)} />
         ),
@@ -77,7 +77,7 @@ const CategoryPage = () => {
       request={categoryService.getList}
       pagination={false}
       toolBarRender={() => [
-        <CategoryAdd
+        <TriggerAddModal
           key="add"
           onSuccess={refresh}
           trigger={<Button type="primary">新增分类</Button>}
