@@ -8,6 +8,7 @@ import {
   Inject,
   Param,
   Post,
+  Query,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common'
@@ -29,8 +30,8 @@ export class FileController {
 
   @ApiResult({ description: '获取文件列表', type: [File], page: true })
   @Get()
-  async getList(@Body() body: FileGetListParamsDto) {
-    return this.service.getList(body)
+  async getList(@Query() query: FileGetListParamsDto) {
+    return this.service.getList(query)
   }
 
   @ApiResult({ description: '删除文件' })

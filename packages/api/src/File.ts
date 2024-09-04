@@ -12,7 +12,6 @@
 import {
   FileCategoryCreateParamsDtoType,
   FileCategoryType,
-  FileGetListParamsDtoType,
   FileType,
   FileUploadParamsDtoType,
   ResponseResultType,
@@ -27,7 +26,17 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name GetList
    * @request GET:/api/file
    */
-  getList = (data: FileGetListParamsDtoType, params: RequestParams = {}) =>
+  getList = (
+    query?: {
+      /** 页码 */
+      current?: number
+      /** 条数 */
+      pageSize?: number
+      /** 分类 id */
+      fileCategoryId?: number
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -39,8 +48,7 @@ export class File<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
     >({
       path: `/api/file`,
       method: 'GET',
-      body: data,
-      type: ContentType.Json,
+      query: query,
       format: 'json',
       ...params,
     })

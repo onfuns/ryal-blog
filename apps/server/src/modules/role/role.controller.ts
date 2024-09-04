@@ -1,5 +1,5 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
 import { ApiParam, ApiTags } from '@nestjs/swagger'
 import { RoleCreateParamsDto, RoleGetListParamsDto } from './role.dto'
 import { Role } from './role.entity'
@@ -12,8 +12,8 @@ export class RoleController {
 
   @ApiResult({ description: '获取角色列表', type: [Role], page: true })
   @Get()
-  async getList(@Body() body: RoleGetListParamsDto) {
-    return this.service.getList(body)
+  async getList(@Query() query: RoleGetListParamsDto) {
+    return this.service.getList(query)
   }
 
   @ApiResult({ description: '新增角色', type: Role })

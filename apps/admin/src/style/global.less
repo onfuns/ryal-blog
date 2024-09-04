@@ -1,3 +1,10 @@
+@base-color: #ff6500;
+@a-color: #1999fc;
+
+:root {
+  --primary-color: @base-color;
+}
+
 ul,
 ol {
   padding: 0;
@@ -10,15 +17,11 @@ ol {
   height: 100%;
 }
 
-:root {
-  --primary-color: #52c41a;
-}
-
 a {
   font-size: 12px;
   cursor: pointer;
-  color: #1999fc;
+  color: @a-color;
   &:hover {
-    color: #56b6ff;
+    color: lighten(@a-color, 10%);
   }
 }

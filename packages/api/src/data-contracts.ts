@@ -148,21 +148,6 @@ export interface ArticleType {
   author: string
 }
 
-export interface ArticleGetListParamsDtoType {
-  /** 页码 */
-  current?: number
-  /** 条数 */
-  pageSize?: number
-  /** 标题 */
-  title?: string
-  /** 排序 */
-  sort?: number
-  /** 是否审核通过 */
-  pass_status?: ArticlePassStatusEnumType
-  /** 分类 id */
-  cid?: number
-}
-
 export interface PickTypeClassType {
   /** id */
   id: number
@@ -198,15 +183,6 @@ export interface ArticleCreateParamsDtoType {
   author?: string
   /** 标签 id */
   tagIds?: PickTypeClassType[]
-}
-
-export interface TagGetListParamsDtoType {
-  /** 页码 */
-  current?: number
-  /** 条数 */
-  pageSize?: number
-  /** 名称 */
-  name?: string
 }
 
 export interface TagCreateParamsDtoType {
@@ -381,19 +357,6 @@ export interface UserLoginParamsDtoType {
   password: string
 }
 
-export interface UserGetListParamsDtoType {
-  /** 页码 */
-  current?: number
-  /** 条数 */
-  pageSize?: number
-  /** 状态 */
-  status?: UserStatusEnumType
-  /** 用户名 */
-  name?: string
-  /** 角色 id */
-  roleId?: string
-}
-
 export interface UserCreateParamsDtoType {
   /** 名称 */
   name?: string
@@ -409,17 +372,6 @@ export interface UserCreateParamsDtoType {
   last_login_ip?: string
   /** 上次登录时间 */
   last_login_at?: string
-}
-
-export interface RoleGetListParamsDtoType {
-  /** 页码 */
-  current?: number
-  /** 条数 */
-  pageSize?: number
-  /** 名称 */
-  name?: string
-  /** 状态 */
-  status?: RoleStatusEnumType
 }
 
 export interface RoleCreateParamsDtoType {
@@ -560,15 +512,6 @@ export interface FileType {
   size: number
   /** 后缀 */
   ext: string
-}
-
-export interface FileGetListParamsDtoType {
-  /** 页码 */
-  current?: number
-  /** 条数 */
-  pageSize?: number
-  /** 分类 id */
-  fileCategoryId?: number
 }
 
 export interface FileUploadParamsDtoType {

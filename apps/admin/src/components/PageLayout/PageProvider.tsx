@@ -13,7 +13,7 @@ const FallbackLoading = () => (
 
 const PageProvider = (props: React.PropsWithChildren) => {
   const antdConfig: ConfigConsumerProps['antdConfig'] = {
-    theme: { token: { colorPrimary: '#52c41a' } },
+    theme: { token: { colorPrimary: '#ff6500' } },
     locale: zhCN,
   }
 

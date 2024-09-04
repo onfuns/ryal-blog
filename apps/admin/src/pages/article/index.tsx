@@ -69,7 +69,7 @@ const ArticlePage = () => {
       render: (_, { publish_time }) => <Time type="time" value={publish_time} />,
     },
     {
-      title: '是否置顶',
+      title: '置顶状态',
       dataIndex: 'sort',
       valueEnum: {
         [SortTypeEnum.Top]: '是',
@@ -81,7 +81,7 @@ const ArticlePage = () => {
       ),
     },
     {
-      title: '审核',
+      title: '审核状态',
       dataIndex: 'pass_status',
       valueEnum: {
         [ArticlePassStatusEnumType.Audited]: '已审核',

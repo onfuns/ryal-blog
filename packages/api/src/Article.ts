@@ -11,7 +11,7 @@
 
 import {
   ArticleCreateParamsDtoType,
-  ArticleGetListParamsDtoType,
+  ArticlePassStatusEnumType,
   ArticleType,
   ResponseResultType,
 } from './data-contracts'
@@ -25,7 +25,23 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetList
    * @request GET:/api/article
    */
-  getList = (data: ArticleGetListParamsDtoType, params: RequestParams = {}) =>
+  getList = (
+    query?: {
+      /** 页码 */
+      current?: number
+      /** 条数 */
+      pageSize?: number
+      /** 标题 */
+      title?: string
+      /** 排序 */
+      sort?: number
+      /** 是否审核通过 */
+      pass_status?: ArticlePassStatusEnumType
+      /** 分类 id */
+      cid?: number
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -37,8 +53,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
     >({
       path: `/api/article`,
       method: 'GET',
-      body: data,
-      type: ContentType.Json,
+      query: query,
       format: 'json',
       ...params,
     })
@@ -70,7 +85,23 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetClientList
    * @request GET:/api/article/list
    */
-  getClientList = (data: ArticleGetListParamsDtoType, params: RequestParams = {}) =>
+  getClientList = (
+    query?: {
+      /** 页码 */
+      current?: number
+      /** 条数 */
+      pageSize?: number
+      /** 标题 */
+      title?: string
+      /** 排序 */
+      sort?: number
+      /** 是否审核通过 */
+      pass_status?: ArticlePassStatusEnumType
+      /** 分类 id */
+      cid?: number
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -82,8 +113,7 @@ export class Article<SecurityDataType = unknown> extends HttpClient<SecurityData
     >({
       path: `/api/article/list`,
       method: 'GET',
-      body: data,
-      type: ContentType.Json,
+      query: query,
       format: 'json',
       ...params,
     })

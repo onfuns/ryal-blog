@@ -49,7 +49,7 @@ export const ArticleAdd = ({
     }
     formInstance.setFieldsValue({
       ...article,
-      publish_time: dayjs(publish_time).toString(),
+      publish_time: publish_time ? dayjs(publish_time).toString() : undefined,
       tagIds: tags?.map(item => item.id),
       categoryIds:
         category?.pid === CatetoryIdEnum.Root ? [category.id] : [category.pid, category.id],
@@ -84,6 +84,7 @@ export const ArticleAdd = ({
     }
     message.success('操作成功')
     onSuccess?.()
+    return true
   }
 
   return (
@@ -120,7 +121,10 @@ export const ArticleAdd = ({
         name="categoryIds"
         rules={[{ required: true }]}
         placeholder="请选择分类"
-        request={() => categoryService.getList() as Promise<any>}
+        request={async () => {
+          const { data } = await categoryService.getList()
+          return data
+        }}
         fieldProps={{
           fieldNames: { label: 'name', value: 'id', children: 'children' },
           changeOnSelect: true,
@@ -133,7 +137,10 @@ export const ArticleAdd = ({
         rules={[{ required: true }]}
         placeholder="请选择标签"
         mode="multiple"
-        request={() => tagService.getList({ current: 1, pageSize: 100 }) as Promise<any>}
+        request={async () => {
+          const { data } = await tagService.getList({ pageSize: 100 })
+          return data?.data || []
+        }}
         fieldProps={{ fieldNames: { label: 'name', value: 'id' } }}
       />
 

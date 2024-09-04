@@ -18,7 +18,7 @@ export class TabStore {
 
   onUpdateTab(tab: TabType) {
     if (tab.meta?.tag === false) return false
-    const index = this.tabs.findIndex(t => t.path === tab.path)
+    const index = this.tabs?.findIndex(t => t.path === tab.path)
     if (index > -1) {
       this.tabs[index] = { ...this.tabs[index], ...tab }
     } else {

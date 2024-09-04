@@ -12,8 +12,8 @@
 import {
   ResponseResultType,
   UserCreateParamsDtoType,
-  UserGetListParamsDtoType,
   UserLoginParamsDtoType,
+  UserStatusEnumType,
   UserType,
 } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
@@ -47,7 +47,21 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @name GetList
    * @request GET:/api/user
    */
-  getList = (data: UserGetListParamsDtoType, params: RequestParams = {}) =>
+  getList = (
+    query?: {
+      /** 页码 */
+      current?: number
+      /** 条数 */
+      pageSize?: number
+      /** 状态 */
+      status?: UserStatusEnumType
+      /** 用户名 */
+      name?: string
+      /** 角色 id */
+      roleId?: string
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -59,8 +73,7 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
     >({
       path: `/api/user`,
       method: 'GET',
-      body: data,
-      type: ContentType.Json,
+      query: query,
       format: 'json',
       ...params,
     })

@@ -25,7 +25,19 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
    * @name GetList
    * @request GET:/api/comment
    */
-  getList = (data: CommentGetListParamsDtoType, params: RequestParams = {}) =>
+  getList = (
+    query?: {
+      /** 页码 */
+      current?: number
+      /** 条数 */
+      pageSize?: number
+      /** 关联文章 id */
+      aid?: string
+      /** 文章标题 */
+      title?: string
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ResponseResultType & {
         data?: {
@@ -37,8 +49,7 @@ export class Comment<SecurityDataType = unknown> extends HttpClient<SecurityData
     >({
       path: `/api/comment`,
       method: 'GET',
-      body: data,
-      type: ContentType.Json,
+      query: query,
       format: 'json',
       ...params,
     })

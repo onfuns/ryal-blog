@@ -3,7 +3,7 @@ import config from '@/config'
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { IP } from '@/decorator/ip.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
 import { ApiParam, ApiTags } from '@nestjs/swagger'
 import {
   UserCreateParamsDto,
@@ -45,8 +45,8 @@ export class UserController {
 
   @ApiResult({ description: '获取用户列表', type: [User], page: true })
   @Get()
-  async getList(@Body() body: UserGetListParamsDto) {
-    return this.service.getList(body)
+  async getList(@Query() query: UserGetListParamsDto) {
+    return this.service.getList(query)
   }
 
   @ApiResult({ description: '新增用户', type: User })

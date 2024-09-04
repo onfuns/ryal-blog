@@ -1,6 +1,6 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ArticleCreateParamsDto, ArticleGetListParamsDto } from './article.dto'
 import { Article } from './article.entity'
@@ -14,15 +14,15 @@ export class ArticleController {
 
   @ApiResult({ description: '获取文章列表', type: [Article], page: true })
   @Get()
-  async getList(@Body() body: ArticleGetListParamsDto) {
-    return this.service.getList(body)
+  async getList(@Query() query: ArticleGetListParamsDto) {
+    return this.service.getList(query)
   }
 
   @ApiResult({ description: '客户端-获取文章列表', type: [Article], page: true })
   @Get('list')
   @NoPermission()
-  async getClientList(@Body() body: ArticleGetListParamsDto) {
-    return this.service.getList({ ...body, pass_status: ArticlePassStatusEnum.Audited })
+  async getClientList(@Query() query: ArticleGetListParamsDto) {
+    return this.service.getList({ ...query, pass_status: ArticlePassStatusEnum.Audited })
   }
 
   @ApiResult({ description: '创建文章', type: Article })
