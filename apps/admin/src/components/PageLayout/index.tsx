@@ -2,15 +2,18 @@ import { useHistory, useLogin } from '@/hooks'
 import { routes } from '@/routes'
 import '@/style/global.less'
 import '@/style/uno.css'
-import { observer } from 'mobx-react'
-import { PropsWithChildren } from 'react'
+import { ConfigContextProvider } from '@ryal/ui-kit'
+import { Spin, message } from 'antd'
+import zhCN from 'antd/lib/locale/zh_CN'
+import { Provider as MobxProvider } from 'mobx-react'
+import { PropsWithChildren, Suspense } from 'react'
 import { AliveScope, KeepAlive } from 'react-activation'
 import PageHeader from './PageHeader'
 import PageMenu from './PageMenu'
-import PageProvider from './PageProvider'
 import PageTab from './PageTab'
+message.config({ maxCount: 1 })
 
-const LayoutContainer = observer((props: PropsWithChildren) => {
+const PageLayoutContainer = (props: PropsWithChildren) => {
   return (
     <div className="flex overflow-hidden h-100vh">
       <PageMenu />
@@ -27,23 +30,39 @@ const LayoutContainer = observer((props: PropsWithChildren) => {
       </div>
     </div>
   )
-})
+}
 
-const Layout = (props: PropsWithChildren) => {
+const PageLayout = (props: PropsWithChildren) => {
   const history = useHistory()
-  const isLogin = useLogin()
+  const { logined } = useLogin()
   const current = routes.find(router => router.path === history.location.pathname)
   if (current?.redirect) {
     history.push(current.redirect)
     return null
   }
-  const isHideLayout = current?.meta?.layout === false
-  let content = null
-  if (isLogin) {
-    content = isHideLayout ? props.children : <LayoutContainer {...props} />
+  let content = props.children
+  if (logined && current?.meta?.layout !== false) {
+    content = <PageLayoutContainer {...props} />
   }
 
-  return <PageProvider>{content}</PageProvider>
+  const FallbackLoading = () => (
+    <div className="h-100vh flex-center">
+      <Spin spinning={true} />
+    </div>
+  )
+
+  return (
+    <MobxProvider>
+      <ConfigContextProvider
+        antdConfig={{
+          theme: { token: { colorPrimary: '#ff6500' } },
+          locale: zhCN,
+        }}
+      >
+        <Suspense fallback={<FallbackLoading />}>{content}</Suspense>
+      </ConfigContextProvider>
+    </MobxProvider>
+  )
 }
 
-export default Layout
+export default PageLayout

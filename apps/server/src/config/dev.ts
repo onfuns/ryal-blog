@@ -1,6 +1,6 @@
-import { IConfig } from '.'
+import { ConfigType } from '.'
 
-export const DevConfig: IConfig = {
+export const DevConfig: ConfigType = {
   db: {
     type: 'mysql',
     host: 'localhost',

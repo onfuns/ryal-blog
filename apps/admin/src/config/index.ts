@@ -1,13 +1,7 @@
-import DevConfig from './dev'
-import ProdConfig from './prod'
-
-export interface IConfig {
+export type ConfigType = {
   routeBasename?: string
 }
 
-const BaseConfig: IConfig = {
+export default {
   routeBasename: '/admin',
-}
-
-const Config: IConfig = process.env.NODE_ENV === 'production' ? ProdConfig : DevConfig
-export default { ...BaseConfig, ...Config }
+} as ConfigType

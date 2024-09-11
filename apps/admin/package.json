@@ -11,7 +11,6 @@
     "uno:dev": "yarn uno:build - -w"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.0.1",
     "@ant-design/pro-components": "^2.7.9",
     "@bytemd/plugin-gfm": "^1.21.0",
     "@bytemd/plugin-highlight": "^1.21.0",

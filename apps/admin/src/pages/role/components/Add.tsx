@@ -25,6 +25,8 @@ export const RoleAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<RoleT
   useEffect(() => {
     if (isEditMode) {
       formInstance.setFieldsValue({ ...detail })
+      const authKeys = detail?.auths?.map(auth => auth.id)
+      setSelectedKeys([...authKeys])
     }
   }, [detail])
 
@@ -61,7 +63,6 @@ export const RoleAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<RoleT
   }
 
   const treeList = arrayToTree(cloneDeep(authList))
-
   return (
     <DrawerForm
       title="角色信息"
@@ -101,7 +102,7 @@ export const RoleAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<RoleT
             checkedKeys={selectedKeys}
             onCheck={value => setSelectedKeys(value as number[])}
             fieldNames={{ title: 'name', key: 'id', children: 'children' }}
-            treeData={treeList as any[]}
+            treeData={treeList}
           />
         </ProForm.Item>
       ) : null}

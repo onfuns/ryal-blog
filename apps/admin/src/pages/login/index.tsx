@@ -1,9 +1,9 @@
 import { useHistory } from '@/hooks'
 import LoginImage from '@/public/images/login-bg.png'
 import { adminRoutes } from '@/routes'
-import { userService } from '@/service'
-import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { userService, type UserLoginParamsType } from '@/service'
 import { ProForm, ProFormItem, ProFormText } from '@ant-design/pro-components'
+import { Icon } from '@ryal/ui-kit'
 import { Button, message } from 'antd'
 import CryptoJS from 'crypto-js'
 import { useState } from 'react'
@@ -11,7 +11,7 @@ import './index.less'
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false)
-  const [formInstance] = ProForm.useForm()
+  const [formInstance] = ProForm.useForm<UserLoginParamsType>()
   const history = useHistory()
 
   const onSubmit = async () => {
@@ -27,7 +27,7 @@ const LoginPage = () => {
       userService.saveLocalUser(data)
       message.success('登录成功', 1, () => history.push(adminRoutes[0].path))
     } catch (error) {
-      console.log('登录失败', error)
+      message.error('登录失败，请重试')
       setLoading(false)
     }
   }
@@ -48,14 +48,14 @@ const LoginPage = () => {
           <ProFormText
             name="name"
             rules={[{ required: true, message: '请输入用户名' }]}
-            fieldProps={{ prefix: <UserOutlined /> }}
+            fieldProps={{ prefix: <Icon name="icon-user" /> }}
             placeholder="用户名"
           />
 
           <ProFormText.Password
             name="password"
             rules={[{ required: true, message: '请输入密码' }]}
-            fieldProps={{ prefix: <LockOutlined />, onPressEnter: onSubmit }}
+            fieldProps={{ prefix: <Icon name="icon-lock" />, onPressEnter: onSubmit }}
             placeholder="密码"
           />
 
@@ -64,7 +64,7 @@ const LoginPage = () => {
               type="primary"
               size="large"
               onClick={onSubmit}
-              className="w-100% h-50 b-rd-6"
+              className="w-100%"
               loading={loading}
             >
               登录

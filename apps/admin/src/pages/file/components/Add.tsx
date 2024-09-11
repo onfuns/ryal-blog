@@ -1,6 +1,5 @@
 import { fileService, type FileType } from '@/service'
 import { IDetailModalProps } from '@/type'
-import { CloseCircleFilled, InboxOutlined, PlusOutlined } from '@ant-design/icons'
 import {
   ProForm,
   ProFormItem,
@@ -8,7 +7,7 @@ import {
   ProFormText,
   ProFormUploadDragger,
 } from '@ant-design/pro-components'
-import { DrawerForm, TriggerModal } from '@ryal/ui-kit'
+import { DrawerForm, Icon, TriggerModal } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
 import { Button, Divider, Space, UploadFile, UploadProps, message } from 'antd'
 import { useState } from 'react'
@@ -87,7 +86,8 @@ export const FileAdd = ({ onSuccess, onCancel }: IDetailModalProps<FileType>) =>
         className="flex items-center relative w-100 h-100 border border-solid border-#ccc mr-10 mb-10 v-mid"
       >
         <img src={file.url} style={{ width: '100%' }} />
-        <CloseCircleFilled
+        <Icon
+          name="icon-close-circle"
           className="absolute z-5 right-[-5] top-[-5] text-16 "
           onClick={() => {
             fileList.splice(index, 1)
@@ -119,7 +119,7 @@ export const FileAdd = ({ onSuccess, onCancel }: IDetailModalProps<FileType>) =>
                   placeholder="请输入分组名称"
                   fieldProps={{ value: typeName, onChange: e => setTypeName(e.target.value) }}
                 />
-                <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
+                <Button type="text" icon={<Icon name="icon-plus" />} onClick={addItem}>
                   新增分组
                 </Button>
               </Space>
@@ -131,7 +131,7 @@ export const FileAdd = ({ onSuccess, onCancel }: IDetailModalProps<FileType>) =>
       <ProFormUploadDragger label="附件" extra="仅支持图片类文件上传" {...uploadProps}>
         <div className="flex-center flex-col w-200">
           <div className="ant-upload-drag-icon">
-            <InboxOutlined />
+            <Icon name="icon-upload" />
           </div>
           <div className="ant-upload-text">点击或拖拽图片上传</div>
         </div>

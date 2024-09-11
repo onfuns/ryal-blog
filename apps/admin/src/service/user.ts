@@ -12,7 +12,7 @@ export class UserMinixService extends User {
     return Cache.get(LOCAL_USER_KEY) || {}
   }
   removeLocalUser() {
-    return Cache.remove(LOCAL_USER_KEY)
+    Cache.remove(LOCAL_USER_KEY)
   }
 
   logout() {

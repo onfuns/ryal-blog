@@ -1,6 +1,6 @@
-import { IConfig } from '.'
+import { ConfigType } from '.'
 
-export const ProdConfig: IConfig = {
+export const ProdConfig: ConfigType = {
   db: {
     type: 'mysql',
     host: process.env.DB_HOST,

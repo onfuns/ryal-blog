@@ -7,12 +7,15 @@ class Storage {
       return value
     }
   }
+
   set(key: string, value: any) {
     localStorage.setItem(key, this.isObject(value) ? JSON.stringify(value) : value)
   }
+
   remove(key: string) {
     localStorage.removeItem(key)
   }
+
   isObject(value: any) {
     return value instanceof Object
   }

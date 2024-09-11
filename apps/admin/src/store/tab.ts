@@ -8,9 +8,11 @@ export type TabType = Pick<IRouter, 'name' | 'path' | 'component' | 'meta'> & {
   search?: string
 }
 
+type TabPath = TabType['path']
+
 export class TabStore {
   tabs: TabType[] = []
-  selectedTabPath: TabType['path'] = ''
+  selectedTabPath: TabPath = ''
 
   constructor() {
     makeAutoObservable(this, undefined, { autoBind: true })
@@ -26,11 +28,11 @@ export class TabStore {
     }
   }
 
-  onRemoveTab(path: TabType['path']) {
+  onRemoveTab(path: TabPath) {
     this.tabs = [...this.tabs.filter(item => item.path !== path)]
   }
 
-  onSelectedTabPath(path: TabType['path']) {
+  onSelectedTabPath(path: TabPath) {
     this.selectedTabPath = path
   }
 }

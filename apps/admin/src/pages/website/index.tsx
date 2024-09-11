@@ -14,10 +14,8 @@ const WebsitePage = () => {
 
   const onSubmit = async () => {
     const values = await formInstance.validateFields()
-    const params = websiteConfig?.map(({ id, name }) => {
-      return { id, name, value: values[name] }
-    })
-    await websiteService.update(params)
+    const list = websiteConfig?.map(({ id, name }) => ({ id, name, value: values[name] }))
+    await websiteService.update({ list })
     message.success('设置成功')
     refresh?.()
   }

@@ -13,7 +13,8 @@ export const UserAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<UserT
 
   useEffect(() => {
     if (isEditMode) {
-      formInstance.setFieldsValue({ ...detail, roles: detail.roles })
+      const roleIds = detail.roles?.map(role => role.id)
+      formInstance.setFieldsValue({ ...detail, roleIds })
     }
   }, [detail])
 
@@ -21,7 +22,7 @@ export const UserAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<UserT
     const values = await formInstance.validateFields()
     const params = {
       ...values,
-      roles: values.roles?.map((id: number) => ({ id })),
+      roles: values.roleIds?.map((id: number) => ({ id })),
     }
     if (isEditMode) {
       await userService.update(detail.id, params)
@@ -40,7 +41,6 @@ export const UserAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<UserT
       open={true}
       modalProps={{ onCancel, onOk }}
       form={formInstance}
-      layout="horizontal"
       initialValues={{ enable: UserStatusEnumType.Enable }}
     >
       <ProFormText
@@ -61,13 +61,14 @@ export const UserAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<UserT
 
       <ProFormSelect
         label="所属角色"
-        name="roles"
+        name="roleIds"
         rules={[{ required: true }]}
         placeholder="请选择角色"
         mode="multiple"
+        fieldProps={{ fieldNames: { label: 'name', value: 'id' } }}
         request={async () => {
           const { data } = await roleService.getList({ current: 1, pageSize: 100 })
-          return (data?.data || [])?.map(item => ({ label: item.name, value: item.id }))
+          return data?.data || []
         }}
       />
 

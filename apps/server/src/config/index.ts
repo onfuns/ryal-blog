@@ -3,7 +3,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { DevConfig } from './dev'
 import { ProdConfig } from './prod'
 
-export type IConfig = {
+export type ConfigType = {
   /** 接口基础路径 */
   base?: string
   /** 数据库配置 */
@@ -14,7 +14,7 @@ export type IConfig = {
   permissionVerification?: boolean
 }
 
-const BaseConfig: IConfig = {
+const BaseConfig: ConfigType = {
   base: '/api',
 }
 
