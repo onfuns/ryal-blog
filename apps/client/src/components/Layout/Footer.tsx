@@ -10,7 +10,7 @@ const Footer = () => {
             text: `©2018-${dayjs().year()} by onfuns`,
             href: config.gitUrl,
           },
-          { text: '浙ICP备15032255号-1', href: 'https://beian.miit.gov.cn/' },
+          { text: 'created by Next.js', href: 'https://nextjs.org' },
         ].map(({ text, href }) => (
           <a
             key={href}

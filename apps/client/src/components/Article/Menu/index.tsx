@@ -33,7 +33,7 @@ const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
       >
         <a
           href={item.type === CategoryTypeEnumType.Url ? item.url : `/category${item.ename}`}
-          className="flex items-center color-#333 p-[10px_0_10px_12px] lh-20"
+          className="flex items-center color-#333 py-10 pl-12 lh-20"
         >
           {renderIcon(item)}
           {item.name}

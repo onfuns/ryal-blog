@@ -1,5 +1,5 @@
 import config from '@/config'
-import { Carousel as AntdCarousel } from 'antd'
+import { Carousel } from 'antd'
 import Image from 'next/image'
 
 const ArticleCarousel = () => {
@@ -10,13 +10,13 @@ const ArticleCarousel = () => {
     },
   ]
   return (
-    <AntdCarousel autoplay className="mb-10 rd-4 overflow-hidden">
+    <Carousel autoplay className="mb-10 rd-4">
       {data.map((carousel, index) => (
-        <a key={index} href={carousel.url} target="_blank" rel="noreferrer" className="h-180">
-          <Image src={carousel.img} alt="轮播图" fill />
+        <a key={index} href={carousel.url} target="_blank" rel="noreferrer">
+          <Image src={carousel.img} alt="轮播图" fill className="h-180" />
         </a>
       ))}
-    </AntdCarousel>
+    </Carousel>
   )
 }
 

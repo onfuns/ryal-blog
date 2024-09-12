@@ -3,15 +3,20 @@ import Head from 'next/head'
 import Script from 'next/script'
 
 export const Header = () => {
+  const navList = [
+    { name: '首页', url: '/' },
+    { name: '项目地址', url: config.gitUrl },
+  ]
+
   return (
     <header className="flex items-center h-40">
       <Head>
         <meta content="text/html; charset=utf-8" httpEquiv="Content-Type" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <meta name="description" content="node博客系统" />
-        <meta name="keywords" content="node博客,nodejs博客,博客搭建" />
+        <meta name="description" content="nextjs, node blog, node 博客" />
+        <meta name="keywords" content="nextjs, node blog, node 博客" />
         <link rel="shortcut icon" href="/images/logo.png" />
-        <title>Ryal Blog演示系统</title>
+        <title>Ryal Blog 演示系统</title>
       </Head>
       <Script src="/plugins/analysis.js" defer />
       <div className="width-center-1000 flex items-center justify-between">
@@ -19,12 +24,11 @@ export const Header = () => {
           Ryal Blog
         </a>
         <div className="flex gap-12">
-          <a href="/" className="font-comic">
-            首页
-          </a>
-          <a href={config.gitUrl} className="font-comic">
-            项目地址
-          </a>
+          {navList.map(({ name, url }) => (
+            <a key={url} href={url} className="font-comic">
+              {name}
+            </a>
+          ))}
         </div>
       </div>
     </header>

@@ -1,4 +1,4 @@
-.article-anchor-item {
+li[data-anchor-index] {
   a::before {
     content: '';
     position: absolute;
@@ -11,31 +11,12 @@
     border-radius: 50%;
   }
 
-  &.h1 {
-    font-weight: 600;
-    & > a {
-      font-size: 18px;
-      &::before {
-        width: 6px;
-        height: 6px;
-      }
-    }
-  }
-
   &.h2 {
     font-weight: 600;
   }
 
   &.h3 {
     padding-left: 15px;
-  }
-
-  &.h4 {
-    padding-left: 30px;
-  }
-
-  &.h5 {
-    padding-left: 45px;
   }
 
   &.active {

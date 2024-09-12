@@ -42,7 +42,7 @@ const ArticleInfo = ({ article }: { article: ArticleType }) => {
           />
         </div>
         <ArticleAnchor
-          heading={() => document.getElementById(content_dom_id)?.querySelectorAll('h2,h3,h4,h5')}
+          heading={() => document.getElementById(content_dom_id)?.querySelectorAll('h2,h3')}
         />
       </div>
       {article.comment_status === ArticleCommentStatusEnumType.Opened && (
