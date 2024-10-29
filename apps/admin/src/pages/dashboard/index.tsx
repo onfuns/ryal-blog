@@ -1,5 +1,5 @@
 import { commonService } from '@/service'
-import { Time } from '@ryal/ui-kit'
+import { Text, Time } from '@ryal/ui-kit'
 import { useRequest } from 'ahooks'
 import { Card, List, Space } from 'antd'
 
@@ -14,22 +14,27 @@ const DashboardPage = () => {
   ]
   return (
     <>
-      <div>
-        <Card title="数据统计">
-          {statisticsItems.map(({ title, value }) => (
-            <div key={title}>
-              <div className="py-15 pl-20 border-1 border-solid border-#e6ebf5 border-rd-2 shadow-[0_2px_12px_0_rgba(0,0,0,0.1)]">
-                <div className="color-#a3aed0">{title}</div>
-                <div className="text-26">{value}</div>
+      <div className="flex gap-12">
+        <Card title="数据统计" className="flex-1">
+          <Space size={12} className="flex" classNames={{ item: 'w-100%' }}>
+            {statisticsItems.map(({ title, value }) => (
+              <div key={title}>
+                <div className="py-15 pl-20 border-1 border-solid border-#e6ebf5 rd-4">
+                  <div className="color-#a3aed0">{title}</div>
+                  <div className="text-26">{value}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </Space>
         </Card>
-        <Card title="用户信息">
-          <div>
-            上次登录时间： <Time value={user?.last_login_at} />
-          </div>
-          <div>上次登录IP： {user?.last_login_ip?.replace('::ffff:', '')}</div>
+        <Card title="用户信息" className="flex flex-col flex-1">
+          <Text.Row label="上次登录时间：" span={[4, 20]}>
+            <Time value={user?.last_login_at} />
+          </Text.Row>
+
+          <Text.Row label="上次登录IP：" span={[4, 20]} className="mt-12">
+            <Text value={user?.last_login_ip?.replace('::ffff:', '')} />
+          </Text.Row>
         </Card>
       </div>
 
@@ -42,7 +47,7 @@ const DashboardPage = () => {
               <List.Item.Meta
                 className="w-100%"
                 title={
-                  <div>
+                  <div className="flex items-center">
                     <span className="mr-5">{record.name}</span>
                     <Space>
                       在

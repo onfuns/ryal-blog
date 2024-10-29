@@ -14,7 +14,7 @@ const PageHeader = () => {
 
   return (
     <div className="flex items-center justify-between h-50 px-20 border-bottom-1-solid-#f0f0f0 bg-#fff">
-      <Icon name="icon-menu" onClick={setMenuCollapsed} className="text-16" />
+      <Icon name="icon-menu" onClick={setMenuCollapsed} className="text-16 cursor-pointer" />
       <Dropdown
         menu={{
           items: [

@@ -22,6 +22,10 @@
     .ant-pro-query-filter {
       padding: 12px 16px 0;
 
+      .ant-form-item {
+        margin-bottom: 12px;
+      }
+
       .ant-form-item .ant-form-item-label > label {
         color: #666;
 
@@ -30,6 +34,19 @@
         }
       }
     }
+
+    & + .ant-pro-card .ant-pro-table-list-toolbar-container {
+      padding: 0;
+
+      .ant-pro-table-list-toolbar-left,
+      .ant-pro-table-list-toolbar-right {
+        margin-bottom: 12px;
+      }
+    }
+  }
+
+  & .ant-pro-card .ant-pro-card-body {
+    padding: 0 16px !important;
   }
 
   /** 表格 begin */

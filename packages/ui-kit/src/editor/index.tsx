@@ -1,2 +1,2 @@
-export * from './MarkdownEditor'
-export * from './RichTextEditor'
+export * from './components/MarkdownEditor'
+export * from './components/RichTextEditor'

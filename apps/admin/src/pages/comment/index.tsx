@@ -97,6 +97,7 @@ const CommentPage = () => {
       columns={columns}
       rowKey="id"
       request={commentService.getList}
+      toolBarRender={false}
     />
   )
 }

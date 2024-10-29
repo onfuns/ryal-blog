@@ -2,7 +2,7 @@ import { IDomEditor } from '@wangeditor/editor'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
-import { useConfigContext } from '../../config-provider'
+import { useConfigContext } from '../../../config-provider'
 import './index.less'
 
 export type RichTextEditorType = {
@@ -20,18 +20,18 @@ export const RichTextEditor = ({ className, toolbar, editor }: RichTextEditorTyp
 
   useEffect(() => {
     return () => {
-      if (editor == null) return
+      if (editorInstance == null) return
       editorInstance?.destroy()
       setEditorInstance(null)
     }
-  }, [editor])
+  }, [editorInstance])
 
   return (
     <div className={classNames(prefixCls, className)}>
-      <Toolbar mode="default" {...toolbar} editor={editorInstance} />
+      <Toolbar mode="simple" {...toolbar} editor={editorInstance} />
       <Editor
         defaultConfig={{ placeholder: '请输入内容...', ...editor?.defaultConfig }}
-        mode="default"
+        mode="simple"
         style={{ height: 500, overflowY: 'hidden' }}
         {...editor}
         onCreated={setEditorInstance}

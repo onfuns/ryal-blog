@@ -17,7 +17,7 @@ const PageLayoutContainer = (props: PropsWithChildren) => {
   return (
     <div className="flex overflow-hidden h-100vh">
       <PageMenu />
-      <div className="w-100%">
+      <div className="w-100% overflow-hidden">
         <PageHeader />
         <PageTab />
         <AliveScope>

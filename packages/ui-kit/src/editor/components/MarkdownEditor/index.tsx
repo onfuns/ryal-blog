@@ -3,7 +3,7 @@ import highlight from '@bytemd/plugin-highlight'
 import { Editor, EditorProps } from '@bytemd/react'
 import zh_Hans from 'bytemd/locales/zh_Hans.json'
 import classNames from 'classnames'
-import { useConfigContext } from '../../config-provider'
+import { useConfigContext } from '../../../config-provider'
 import './index.less'
 
 export type MarkdownEditorType = EditorProps & {

@@ -1,0 +1,98 @@
+.custom-page-menu {
+  &.ant-menu-root {
+    padding: 0 12px;
+  }
+
+  .ant-menu-item {
+    background: #fff;
+    margin: 0;
+    border-radius: 8px;
+    width: 100%;
+    height: 32px;
+    margin: 8px 0 !important;
+    padding-left: 8px !important;
+
+    &:not(.ant-menu-item-selected) {
+      &:hover {
+        color: #a2a09e !important;
+        background: #f2f2f2 !important;
+      }
+    }
+  }
+
+  .ant-menu-item,
+  .ant-menu-submenu-title {
+    font-size: 12px;
+    color: #a2a09e;
+  }
+
+  /** 标题内容 */
+  .ant-menu-title-content {
+    margin-left: 0 !important;
+  }
+
+  /** 图标 */
+  .ant-menu-item-icon {
+    margin-right: 8px;
+    font-size: 16px;
+    color: #a2a09e;
+  }
+
+  /** 没有子集菜单选中样式 */
+  .ant-menu-item.ant-menu-item-selected {
+    background: var(--primary-color);
+
+    .ant-menu-title-content,
+    .ant-menu-item-icon {
+      color: #fff !important;
+    }
+  }
+
+  /** 含子菜单的 item */
+  .ant-menu-submenu {
+    margin: 8px 0 0;
+
+    /** 子菜单的父级标题 */
+    .ant-menu-submenu-title {
+      padding: 8px !important;
+      margin: 0;
+      height: 32px !important;
+      line-height: 32px !important;
+    }
+
+    /** 子菜单内容区 */
+    .ant-menu-sub {
+      background: none !important;
+
+      .ant-menu-item {
+        background: #fff;
+
+        &:last-child {
+          margin-bottom: 0 !important;
+        }
+
+        .ant-menu-title-content {
+          padding-left: 24px !important;
+        }
+      }
+    }
+
+    &.ant-menu-submenu-selected {
+      .ant-menu-submenu-title {
+        background: var(--primary-color);
+        color: #fff;
+      }
+
+      .ant-menu-item.ant-menu-item-selected {
+        .ant-menu-title-content {
+          color: var(--primary-color) !important;
+        }
+
+        .ant-menu-item-icon,
+        .ant-menu-submenu-title {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

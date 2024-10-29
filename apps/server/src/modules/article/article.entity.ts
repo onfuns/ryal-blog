@@ -49,7 +49,17 @@ export class Article extends TimeEntity {
   description: string
 
   @ApiProperty({ description: '排序' })
-  @Column({ comment: '排序', default: 0 })
+  @Column({
+    type: 'bigint',
+    comment: '排序',
+    default: 0,
+    transformer: [
+      {
+        to: (entityValue: number) => entityValue.toString(),
+        from: (databaseValue: string): number => parseInt(databaseValue, 10),
+      },
+    ],
+  })
   sort: number
 
   @ApiProperty({ description: '内容' })

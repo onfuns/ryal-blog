@@ -1,5 +1,5 @@
 import { CategoryListItemType, CategoryTypeEnumType, categoryService } from '@/service'
-import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
+import { Table, TableActionType, TableColumns, TableDelete, Time } from '@ryal/ui-kit'
 import { Button, Tag, message } from 'antd'
 import { useRef } from 'react'
 import { TriggerAddModal } from './components/Add'
@@ -32,7 +32,7 @@ const CategoryPage = () => {
       dataIndex: 'ename',
     },
     {
-      title: '类别',
+      title: '栏目',
       dataIndex: 'type',
       render: (_, { type, url }) => {
         const { label } = CategoryTypeMap.find(item => item.value === type) || {}
@@ -53,6 +53,13 @@ const CategoryPage = () => {
         const { label, color } = CategoryStatusMap.find(item => item.value === status) || {}
         return <Tag color={color}>{label}</Tag>
       },
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'created_at',
+      hideInSearch: true,
+      width: 200,
+      render: (_, { created_at }) => <Time type="time" value={created_at} />,
     },
     {
       title: '操作',

@@ -41,7 +41,7 @@ export class ArticleService {
       where,
       skip: pageSize * (current - 1),
       take: pageSize,
-      order: { created_at: 'DESC' },
+      order: { sort: 'DESC', publish_time: 'DESC' },
       relations: ['category', 'tags'],
     })
     return { data, total }

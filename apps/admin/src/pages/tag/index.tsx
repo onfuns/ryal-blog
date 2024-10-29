@@ -1,5 +1,5 @@
 import { tagService, type TagType } from '@/service'
-import { Table, TableActionType, TableColumns, TableDelete } from '@ryal/ui-kit'
+import { Table, TableActionType, TableColumns, TableDelete, Time } from '@ryal/ui-kit'
 import { Button, message } from 'antd'
 import { useRef } from 'react'
 import { TriggerAddModal } from './components/Add'
@@ -29,6 +29,13 @@ const TagPage = () => {
     {
       title: '描述',
       dataIndex: 'description',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'created_at',
+      hideInSearch: true,
+      width: 200,
+      render: (_, { created_at }) => <Time type="time" value={created_at} />,
     },
     {
       title: '操作',

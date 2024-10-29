@@ -87,8 +87,9 @@ export const ArticleAdd = ({ onCancel, onSuccess, detail }: IDetailModalProps<Ar
       title="文章信息"
       open={true}
       drawerProps={{ onCancel, onOk }}
-      width="60%"
+      width="80%"
       form={formInstance}
+      labelCol={{ span: 2 }}
       initialValues={{
         pass_status: ArticlePassStatusEnumType.Audited,
         comment_status: ArticleCommentStatusEnumType.Closed,

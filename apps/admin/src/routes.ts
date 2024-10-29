@@ -54,11 +54,6 @@ export const adminRoutes: IRouter[] = [
         path: '/portal/comment',
         component: lazy(() => import('@/pages/comment')),
       },
-      {
-        name: '附件管理',
-        path: '/portal/file',
-        component: lazy(() => import('@/pages/file')),
-      },
     ],
   },
   {

@@ -6,6 +6,7 @@ import { Menu } from 'antd'
 import classnames from 'classnames'
 import { observer } from 'mobx-react'
 import { useState } from 'react'
+import './index.less'
 
 const PageMenu = () => {
   const { headerStore } = useStore()
@@ -23,13 +24,13 @@ const PageMenu = () => {
       label: name,
       key: path,
       children: subRoute,
-      icon: icon && <Icon name={icon} />,
+      icon: icon && <Icon name={icon} className="text-16!" />,
     }
   })
 
   return (
     <div
-      className={classnames('relative w-200 flex-shrink-0 bg-#fff', {
+      className={classnames('relative w-160 flex-shrink-0 bg-#fff', {
         'w-auto': menuCollapsed,
       })}
     >
@@ -47,6 +48,7 @@ const PageMenu = () => {
           onOpenChange={keys => setOpenKeys([...keys])}
           items={menuItems}
           onClick={e => history.push(e.key)}
+          className="custom-page-menu"
         />
       </div>
     </div>

@@ -72,7 +72,7 @@ export const CategoryAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<C
       />
 
       <ProFormRadio.Group
-        label="类别"
+        label="栏目"
         name="type"
         rules={[{ required: true }]}
         options={CategoryTypeMap}

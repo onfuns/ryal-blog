@@ -1,6 +1,6 @@
 export enum TabKeyEnum {
   /** 站点 */
-  Site = 'site',
+  Website = 'website',
   /** Seo */
   Seo = 'seo',
 }
