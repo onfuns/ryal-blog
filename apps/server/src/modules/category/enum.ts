@@ -10,6 +10,6 @@ export enum CategoryTypeEnum {
   List = 'list',
   /** 单页 */
   Page = 'page',
-  /** 外链 */
+  /** 链接 */
   Url = 'url',
 }

@@ -7,8 +7,8 @@ export const CategoryStatusMap = [
 
 export const CategoryTypeMap = [
   { label: '文章列表', value: CategoryTypeEnumType.List },
+  { label: '链接', value: CategoryTypeEnumType.Url },
   { label: '单页', value: CategoryTypeEnumType.Page },
-  { label: '外链', value: CategoryTypeEnumType.Url },
 ]
 
 export enum CatetoryIdEnum {

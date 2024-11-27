@@ -13,8 +13,8 @@ export class Category extends TimeEntity {
   @Column({ comment: '名称' })
   name: string
 
-  @ApiProperty({ description: '路由' })
-  @Column({ comment: '路由', unique: true })
+  @ApiProperty({ description: '路由别名' })
+  @Column({ comment: '路由别名', nullable: true })
   ename: string
 
   @ApiProperty({ description: '父级ID', default: 0 })
@@ -39,12 +39,12 @@ export class Category extends TimeEntity {
   @Column({ comment: '显示状态', default: CategoryStatusEnum.Enable })
   status: string
 
-  @ApiProperty({ description: '排序', default: 0 })
-  @Column({ comment: '排序', default: 0 })
+  @ApiProperty({ description: '权重', default: 0 })
+  @Column({ comment: '权重', default: 0 })
   sort: number
 
-  @ApiProperty({ description: '外链地址' })
-  @Column({ comment: '外链地址', nullable: true })
+  @ApiProperty({ description: '链接地址' })
+  @Column({ comment: '链接地址', nullable: true })
   url: string
 
   @ApiProperty({ description: '图标' })

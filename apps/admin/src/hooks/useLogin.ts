@@ -7,9 +7,6 @@ export const useLogin = () => {
 
   useEffect(() => {
     setLogined(!!token)
-    if (!token) {
-      userService.logout()
-    }
   }, [token])
 
   return { logined }

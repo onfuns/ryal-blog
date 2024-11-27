@@ -17,8 +17,10 @@ export type IRouter<T extends ComponentType<any> = any> = {
   meta?: {
     /** 是否标签化 */
     tag?: boolean
-    /** 是否显示布局 */
+    /** 是否需要页面布局 */
     layout?: boolean
+    /** 是否登录鉴权 */
+    authentication?: boolean
   }
 }
 
@@ -102,9 +104,13 @@ const mergeFlatRoutes = (data: IRouter[], flatRoutes: IRouter[] = []): IRouter[]
 
 export const routes: IRouter[] = [
   {
+    path: '/',
+    redirect: '/login',
+  },
+  {
     path: '/login',
     component: lazy(() => import('@/pages/login')),
-    meta: { layout: false },
+    meta: { layout: false, authentication: false },
   },
   ...mergeFlatRoutes(adminRoutes),
   {

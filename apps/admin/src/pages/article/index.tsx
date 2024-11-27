@@ -65,7 +65,7 @@ const ArticlePage = () => {
       width: 120,
       render: (_, { tags }) =>
         tags?.map(({ name }) => (
-          <Tag key={name} color="cyan">
+          <Tag key={name} color="purple">
             {name}
           </Tag>
         )),

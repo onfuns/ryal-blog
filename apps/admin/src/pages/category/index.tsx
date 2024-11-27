@@ -29,21 +29,19 @@ const CategoryPage = () => {
     },
     {
       title: '链接',
-      dataIndex: 'ename',
+      dataIndex: 'url',
+      render: (_, { type, ename, url }) => {
+        if (type === CategoryTypeEnumType.Url) return url
+        else if (type === CategoryTypeEnumType.List) return ename
+        return '-'
+      },
     },
     {
-      title: '栏目',
+      title: '类型',
       dataIndex: 'type',
-      render: (_, { type, url }) => {
+      render: (_, { type }) => {
         const { label } = CategoryTypeMap.find(item => item.value === type) || {}
-        return label ? (
-          <Tag color="green">
-            {label}
-            {type === CategoryTypeEnumType.Url && `(${url})`}
-          </Tag>
-        ) : (
-          '-'
-        )
+        return label || '-'
       },
     },
     {

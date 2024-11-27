@@ -5,7 +5,13 @@ import {
   type CategoryType,
 } from '@/service'
 import { IDetailModalProps } from '@/type'
-import { ProForm, ProFormCascader, ProFormRadio, ProFormText } from '@ant-design/pro-components'
+import {
+  ProForm,
+  ProFormCascader,
+  ProFormDigit,
+  ProFormRadio,
+  ProFormText,
+} from '@ant-design/pro-components'
 import { ModalForm, TriggerModal } from '@ryal/ui-kit'
 import { message } from 'antd'
 import { useEffect } from 'react'
@@ -44,6 +50,7 @@ export const CategoryAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<C
         pid: [CatetoryIdEnum.Root],
         type: CategoryTypeEnumType.List,
         status: CategoryStatusEnumType.Enable,
+        sort: 0,
       }}
     >
       <ProFormCascader
@@ -64,32 +71,47 @@ export const CategoryAdd = ({ onSuccess, onCancel, detail }: IDetailModalProps<C
 
       <ProFormText label="名称" name="name" rules={[{ required: true }]} placeholder="请输入名称" />
 
-      <ProFormText
-        label="链接"
-        name="ename"
-        rules={[{ required: true }]}
-        placeholder="请输入链接，如 /front"
-      />
-
       <ProFormRadio.Group
-        label="栏目"
+        label="类型"
         name="type"
         rules={[{ required: true }]}
         options={CategoryTypeMap}
       />
 
-      {watchCategoryType === CategoryTypeEnumType.Url && (
+      {watchCategoryType === CategoryTypeEnumType.List && (
         <ProFormText
-          label="外链地址"
-          name="url"
-          rules={[{ required: true }]}
-          placeholder="请输入外链地址"
+          label="链接别名"
+          name="ename"
+          rules={[
+            {
+              required: true,
+              validator: (_, value: string) => {
+                if (!value.startsWith('/')) {
+                  throw new Error('链接别名格式错误，请使用 / 开始')
+                } else {
+                  return Promise.resolve()
+                }
+              },
+            },
+          ]}
+          placeholder="请输入链接别名，如 /front"
         />
       )}
 
-      <ProFormText label="图标" name="icon" placeholder="iconfont 或 url" />
+      {watchCategoryType === CategoryTypeEnumType.Url && (
+        <ProFormText
+          label="链接地址"
+          name="url"
+          rules={[{ required: true }]}
+          placeholder="请输入链接地址"
+        />
+      )}
 
-      <ProFormText label="图标颜色" name="icon_color" placeholder="只对iconfont 有效" />
+      <ProFormDigit label="权重" name="sort" min={0} max={9999} />
+
+      <ProFormText label="图标" name="icon" placeholder="iconfont图标名称/链接地址" />
+
+      <ProFormText label="图标颜色" name="icon_color" placeholder="仅配置 iconfont 图标有效" />
 
       <ProFormRadio.Group
         label="状态"

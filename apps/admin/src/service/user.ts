@@ -4,18 +4,19 @@ import { Cache } from '@/utils'
 import { User } from '@ryal/api'
 
 export class UserMinixService extends User {
-  saveLocalUser(data: any) {
+  saveLocalUser = (data: any) => {
     Cache.set(LOCAL_USER_KEY, data)
   }
 
-  getLocalUser(): { userName: string; token: string } {
+  getLocalUser = (): { userName: string; token: string } => {
     return Cache.get(LOCAL_USER_KEY) || {}
   }
-  removeLocalUser() {
+
+  removeLocalUser = () => {
     Cache.remove(LOCAL_USER_KEY)
   }
 
-  logout() {
+  logout = () => {
     this.removeLocalUser()
     window.location.href = `${config.routeBasename}/login`
   }

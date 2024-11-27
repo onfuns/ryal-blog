@@ -19,9 +19,11 @@ const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
   const { webSiteStore } = useStore()
   const { websiteInfo } = webSiteStore
 
+  const isOutUrl = (url?: string) => url && /^https?/.test(url)
+
   const renderIcon = ({ icon, icon_color }: ArticleMenuItemType) => {
     if (!icon) return null
-    if (/^https?/.test(icon))
+    if (isOutUrl(icon))
       return <Image className="mr-8" src={icon} width={16} height={16} alt="icon" />
     return <Icon name={icon} style={{ color: icon_color }} className="mr-8" />
   }
@@ -37,6 +39,7 @@ const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
         <a
           href={item.type === CategoryTypeEnumType.Url ? item.url : `/category${item.ename}`}
           className="flex items-center color-#333 py-10 pl-12"
+          {...(isOutUrl(item.url) ? { target: '_blank' } : {})}
         >
           {renderIcon(item)}
           <span>{item.name}</span>
@@ -51,28 +54,16 @@ const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
     return data.map(item => renderMenuItem(item, item.children))
   }
 
-  const defauluMenu: ArticleMenuItemType[] = [
-    {
-      name: '首页',
-      type: CategoryTypeEnumType.Url,
-      url: '/',
-      icon: 'icon-shouye1',
-      icon_color: '#F15533',
-    },
-  ]
-  const otherMenu: ArticleMenuItemType[] = [
-    {
-      name: '项目地址',
-      type: CategoryTypeEnumType.Url,
-      url: websiteInfo.git_repository_url,
-      icon: 'icon-huaban',
-      icon_color: '#12b7f5',
-    },
-  ]
+  const outerMenu: ArticleMenuItemType[] = []
+  const innerMenu = data?.filter(item => {
+    const url = isOutUrl(item.url)
+    if (url) outerMenu.push(item)
+    return !url
+  })
 
   return (
     <div className="sticky top-50 w-200 max-h-450 mr-10 flex-shrink-0">
-      {[defauluMenu.concat(data), otherMenu].map((group, index) => (
+      {[innerMenu, outerMenu].map((group, index) => (
         <ul key={index} className="bg-#fff p-10 mb-10 rd-4 overflow-hidden">
           {renderMenu(group)}
         </ul>

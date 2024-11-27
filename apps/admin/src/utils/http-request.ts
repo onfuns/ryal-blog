@@ -29,7 +29,7 @@ axios.interceptors.response.use(
     const { status, data } = error.response
     if (status === 403) {
       if (data?.message === 'INVALID_TOKEN') {
-        message.error('登录过期，请重新登录', 2).then(userService.logout)
+        message.error('登录过期，请重新登录', 3, userService.logout)
         return false
       } else if (data?.message === 'INVALID_AUTH') {
         return noticeError({ ...data, message: '抱歉，无权限操作' })
