@@ -1,14 +1,18 @@
-import config from '@/config'
+import { useStore } from '@/hooks'
 import dayjs from 'dayjs'
+import { observer } from 'mobx-react'
 
 const Footer = () => {
+  const { webSiteStore } = useStore()
+  const { websiteInfo } = webSiteStore
+
   return (
     <div className="flex items-center h-40">
       <div className="width-center-1000 text-center">
         {[
           {
-            text: `©2018-${dayjs().year()} by onfuns`,
-            href: config.gitUrl,
+            text: `©2018-${dayjs().year()} by ${websiteInfo.author}`,
+            href: websiteInfo.git_repository_url,
           },
           { text: 'created by Next.js', href: 'https://nextjs.org' },
         ].map(({ text, href }) => (
@@ -27,4 +31,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default observer(Footer)

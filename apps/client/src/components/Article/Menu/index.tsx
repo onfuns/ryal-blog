@@ -1,7 +1,8 @@
-import config from '@/config'
+import { useStore } from '@/hooks'
 import { CategoryTypeEnumType, type CategoryType } from '@/service'
 import { Icon } from '@ryal/ui-kit'
 import classnames from 'classnames'
+import { observer } from 'mobx-react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import './index.less'
@@ -15,12 +16,14 @@ export type ArticleMenuPropsType = {
 
 const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
   const router = useRouter()
+  const { webSiteStore } = useStore()
+  const { websiteInfo } = webSiteStore
 
   const renderIcon = ({ icon, icon_color }: ArticleMenuItemType) => {
     if (!icon) return null
     if (/^https?/.test(icon))
-      return <Image className="mr-8" src={icon} width={16} height={16} alt="" />
-    return <Icon name={icon} style={{ color: icon_color }} />
+      return <Image className="mr-8" src={icon} width={16} height={16} alt="icon" />
+    return <Icon name={icon} style={{ color: icon_color }} className="mr-8" />
   }
 
   const renderMenu = (data: ArticleMenuItemType[]) => {
@@ -33,10 +36,10 @@ const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
       >
         <a
           href={item.type === CategoryTypeEnumType.Url ? item.url : `/category${item.ename}`}
-          className="flex items-center color-#333 py-10 pl-12 lh-20"
+          className="flex items-center color-#333 py-10 pl-12"
         >
           {renderIcon(item)}
-          {item.name}
+          <span>{item.name}</span>
         </a>
         {!!children?.length && (
           <ul className="block min-w-160 bg-#fff rd-4">
@@ -59,9 +62,9 @@ const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
   ]
   const otherMenu: ArticleMenuItemType[] = [
     {
-      name: '前端导航',
+      name: '项目地址',
       type: CategoryTypeEnumType.Url,
-      url: config.gitUrl,
+      url: websiteInfo.git_repository_url,
       icon: 'icon-huaban',
       icon_color: '#12b7f5',
     },
@@ -78,4 +81,4 @@ const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
   )
 }
 
-export default ArticleMenu
+export default observer(ArticleMenu)

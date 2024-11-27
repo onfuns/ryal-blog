@@ -10,33 +10,8 @@
 
 ## 预览
 
-#### 前台
-
-- 地址： [https://demo.onfuns.com](https://demo.onfuns.com)
-
-- 首页
-
-  ![](./screenshot/前台-首页.png)
-
-- 评论页
-
-  ![](./screenshot/前台-评论.png)
-
-#### 后台
-
-- 地址：[https://demo.onfuns.com/admin/login](https://demo.onfuns.com/admin/login) (demo/a123456)
-
-- 登录页
-
-  ![](./screenshot/后台-登录页.png)
-
-- 首页
-
-  ![](./screenshot/后台-首页.png)
-
-- 文章页
-
-  ![](./screenshot/后台-文章页.png)
+- 前台：[https://demo.onfuns.com](https://demo.onfuns.com)
+- 后台：[https://demo.onfuns.com/admin/login](https://demo.onfuns.com/admin/login) (demo/a123456)
 
 ## 开发
 

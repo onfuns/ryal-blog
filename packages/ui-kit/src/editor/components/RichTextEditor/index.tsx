@@ -20,7 +20,7 @@ export const RichTextEditor = ({ className, toolbar, editor }: RichTextEditorTyp
 
   useEffect(() => {
     return () => {
-      if (editorInstance == null) return
+      if (editorInstance === null) return
       editorInstance?.destroy()
       setEditorInstance(null)
     }
