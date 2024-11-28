@@ -3,14 +3,13 @@ import { type CommentType } from '@/service'
 import { Time } from '@ryal/ui-kit'
 import { Button, Form, Input, message } from 'antd'
 import { observer } from 'mobx-react'
-import Image from 'next/image'
 import { useEffect } from 'react'
 import './index.less'
 
 const Avatar = () => (
-  <Image
-    className="mr-16 border-r-50%"
-    src="/images/avatar.png"
+  <img
+    className="mr-16 rd-50%"
+    src="https://picsum.photos/200/200"
     width={40}
     height={40}
     alt="头像"

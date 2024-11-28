@@ -13,6 +13,7 @@ import {
   CategoryCreateParamsType,
   CategoryListItemType,
   CategoryType,
+  CategoryTypeEnumType,
   ResponseResultType,
 } from './data-contracts'
 import { ContentType, HttpClient, RequestParams } from './http-client'
@@ -25,7 +26,13 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
    * @name GetList
    * @request GET:/api/category
    */
-  getList = (params: RequestParams = {}) =>
+  getList = (
+    query?: {
+      /** 类型 */
+      type?: CategoryTypeEnumType
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<
       ResponseResultType & {
         data?: CategoryListItemType[]
@@ -34,6 +41,7 @@ export class Category<SecurityDataType = unknown> extends HttpClient<SecurityDat
     >({
       path: `/api/category`,
       method: 'GET',
+      query: query,
       format: 'json',
       ...params,
     })

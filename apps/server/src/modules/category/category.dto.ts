@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 import { CreateParams } from '../../common/model/page.model'
 import { Category } from './category.entity'
@@ -17,3 +17,5 @@ export class CategoryListItem extends Category {
   @ApiProperty({ description: '子类' })
   readonly children: Category[]
 }
+
+export class CategoryGetListParams extends PartialType(PickType(Category, ['type'])) {}

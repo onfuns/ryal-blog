@@ -3,6 +3,7 @@ import {
   ArticleEditorTypeEnumType,
   ArticlePassStatusEnumType,
   ArticleType,
+  CategoryTypeEnumType,
   articleService,
   categoryService,
   tagService,
@@ -95,6 +96,7 @@ export const ArticleAdd = ({ onCancel, onSuccess, detail }: IDetailModalProps<Ar
         comment_status: ArticleCommentStatusEnumType.Closed,
         publish_time: dayjs(),
         editor_type: ArticleEditorTypeEnumType.Markdown,
+        author: 'ryal',
       }}
     >
       <ProFormText
@@ -113,12 +115,12 @@ export const ArticleAdd = ({ onCancel, onSuccess, detail }: IDetailModalProps<Ar
       />
 
       <ProFormCascader
-        label="分类"
+        label="所属栏目"
         name="categoryIds"
         rules={[{ required: true }]}
-        placeholder="请选择分类"
+        placeholder="请选择栏目"
         request={async () => {
-          const { data } = await categoryService.getList()
+          const { data } = await categoryService.getList({ type: CategoryTypeEnumType.List })
           return data
         }}
         fieldProps={{

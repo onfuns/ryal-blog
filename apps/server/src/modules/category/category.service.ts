@@ -1,6 +1,7 @@
 import { arrayToTree } from '@/util'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { pickBy } from 'lodash'
 import { Repository } from 'typeorm'
 import { ResponseResult } from '../../common/model/response.model'
 import { CategoryCreateParams } from './category.dto'
@@ -17,8 +18,17 @@ export class CategoryService {
     return await this.repository.save(data)
   }
 
-  async getList({ isToTree = false }: { isToTree?: boolean }): Promise<Category[]> {
+  async getList({
+    isToTree = false,
+    type,
+  }: {
+    isToTree?: boolean
+  } & Pick<Partial<Category>, 'type'>): Promise<Category[]> {
+    const where = pickBy({
+      type,
+    })
     const data = await this.repository.find({
+      where,
       order: { sort: 'DESC' },
     })
     if (isToTree) {

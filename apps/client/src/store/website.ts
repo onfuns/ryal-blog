@@ -7,7 +7,7 @@ export class WebSiteStore extends Base<{}> {
     description: 'nextjs, node blog, node 博客',
     keywords: 'nextjs, node blog, node 博客',
     git_repository_url: 'https://github.com/onfuns/ryal-blog',
-    author: 'onfuns',
+    author: 'ryal',
   }
 
   constructor() {

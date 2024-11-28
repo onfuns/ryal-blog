@@ -34,7 +34,6 @@ const ArticlePage = () => {
       default:
         break
     }
-
     message.success('操作成功')
     refresh()
   }
@@ -65,7 +64,7 @@ const ArticlePage = () => {
       width: 120,
       render: (_, { tags }) =>
         tags?.map(({ name }) => (
-          <Tag key={name} color="purple">
+          <Tag key={name} color="orange">
             {name}
           </Tag>
         )),
@@ -139,7 +138,11 @@ const ArticlePage = () => {
       request={articleService.getList}
       scroll={{ x: '100%' }}
       toolBarRender={() => [
-        <TriggerAddModal key="add" trigger={<Button type="primary">新增文章</Button>} />,
+        <TriggerAddModal
+          key="add"
+          trigger={<Button type="primary">新增文章</Button>}
+          onSuccess={refresh}
+        />,
       ]}
     />
   )

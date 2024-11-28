@@ -55,7 +55,7 @@ export class Article extends TimeEntity {
     default: 0,
     transformer: [
       {
-        to: (entityValue: number) => entityValue.toString(),
+        to: (entityValue: number) => entityValue?.toString(),
         from: (databaseValue: string): number => parseInt(databaseValue, 10),
       },
     ],

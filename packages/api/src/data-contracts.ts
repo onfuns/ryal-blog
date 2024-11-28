@@ -48,7 +48,7 @@ export interface CategoryType {
   id: number
   /** 名称 */
   name: string
-  /** 路由 */
+  /** 路由别名 */
   ename: string
   /**
    * 父级ID
@@ -60,11 +60,11 @@ export interface CategoryType {
   /** 显示状态 */
   status: CategoryStatusEnumType
   /**
-   * 排序
+   * 权重
    * @default 0
    */
   sort: number
-  /** 外链地址 */
+  /** 链接地址 */
   url: string
   /** 图标 */
   icon: string
@@ -201,7 +201,7 @@ export interface CategoryListItemType {
   id: number
   /** 名称 */
   name: string
-  /** 路由 */
+  /** 路由别名 */
   ename: string
   /**
    * 父级ID
@@ -213,11 +213,11 @@ export interface CategoryListItemType {
   /** 显示状态 */
   status: CategoryStatusEnumType
   /**
-   * 排序
+   * 权重
    * @default 0
    */
   sort: number
-  /** 外链地址 */
+  /** 链接地址 */
   url: string
   /** 图标 */
   icon: string
@@ -242,11 +242,11 @@ export interface CategoryCreateParamsType {
   /** 显示状态 */
   status?: CategoryStatusEnumType
   /**
-   * 排序
+   * 权重
    * @default 0
    */
   sort?: number
-  /** 外链地址 */
+  /** 链接地址 */
   url?: string
   /** 图标 */
   icon?: string

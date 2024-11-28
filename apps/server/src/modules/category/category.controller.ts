@@ -1,8 +1,8 @@
 import { ApiResult } from '@/decorator/api-result.decorator'
 import { NoPermission } from '@/decorator/permission.decorator'
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
 import { ApiParam, ApiTags } from '@nestjs/swagger'
-import { CategoryCreateParams, CategoryListItem } from './category.dto'
+import { CategoryCreateParams, CategoryGetListParams, CategoryListItem } from './category.dto'
 import { Category } from './category.entity'
 import { CategoryService } from './category.service'
 
@@ -13,8 +13,8 @@ export class CategoryController {
 
   @ApiResult({ description: '获取分类列表', type: [CategoryListItem] })
   @Get()
-  async getList() {
-    return await this.service.getList({ isToTree: true })
+  async getList(@Query() query: CategoryGetListParams) {
+    return await this.service.getList({ isToTree: true, ...query })
   }
 
   @ApiResult({ description: '客户端-获取分类列表', type: [CategoryListItem] })

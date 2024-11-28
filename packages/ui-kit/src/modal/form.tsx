@@ -85,7 +85,7 @@ export const DrawerForm = <T extends Record<string, any>>({
     ...drawerProps,
     onClose: drawerProps?.onCancel,
     footer: drawerProps?.footer ?? [
-      <div className="flex justify-end gap-12">
+      <div className="flex justify-end gap-12" key="footer">
         <Button onClick={drawerProps?.onCancel}>取消</Button>
         <Button type="primary" onClick={drawerProps?.onOk}>
           确定
