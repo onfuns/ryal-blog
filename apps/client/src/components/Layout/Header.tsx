@@ -23,7 +23,7 @@ export const Header = () => {
         <title>{`${websiteInfo.title} 演示系统`}</title>
       </Head>
       <Script src="/plugins/analysis.js" defer />
-      <div className="width-center-1000 flex items-center justify-between">
+      <div className="width-center-1200 flex items-center justify-between">
         <a href="/" className="text-18 font-comic">
           {websiteInfo.title}
         </a>

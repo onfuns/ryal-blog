@@ -12,7 +12,7 @@ export type IArticlePageProps = {
 
 const Article = ({ categoryList, articleData }: IArticlePageProps) => {
   return (
-    <div className="width-center-1000 flex">
+    <div className="width-center-1200 flex">
       <ArticleMenu data={categoryList} />
       <div className="w-1000 overflow-hidden">
         <ArticleCarousel />

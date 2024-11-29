@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <div className="flex items-center h-40">
-      <div className="width-center-1000 text-center">
+      <div className="width-center-1200 text-center">
         {[
           {
             text: `©2018-${dayjs().year()} by ${websiteInfo.author}`,

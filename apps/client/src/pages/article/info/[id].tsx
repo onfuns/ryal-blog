@@ -1,4 +1,4 @@
-import ArticleAnchor from '@/components/Article/Anchor'
+import ArticleToc from '@/components/Article/Toc'
 import Comment from '@/components/Comment'
 import { ArticleCommentStatusEnumType, type ArticleType } from '@/service'
 import { GetServerSidePropsContextProps } from '@/type'
@@ -10,10 +10,8 @@ import markdownItAnchor from 'markdown-it-anchor'
 import './index.less'
 
 const ArticleInfo = ({ article }: { article: ArticleType }) => {
-  const content_dom_id = 'article-info-content'
-
   return (
-    <div className="width-center-1000 py-10">
+    <div className="width-center-1200 py-10">
       <div className="flex w-100%">
         <div className="p-24 bg-#fff rd-4 flex-1">
           <div className="mb-6 text-24">{article.title}</div>
@@ -37,13 +35,10 @@ const ArticleInfo = ({ article }: { article: ArticleType }) => {
           </Space>
           <div
             className="article-info-content break-words lh-[1.75]"
-            id={content_dom_id}
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
         </div>
-        <ArticleAnchor
-          heading={() => document.getElementById(content_dom_id)?.querySelectorAll('h2,h3')}
-        />
+        <ArticleToc contentSelector=".article-info-content" />
       </div>
       {article.comment_status === ArticleCommentStatusEnumType.Opened && (
         <Comment articeId={article.id} />

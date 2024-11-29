@@ -26,7 +26,8 @@
     "markdown-it-anchor": "^8.6.7",
     "mobx": "^6.12.3",
     "mobx-react": "^9.1.1",
-    "next": "^14.2.4"
+    "next": "^14.2.4",
+    "tocbot": "^4.32.2"
   },
   "devDependencies": {
     "@ant-design/static-style-extract": "^1.0.3",

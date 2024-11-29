@@ -62,7 +62,7 @@ const ArticleMenu = ({ data = [] }: ArticleMenuPropsType) => {
   })
 
   return (
-    <div className="sticky top-50 w-200 max-h-450 mr-10 flex-shrink-0">
+    <div className="sticky top-20 w-200 max-h-450 mr-10 flex-shrink-0">
       {[innerMenu, outerMenu].map((group, index) => (
         <ul key={index} className="bg-#fff p-10 mb-10 rd-4 overflow-hidden">
           {renderMenu(group)}

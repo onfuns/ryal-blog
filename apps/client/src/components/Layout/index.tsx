@@ -23,7 +23,7 @@ const Layout = ({
         }}
       >
         <Header />
-        <div className="flex flex-1 justify-center bg-#f4f5f5 min-h-[calc(100vh-80px)] pt-20">
+        <div className="flex flex-1 justify-center bg-#f4f5f5 min-h-[calc(100vh-80px)] py-20">
           <Component {...pageProps} />
         </div>
         <Footer />

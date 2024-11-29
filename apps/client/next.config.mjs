@@ -24,6 +24,7 @@ const nextConfig = {
     'rc-util',
     'rc-tree',
     'rc-table',
+    'rc-input',
   ],
   webpack: (config, context) => {
     if (context.buildId !== 'development') {

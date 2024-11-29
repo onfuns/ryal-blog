@@ -2,7 +2,7 @@
   "name": "@ryal/blog-website",
   "version": "2.0.0",
   "private": "true",
-  "description": "blog developed by nestjs",
+  "description": "blog developed based on Node.js",
   "scripts": {
     "dev": "lerna run dev",
     "dev:admin": "lerna run dev --scope @ryal/app-admin",

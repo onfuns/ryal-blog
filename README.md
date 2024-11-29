@@ -10,6 +10,8 @@
 
 ## 预览
 
+> 使用 vercel 托管，需要梯子访问。
+
 - 前台：[https://demo.onfuns.com](https://demo.onfuns.com)
 - 后台：[https://demo.onfuns.com/admin/login](https://demo.onfuns.com/admin/login) (demo/a123456)
 
@@ -60,7 +62,7 @@ yarn build:client
 
 ## 部署
 
-新建数据库`ryal_blog`，本地可以导入 `server` 中的初始化数据 `init.sql`，生产环境可以使用 `Navicat`数据迁移。
+新建数据库`ryal_blog`，本地可以导入 `server` 中的演示数据 `init.sql`，生产环境可以使用 `Navicat`数据迁移。
 
 新建配置文件：
 
@@ -73,23 +75,21 @@ cd /etc && touch .blog.server.production
 
 ```bash
 DB_HOST = localhost       # 主机
-DB_USER = root            # 用户
+DB_PORT = 3306            # 端口
+DB_USER = root            # 用户名
 DB_PASS = 123456          # 密码
-DB_DATABASE =  xxxxxxxx   # 数据库
+DB_DATABASE =  xxxxxxxx   # 数据库名称
+JWT_TOKEN = xxxxx         # JWT 登录鉴权 KEY
 ```
 
-启动
+启动方式：
 
-```bash
-# 单进程模式
-yarn start:prod
-# pm2 启动
-yarn start:pm2
-```
+- 单进程模式：`yarn start:prod`
+- pm2 启动： `yarn start:pm2`
 
 #### Nginx 代理
 
-生产环境使用 `nginx` 代理，参考 `nginx.conf` 设置。
+生产环境建议使用 `nginx` 代理，参考 `nginx.conf` 设置。
 
 #### Github Action 模式
 
@@ -129,14 +129,17 @@ sudo yarn global add pm2
 
 #### 手动模式
 
-进入子目录压缩打包文件上传到服务器，然后再手动安装启动：
+打包：
 
 ```bash
 # admin
+cd apps/admin
 tar -zcvf admin.tar.gz dist
 # clinet
+cd apps/client
 tar -zcvf client.tar.gz dist public next.config.js package.json pm2.json
 # server
+cd apps/server
 tar -zcvf server.tar.gz dist package.json pm2.json
 ```
 
